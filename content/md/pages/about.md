@@ -121,8 +121,8 @@ Number of workers = 4
 
 The benchmarking code for Dask and Clojask could be found here respectively:
 
-* [Dask benchmarking code](https://github.com/clojure-finance/clojask/blob/main/benchmark/dask-benchmark.ipynb)
-* [Clojask benchmaking code](https://github.com/clojure-finance/clojask/blob/main/benchmark/clojure-benchmark.clj)
+* [Dask benchmarking code](https://github.com/clojure-finance/clojask/blob/2.x.x/benchmark/dask-benchmark.ipynb)
+* [Clojask benchmaking code](https://github.com/clojure-finance/clojask/blob/2.x.x/benchmark/clojure-benchmark.clj)
 
 </a>
 
