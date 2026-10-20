@@ -24,9 +24,6 @@ An [example](https://github.com/clojure-finance/clojask-examples/blob/main/src/c
     (ck/filter df "Salary" (fn [salary] (<= salary 800)))
     (ck/operate df (fn [salary] (* salary 1.2)) "Salary")
     (ck/compute df 8 "outputs/basic.csv")
-    
-    ;; make outputs and input have the same order
-    (ck/compute df 8 "outputs/basic2.csv" :order true)
 
     ;; Using the `->` macro:
     ;; tsv dataset
@@ -105,7 +102,7 @@ An [example](https://github.com/clojure-finance/clojask-examples/blob/main/src/c
   (let [groupby-key ["COURSE CODE" "CLASS SECTION" "START DATE"]]
     (ck/group-by df groupby-key)
     (ck/aggregate df #(reduce + %) "diff" "MINS/WEEK")
-    (def res (ck/compute df 8 nil :order true))
+    (def res (ck/compute df 8 nil))
     (def res-df (ck/dataframe (fn [] res)))
     ;; reinitialize df
     (def df (ck/dataframe (fn [] (input/read-excel "resources/course timetable.xlsx" "Sheet1" :stat true))))
@@ -158,8 +155,8 @@ An [example](https://github.com/clojure-finance/clojask-examples/blob/main/src/c
     (def x (ck/dataframe "resources/employees.csv"))
     (def y (ck/dataframe "resources/employees-workleave.csv"))
 
-    (ck/set-type x "UpdateDate" "date:YYYY/mm/dd")
-    (ck/set-type y "UpdateDate" "date:YYYY/mm/dd")
+    (ck/set-type x "UpdateDate" "date:yyyy/MM/dd")
+    (ck/set-type y "UpdateDate" "date:yyyy/MM/dd")
 
     (ck/compute (ck/rolling-join-forward x y ["Employee"] ["Employee"] "UpdateDate" "UpdateDate") 8 "outputs/rolling.csv" :exception false)
     
@@ -201,10 +198,10 @@ An [example](https://github.com/clojure-finance/clojask-examples/blob/main/src/c
   (melt x "outputs/1.csv" ["family_id" "age_mother"] ["child1" "child2" "child3"] :measure-name "child" :value-name "dob")
   ;; x and y are from the same source
   (def y (ck/dataframe "resources/melt.csv"))
-  (ck/rename-col x "gender_child1" "child1")
-  (ck/rename-col x "gender_child2" "child2")
-  (ck/rename-col x "gender_child3" "child3")
-  (melt x "outputs/2.csv" ["family_id" "age_mother"] ["child1" "child2" "child3"] :measure-name "child" :value-name "gender")
+  (ck/rename-col y "gender_child1" "child1")
+  (ck/rename-col y "gender_child2" "child2")
+  (ck/rename-col y "gender_child3" "child3")
+  (melt y "outputs/2.csv" ["family_id" "age_mother"] ["child1" "child2" "child3"] :measure-name "child" :value-name "gender")
   (def z (cbind-csv "outputs/1.csv" "outputs/2.csv"))
   ;; you can rename the column names of z here
   ;; skipped

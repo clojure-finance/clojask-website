@@ -100,6 +100,7 @@ Number of workers = 4
 <br>
 
 **Remarks:**
+- These numbers were measured in 2021 with Clojask 1.x, which ran on [Onyx](http://www.onyxplatform.org/). Clojask 2.1.0 replaced Onyx with its own thread pool, which is faster in every operation tested so far; the tables above have not been re-run yet.
 - N = Number of lines in csv file
 - All benchmarks are in the unit of second (s)
 - All benchmarks are inclusive of the time used for importing necssary libraries, loading the dataframe from csv file and ouputting the processed dataframe to one single csv file.
@@ -167,9 +168,10 @@ The benchmarking code for Dask and Clojask could be found here respectively:
 
 ## Clojask Logic Flow Diagram 
 (Click to view a closeup of image)
-<a href="https://raw.githubusercontent.com/clojure-finance/clojask/main/docs/diagram.jpg" target="_blank" >
-<img src="https://raw.githubusercontent.com/clojure-finance/clojask/main/docs/diagram.jpg" alt="Clojask logic" />
+This diagram shows the design up to 2.0.x, when Clojask ran on Onyx (`add-parser` and `add-formatter` are now `set-parser` and `set-formatter`). Since 2.1.0, one thread reads the input in batches, a pool of worker threads runs the operations, and the calling thread writes the output; the steps inside each stage are the same.
+
+<a href="https://raw.githubusercontent.com/clojure-finance/clojask-website/main/content/img/diagram.png" target="_blank" >
+<img src="https://raw.githubusercontent.com/clojure-finance/clojask-website/main/content/img/diagram.png" alt="Clojask logic" />
 </a>
-<!-- /img/diagram.png -->
 
 ---

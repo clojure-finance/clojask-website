@@ -4,6 +4,28 @@
 :toc :ul
 :tags ["Start"]}
 
+## Installation
+
+Clojask is on [Clojars](https://clojars.org/com.github.clojure-finance/clojask). It needs JDK 17 or newer and runs on macOS and Linux.
+
+Leiningen (`project.clj`):
+
+```clojure
+[com.github.clojure-finance/clojask "2.1.0"]
+```
+
+deps.edn:
+
+```clojure
+com.github.clojure-finance/clojask {:mvn/version "2.1.0"}
+```
+
+This also brings in [clojask-io](https://github.com/clojure-finance/clojask-io), which reads and writes the dataset files. Then require the API:
+
+```clojure
+(require '[clojask.dataframe :as ck])
+```
+
 ## Clojask Types
 
 ### string
@@ -57,9 +79,9 @@ Class: `java.util.Date` (default format string: `yyyy-MM-dd`)
 
 ### datetime
 
-Transform a date string (no time field)
+Transform a date-time string
 
-Class: `java.util.Date` (default format string: `yyyy-MM-dd HH:mm:ss`)
+Class: `java.util.Date` (default format string: `yyyy-MM-dd`, so give a pattern that includes the time fields)
 
 **Examples**
 
@@ -70,69 +92,80 @@ Class: `java.util.Date` (default format string: `yyyy-MM-dd HH:mm:ss`)
 
 
 
-## Hybrid Column & Empty Fields
+## Empty Fields & Values That Fail to Parse
 
 Take this dataset as an example.
 
 | Employee | EmployeeName | Department | Salary |
 | -------- | ------------ | ---------- | ------ |
 | 1        | Alice        | 11         | 300    |
-| 2        | Bob          | 11         | 34,000 |
+| 2        | Bob          | 11         | N/A    |
 | 3        | Carla        |            | 900    |
-| 4        | Daniel       | 12         | 1,000  |
+| 4        | Daniel       | 12         | 1000   |
 | 5        | Evelyn       | 13         | 800    |
 | ...      | ...          | ...        | ...    |
 
 The first thing to do after creating this dataframe is to set the type of column **Salary** to `int`.
 
 ```clojure
-(ck/set-type "Salary" "int")
+(def df (ck/dataframe "Employees.csv"))
+(ck/set-type df "Salary" "int")
 ```
 
-However, when you take a look at the data type of the latest **Salary** column using function `print-df`. It contains both `int` and `string`. This is because some numbers (contains ",") are not recognized by the integer parser, such as 34,000 and 1,000. Therefore, when you operate function to this column, you should accept both `int` and `string` as the input. One way to solve this issue is to create your own parser for integer that ignores comma.
+A value that the type's parser cannot read, such as Bob's `N/A`, becomes `nil`, and so does an empty field in a typed column. In the output, `nil` is written as an empty field. If you need different handling, give the column your own parser instead:
 
 ```clojure
-(ck/set-parser "Salary" customized-parser)
+;; read "N/A" as -1
+(ck/set-parser df "Salary" (fn [s] (if (= s "N/A") -1 (Integer/parseInt s))))
 ```
 
-The column will empty fields is just a special case of hybrid column. The **Department** column has an empty field. The type of it is `string` & `nil`. You can tell that empty fields simply contain value `nil`. It is worth notice that 
+An empty field in a column that keeps the default `string` type, such as Carla's **Department**, stays the empty string `""`.
+
+Your operation functions therefore have to accept `nil` (or `""`) inputs. By default, an operation that throws an exception on a row writes `nil` to that field and `compute` carries on:
 
 ```clojure
-(ck/compute ... :exception true)
+(ck/operate df (fn [salary] (* salary 2)) "Salary")
+(ck/compute df 8 "output.csv")
+;; Bob's Salary is empty in output.csv
 ```
 
-will also assign `nil` to fields that throw exceptions during execution. Therefore, your operation functions have to consider `nil` input in these two scenarios.
+With `:exception true`, the first exception stops `compute` instead, which helps with debugging:
+
+```clojure
+(ck/compute df 8 "output.csv" :exception true)
+```
+
+Note that each operation is also tried on a sample from the start of the dataset when you add it. If it throws there, the call itself fails (unless debug mode is on, see `enable-debug` in the [API docs](/posts-output/API/)).
 
 
 
 ## System of operations
 
-Clojask is defined by two key types: incremental and replaceable operations. 
+Clojask has two kinds of operations: replaceable and incremental.
 
-### Replaceable operations 
+### Replaceable operations
 
-Replaceable operatons include 
+Replaceable operations include
 
 - set-type
-- set-parser 
+- set-parser
+- set-formatter
 - group-by
-- add-formatter
-- join
 
-Replaceable operations can be called multiple times to **replace** the previous call of the operation 
+Calling a replaceable operation again on the same column (or, for `group-by`, on the same dataframe) **replaces** the previous call.
 
-```clojure 
+```clojure
 (def x (dataframe "path/to/a.csv"))
-;; defines dataframe from csv file "a.csv" 
+;; defines dataframe from csv file "a.csv"
 
-(set-type x "int" "employee_no")
-;; makes column "employee numbers" integers
- 
-(set-type x "str" "employee_no")
-;; makes column "employee numbers" strings  
+(set-type x "employee_no" "int")
+;; makes column "employee_no" integers
+
+(set-type x "employee_no" "string")
+;; makes column "employee_no" strings
 ```
 
-In the case above, Clojask will ultimately interpret the "employeee_no" column as a **string**, rather than an **integer**. 
+In the case above, Clojask will ultimately interpret the "employee_no" column as a **string**, rather than an **integer**.
 
 ### Incremental operations
 
@@ -142,17 +175,16 @@ Incremental operations include
 - operate
 - aggregate
 
-Incremental operations are able to build on top of one another and build up **incrementally** in their operation.
+Incremental operations build on top of one another: each call is **added** to the ones before it.
 
 ```clojure
 (filter x "Salary" (fn [salary] (<= salary 800)))
 ;; this statement deletes all the rows that have a salary larger than 800
 
 (filter x "Department" (fn [dept] (= dept "computer science")))
-;; this statements deletes all the rows that contain people not in the computer science department
+;; this statement deletes all the rows that contain people not in the computer science department
 
+;; the two filters above together are equivalent to
 (filter x ["Salary" "Department"] (fn [salary dept] (and (<= salary 800) (= dept "computer science"))))
 ;; keeps only people from computer science department with salary not larger than 800
 ```
-
-This means additional incremental operations are applied on top of existing operations

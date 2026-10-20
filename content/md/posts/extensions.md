@@ -5,23 +5,31 @@
 
 ## clojask.extensions
 
-Like many popular Python libraries, such as numpy and pandas, third-party users can extend the function of Clojask by introducing more codes above the basic source code. Here is an example to support the creating such extension functions under the directory of `clojask.extensions`. 
-
----
+Like many popular Python libraries, such as numpy and pandas, third-party users can extend the function of  Clojask by introducing more codes above the basic source code. This attempt is interesting and encouraged. Here is an example of creating such extension functions.
 
 ### ns: clojask.extensions.bind
 
-#### `cbind`
+Contains functions that can help to bind several dataset files together on both directions.
 
-Joins some dataset files into a new dataframe by columns.
+#### API Foundation
 
-*The separator of each file is determined by its file format. The list of default seperator for each file can be find in [clojask-io.input](https://github.com/clojure-finance/clojask-io/blob/main/src/clojask_io/input.clj#L54). If it does not fit your needs, please try to modify the source code of `cbind` and change the `:sep` option of each `read-file` function.*
+When defining a clojask.classes.DataFrame.DataFrame using `dataframe` function, one can input a function instead of the path of the source file. This function should produce a sequence of rows, each a collection of values, with the column names as the first row. If this sequence is lazy, the theoretical length of the sequence can be infinite. Otherwise, it must have a finite length that is smaller than the memory size.
 
-| Argument   | Type   | Function                            | Remarks                                                   |
-| ---------- | ------ | ----------------------------------- | --------------------------------------------------------- |
-| path-a     | String | The path of the first dataset file  | Can be absolute or relative path                          |
-| path-b     | String | The path of the second dataset file | Can be absolute or relative path                          |
-| [path-c's] | String | The path of the rest dataset files  | Can be absolute or relative path; the number is not fixed |
+```clojure
+(def x (dataframe (fn [] [["col1" "col2"] ["1" "2"] ["3" "4"]])))
+```
+
+Based on this API, we can define the `cbind` and `rbind` function for two csv files.
+
+#### `cbind-csv`
+
+Joins some csv files into a new dataframe by columns.
+
+| Argument   | Type   | Function                        | Remarks                                                     |
+| ---------- | ------ | ------------------------------- | ----------------------------------------------------------- |
+| path-a     | String | The path of the first csv file  | Can be absolute or relative path                            |
+| path-b     | String | The path of the second csv file | Can be absolute or relative path                            |
+| [path-c's] | String | Paths of further csv files      | Can be absolute or relative path; the number is not limited |
 
 **Example**
 
@@ -34,7 +42,6 @@ Joins some dataset files into a new dataframe by columns.
 ;; 2010-01-23,2,48.9
 ;; 2010-01-26,1,19.1
 ;; 2010-01-26,2,59.1
-
 ;; file b
 ;; date,cust,Item,sold
 ;; 2010-01-19,101,2,11
@@ -42,9 +49,7 @@ Joins some dataset files into a new dataframe by columns.
 ;; 2010-01-24,102,2,9
 ;; 2010-01-25,101,2,9
 ;; 2010-01-26,101,1,10
-
-(def x (cbind "path/to/a" "path/to/b"))
-
+(def x (cbind-csv "path/to/a" "path/to/b"))
 ;; x
 ;; date1,item,price,date2,cust,Item,sold
 ;; 2010-01-20,1,18.3,2010-01-19,101,2,11
@@ -52,24 +57,17 @@ Joins some dataset files into a new dataframe by columns.
 ;; 2010-01-23,1,18.9,2010-01-24,102,2,9
 ;; 2010-01-23,2,48.9,2010-01-25,101,2,9
 ;; 2010-01-26,1,19.1,2010-01-26,101,1,10
-
-;; can further be
-(def x (cbind "path/to/a" "path/to/b" "path/to/c" "path/to/d"))
 ```
 
----
+#### `rbind-csv`
 
-#### `rbind`
+Joins some csv files into a new dataframe by rows.
 
-Joins some dataset files into a new dataframe by rows.
-
-*The separator of each file is determined by its file format. The list of default seperator for each file can be find in [clojask-io.input](https://github.com/clojure-finance/clojask-io/blob/main/src/clojask_io/input.clj#L54). If it does not fit your needs, please try to modify the source code of `cbind` and change the `:sep` option of each `read-file` function.*
-
-| Argument   | Type   | Function                            | Remarks                                                   |
-| ---------- | ------ | ----------------------------------- | --------------------------------------------------------- |
-| path-a     | String | The path of the first dataset file  | Can be absolute or relative path                          |
-| path-b     | String | The path of the second dataset file | Can be absolute or relative path                          |
-| [path-c's] | String | The path of the rest dataset files  | Can be absolute or relative path; the number is not fixed |
+| Argument   | Type   | Function                        | Remarks                                                   |
+| ---------- | ------ | ------------------------------- | --------------------------------------------------------- |
+| path-a     | String | The path of the first csv file  | Can be absolute or relative path                          |
+| path-b     | String | The path of the second csv file | Can be absolute or relative path                          |
+| [path-c's] | String | Paths of further csv files      | Can be absolute or relative path; the number is not fixed |
 
 **Example**
 
@@ -82,7 +80,6 @@ Joins some dataset files into a new dataframe by rows.
 ;; 2010-01-23,2,48.9
 ;; 2010-01-26,1,19.1
 ;; 2010-01-26,2,59.1
-
 ;; file b
 ;; date,cust,Item,sold
 ;; 2010-01-19,101,2,11
@@ -90,10 +87,8 @@ Joins some dataset files into a new dataframe by rows.
 ;; 2010-01-24,102,2,9
 ;; 2010-01-25,101,2,9
 ;; 2010-01-26,101,1,10
-
-(def x (rbind "path/to/a" "path/to/b"))
+(def x (rbind-csv "path/to/a" "path/to/b"))
 (print-df x)
-
 |             date |             item |            price |
 |------------------+------------------+------------------|
 | java.lang.String | java.lang.String | java.lang.String |
@@ -107,9 +102,12 @@ Joins some dataset files into a new dataframe by rows.
 |       2010-01-22 |              102 |                1 |
 |       2010-01-24 |              102 |                2 |
 |       2010-01-25 |              101 |                2 |
+|       2010-01-26 |              101 |                1 |
 ```
 
----
+`cbind` and `rbind` take the same arguments and infer each file's format from its extension instead of assuming csv. The separator for each format is listed under `read-file` in the [clojask-io README](https://github.com/clojure-finance/clojask-io#read-file).
+
+#### **It is also possible and encouraged to create more binding functions for other file types.**
 
 ### ns: clojask.extensions.reshape
 
@@ -117,7 +115,7 @@ Contains functions that can reshape a clojask dataframe from wide to long or fro
 
 #### API Foundation
 
-When defining a clojask.DataFrame using `dataframe` function, you can specify the option `:melt`, which should be a function that will be applied to each resultant row vector in the end. The default is vector, which will not affect the results. However, if `:melt` is set to
+`compute` accepts the option `:melt`, which should be a function that will be applied to each resultant row vector in the end. The default is vector, which will not affect the results. However, if `:melt` is set to
 
 ```clojure
 (fn [x]
@@ -128,16 +126,16 @@ When defining a clojask.DataFrame using `dataframe` function, you can specify th
 
 #### `melt`
 
-Reshape the dataframe from wide to long. **(Instant operation)**
+Reshape the dataframe from wide to long.
 
 | Argument       | Type              | Function                                  | Remarks                                                      |
 | -------------- | ----------------- | ----------------------------------------- | ------------------------------------------------------------ |
-| dataframe      | clojask.DataFrame | Specify the dataframe                     |                                                              |
-| output-path    | String            | The path of the output                    | Can be absolute or relative path with respect to the `project.clj` file. |
+| dataframe      | clojask.classes.DataFrame.DataFrame | Specify the dataframe                     |                                                              |
+| output-path    | String            | The path of the output                    | Can be absolute or relative path with respect to the working directory. |
 | id             | vector of strings | The fixed portion of the columns          | These columns must have a perfect correlation.               |
-| measurement    | vector of strings | The measurement columns                   | In the result, the measurement names will become one column and the values will become another. |
-| [measure_name] | String            | The name of the measurement in the result | By default "measure"                                         |
-| [value_name]   | String            | The name of the value in the result       | By default "value"                                           |
+| measure        | vector of strings | The measurement columns                   | In the result, the measurement names will become one column and the values will become another. |
+| [:measure-name] | String            | The name of the measurement in the result | By default "measure"                                         |
+| [:value-name]   | String            | The name of the value in the result       | By default "value"                                           |
 
 **Example**
 
@@ -154,17 +152,17 @@ Reshape the dataframe from wide to long. **(Instant operation)**
 
 #### `dcast`
 
-Reshape the dataframe from long to wide. Reversible to `melt`. **(Instant operation)**
+Reshape the dataframe from long to wide. Reversible to `melt`. `dcast` adds its group-by and aggregations to the dataframe it is given, so give each call a fresh dataframe.
 
 | Argument     | Type                                 | Function                                    | Remarks                                                      |
 | ------------ | ------------------------------------ | ------------------------------------------- | ------------------------------------------------------------ |
-| dataframe    | clojask.DataFrame                    | Specify the dataframe                       |                                                              |
-| output-path  | String                               | The path of the output                      | Can be absolute or relative path with respect to the `project.clj` file. |
+| dataframe    | clojask.classes.DataFrame.DataFrame                    | Specify the dataframe                       |                                                              |
+| output-path  | String                               | The path of the output                      | Can be absolute or relative path with respect to the working directory. |
 | id           | vector of strings                    | The fixed portion of the columns            | These columns must have a perfect correlation.               |
-| measure-name | String                               | The name of the measurement                 | By default "measure"                                         |
-| value-name   | String                               | The name of the value                       | By default "value"                                           |
+| measure-name | String | The column holding the measure names | |
+| value-name   | String | The column holding the values | |
 | values       | vector of string/int/double/datetime | The value choices of the measurement column | The order matters as in the result file.                     |
-| [vals-name]  | vector of string                     | The name of the value columns               | By default, same as `values`                                 |
+| [:vals-name] | vector of string                     | The name of the value columns               | By default, same as `values`                                 |
 
 **Example**
 

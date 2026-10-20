@@ -41,7 +41,7 @@ Welcome to the Clojask Library! This is an open-source library for parallel comp
 <ul></ul>
 
 - **Parallel**  
-  Most operations could be executed into multiple threads or even machines. See the principle in [Onyx](http://www.onyxplatform.org/).
+  Most operations run on a pool of worker threads, while one thread reads the input and another writes the output.
 
 ## Demo Video
 
