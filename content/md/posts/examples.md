@@ -15,29 +15,31 @@ All of the following operations can be executed on the files provided on the Clo
 An [example](https://github.com/clojure-finance/clojask-examples/blob/main/src/clojask_examples/basic_tutorial.clj) of basic data manipulation operations performed through Clojask
 ```clojure
 
-  (defn -main
-    []
-    ;; The simple way
-    (def df (ck/dataframe "resources/employees.csv"))
-    (ck/print-df df)
-    (ck/set-type df "Salary" "double")
-    (ck/filter df "Salary" (fn [salary] (<= salary 800)))
-    (ck/operate df (fn [salary] (* salary 1.2)) "Salary")
-    (ck/compute df 8 "outputs/basic.csv")
+(defn -main
+  []
+  ;; The simple way
+  (def df (ck/dataframe "resources/employees.csv"))
+  (ck/print-df df)
+  (ck/set-type df "Salary" "double")
+  (ck/filter df "Salary" (fn [salary] (<= salary 800)))
+  (ck/operate df (fn [salary] (* salary 1.2)) "Salary")
+  (ck/compute df 8 "outputs/basic.csv")
 
-    ;; Using the `->` macro:
-    ;; tsv dataset
-    (-> (ck/dataframe "resources/cats.tsv")
-        (ck/set-type "Weight(kg)" "double")
-        (ck/filter "Weight(kg)" (fn [weight] (<= weight 5)))
-        (ck/compute 8 "outputs/basic3.csv"))
-    
-    ;; or use the clojask-io plugin
-    (-> (ck/dataframe (fn [] (read-file "resources/cats.tsv" :sep "\t" :stat true :output true)))
-        (ck/set-type "Weight(kg)" "double")
-        (ck/filter "Weight(kg)" (fn [weight] (<= weight 5)))
-        (ck/compute 8 "outputs/basic4.tsv"))
-    )
+  ;; outputs keep the input order; since clojask 2.1.0 :order is accepted but ignored
+  (ck/compute df 8 "outputs/basic2.csv" :order true)
+
+  ;; Using the `->` macro:
+  ;; tsv dataset
+  (-> (ck/dataframe "resources/cats.tsv")
+      (ck/set-type "Weight(kg)" "double")
+      (ck/filter "Weight(kg)" (fn [weight] (<= weight 5)))
+      (ck/compute 8 "outputs/basic3.csv"))
+
+  ;; or use the clojask-io plugin
+  (-> (ck/dataframe (fn [] (read-file "resources/cats.tsv" :sep "\t" :stat true :output true)))
+      (ck/set-type "Weight(kg)" "double")
+      (ck/filter "Weight(kg)" (fn [weight] (<= weight 5)))
+      (ck/compute 8 "outputs/basic4.tsv")))
 ```
 
 
@@ -54,7 +56,10 @@ An [example](https://github.com/clojure-finance/clojask-examples/blob/main/src/c
   (ck/set-type df "Salary" "int")
   (ck/group-by df "Department")
   (ck/aggregate df gb-agg/max "UpdateDate")
-  (ck/aggregate df #(reduce + %) "Salary") ;; can aggregate on multiple columns in a group
+  ;; can aggregate on multiple columns in a group; the last argument names the
+  ;; output column (the default name comes from the function, which for an
+  ;; anonymous function is something like _main$fn__2093(Salary))
+  (ck/aggregate df #(reduce + %) "Salary" "sum(Salary)")
   (ck/compute df 8 "outputs/gb-agg.csv")
 
   ;; direct aggregate
@@ -63,8 +68,7 @@ An [example](https://github.com/clojure-finance/clojask-examples/blob/main/src/c
   (ck/set-type df "Salary" "int")
   (ck/aggregate df agg/max "UpdateDate")
   (ck/aggregate df agg/min "UpdateDate") ;; can aggregate on multiple columns
-  (ck/compute df 8 "outputs/agg.csv")
-  
+  (ck/compute df 8 "outputs/agg.csv"))
 ```
 
 
@@ -83,7 +87,7 @@ An [example](https://github.com/clojure-finance/clojask-examples/blob/main/src/c
   (ck/print-df z)
   (ck/compute z 8 "outputs/inner-join.csv" :select ["1_Employee" "1_Salary" "2_WorkLeave"])
   (ck/compute (ck/left-join x y ["Employee"] ["Employee"]) 8 "outputs/left-join.csv" :exception false)
-  (ck/compute (ck/right-join x y ["Employee"] ["Employee"]) 8 "outputs/right-join.csv" :exception false)
+  (ck/compute (ck/right-join x y ["Employee"] ["Employee"]) 8 "outputs/right-join.csv" :exception false))
 ```
 
 
@@ -91,6 +95,14 @@ An [example](https://github.com/clojure-finance/clojask-examples/blob/main/src/c
 #### Store Results in Memory
 An [example](https://github.com/clojure-finance/clojask-examples/blob/main/src/clojask_examples/in_memory.clj) of storing Clojask output in memory.
 ```clojure
+
+(defn time-diff
+  [start end]
+  (/ (- (.getTime end) (.getTime start)) 60000))
+
+;; todo
+;; output function automatic
+;; format option for in memory
 
 (defn -main
   []
@@ -102,15 +114,13 @@ An [example](https://github.com/clojure-finance/clojask-examples/blob/main/src/c
   (let [groupby-key ["COURSE CODE" "CLASS SECTION" "START DATE"]]
     (ck/group-by df groupby-key)
     (ck/aggregate df #(reduce + %) "diff" "MINS/WEEK")
-    (def res (ck/compute df 8 nil))
+    (def res (ck/compute df 8 nil :order true))
     (def res-df (ck/dataframe (fn [] res)))
     ;; reinitialize df
     (def df (ck/dataframe (fn [] (input/read-excel "resources/course timetable.xlsx" "Sheet1" :stat true))))
     (def join-df (ck/right-join df res-df groupby-key groupby-key))
     (def res2 (ck/compute join-df 8 nil :select ["1_COURSE CODE" "1_TERM" "1_START DATE" "1_END DATE" "1_START TIME" "1_END TIME" "2_MINS/WEEK"]))
-    (output/write-excel "outputs/in-mem.xls" "Sheet1" res2)
-    )
-  
+    (output/write-excel "outputs/in-mem.xlsx" "Sheet1" res2)))
 ```
 
 
@@ -118,6 +128,15 @@ An [example](https://github.com/clojure-finance/clojask-examples/blob/main/src/c
 #### Connection with `tech.ml.dataset`
 An [example](https://github.com/clojure-finance/clojask-examples/blob/main/src/clojask_examples/techmldataset.clj) of converting from and to the popular Clojure DataFrame library `tech.ml.dataset`.
 ```clojure
+
+(defn get-from
+  [list keys]
+  (map #(get list %) keys))
+
+(defn local-date-formatter
+  [date]
+  (let [formatter (DateTimeFormatter/ofPattern "yyyy/MM/dd")]
+    (.format date formatter)))
 
 (defn -main
   []
@@ -141,25 +160,41 @@ An [example](https://github.com/clojure-finance/clojask-examples/blob/main/src/c
   
   ;; More details about tech.ml.dataset can be found at
   ;; https://github.com/techascent/tech.ml.dataset
-  
+  )
 ```
 
 
 ---
 #### Rolling Join
-An [example](https://github.com/clojure-finance/clojask-examples/blob/main/src/clojask_examples/rolling_join.clj) on performing rolling joins in Clojask 
+An [example](https://github.com/clojure-finance/clojask-examples/blob/main/src/clojask_examples/rolling_join.clj) of forward and backward rolling joins in Clojask, also with a threshold (`:limit`)
 ```clojure
 
+(defn within-days
+  "A :limit for rolling joins: join two rows only when their roll values
+   (here dates) are at most n days apart."
+  [n]
+  (fn [a b]
+    (<= (Math/abs (- (.getTime a) (.getTime b)))
+        (* n 24 60 60 1000))))
+
 (defn -main
-    []
-    (def x (ck/dataframe "resources/employees.csv"))
-    (def y (ck/dataframe "resources/employees-workleave.csv"))
+  []
+  (def x (ck/dataframe "resources/employees.csv"))
+  (def y (ck/dataframe "resources/employees-workleave.csv"))
 
-    (ck/set-type x "UpdateDate" "date:yyyy/MM/dd")
-    (ck/set-type y "UpdateDate" "date:yyyy/MM/dd")
+  (ck/set-type x "UpdateDate" "date:yyyy/MM/dd")
+  (ck/set-type y "UpdateDate" "date:yyyy/MM/dd")
 
-    (ck/compute (ck/rolling-join-forward x y ["Employee"] ["Employee"] "UpdateDate" "UpdateDate") 8 "outputs/rolling.csv" :exception false)
-    
+  ;; forward: each row of x gets the row of y with the same Employee and
+  ;; the latest UpdateDate that is not after x's
+  (ck/compute (ck/rolling-join-forward x y ["Employee"] ["Employee"] "UpdateDate" "UpdateDate") 8 "outputs/rolling-forward.csv")
+
+  ;; backward: the earliest UpdateDate that is not before x's
+  (ck/compute (ck/rolling-join-backward x y ["Employee"] ["Employee"] "UpdateDate" "UpdateDate") 8 "outputs/rolling-backward.csv")
+
+  ;; threshold: :limit is called on the two roll values and skips the join
+  ;; when it returns false; here rows more than 7 days apart stay unjoined
+  (ck/compute (ck/rolling-join-backward x y ["Employee"] ["Employee"] "UpdateDate" "UpdateDate" :limit (within-days 7)) 8 "outputs/rolling-backward-7days.csv"))
 ```
 
 
@@ -176,13 +211,15 @@ An [example](https://github.com/clojure-finance/clojask-examples/blob/main/src/c
   (ck/set-type y "Employee" "int")
   (def z (ck/outer-join x y ["Employee"] ["Employee"]))
   (ck/print-df z)
-  (ck/compute z 8 "outputs/outer-join.csv" :exclude ["2_Employee" "2_EmployeeName"])
+  ;; rows found only in y have empty 1_ columns, so keep the 2_ key columns:
+  ;; for those rows 2_Employee is the only place their Employee appears
+  (ck/compute z 8 "outputs/outer-join.csv"))
 ```
 
 
 ---
 #### Enhanced Reshape
-An [example](https://github.com/clojure-finance/clojask-examples/blob/main/src/clojask_examples/enhanced_reshape.clj) on performing melt and cast operations in Clojask 
+An [example](https://github.com/clojure-finance/clojask-examples/blob/main/src/clojask_examples/enhanced_reshape.clj) of melt and dcast, together with `cbind-csv` and `rbind-csv`, in Clojask
 ```clojure
 
 ;; find more explicit explanation here
@@ -207,6 +244,16 @@ An [example](https://github.com/clojure-finance/clojask-examples/blob/main/src/c
   ;; skipped
   (ck/compute z 8 "outputs/melt_result.csv" :select ["family_id1" "age_mother1" "child1" "dob" "gender"])
 
+  ;; rbind: stack csv files that have the same columns; the header comes
+  ;; from the first file. Split the long table by child, then stack it back.
+  (def first-child (ck/dataframe "resources/dcast.csv"))
+  (ck/filter first-child "child" #(= % "1"))
+  (ck/compute first-child 8 "outputs/first_child.csv")
+  (def other-children (ck/dataframe "resources/dcast.csv"))
+  (ck/filter other-children "child" #(not= % "1"))
+  (ck/compute other-children 8 "outputs/other_children.csv")
+  (ck/compute (rbind-csv "outputs/first_child.csv" "outputs/other_children.csv") 8 "outputs/rbind_result.csv")
+
   ;; enhanced dcast
   (def a (ck/dataframe "resources/dcast.csv"))
   (def dob (dcast a "outputs/1.csv" ["family_id" "age_mother"] "child" "dob" ["1" "2" "3"] :vals-name ["child1" "child2" "child3"]))
@@ -215,7 +262,7 @@ An [example](https://github.com/clojure-finance/clojask-examples/blob/main/src/c
   (def res (ck/inner-join dob gender ["family_id" "age_mother"] ["family_id" "age_mother"] :col-prefix ["dob" "gender"]))
   ;; you can rename the column names of res here
   ;; skipped
-  (ck/compute res 8 "outputs/dcast_result.csv" :exclude ["dob_family_id" "dob_age_mother"])
+  (ck/compute res 8 "outputs/dcast_result.csv" :exclude ["dob_family_id" "dob_age_mother"]))
 ```
 
 
@@ -223,6 +270,37 @@ An [example](https://github.com/clojure-finance/clojask-examples/blob/main/src/c
 #### Timezone
 An [example](https://github.com/clojure-finance/clojask-examples/blob/main/src/clojask_examples/timezone.clj) on running timezone operations on clojask
 ```clojure
+
+(def string-zone
+  {"UTC" "UTC"
+   "HKG" "Asia/Hong_Kong"
+   "UK" "Europe/London"
+   "DUB" "Asia/Dubai"
+   "LA" "America/Los_Angeles"})
+
+(defn get-utc-time
+  "the input is a datetime string with timezone identifier as suffix"
+  ;; suppose the input format is like this 2010-01-19 23:34:23 UTC
+  [time-string]
+  (let [time (subs time-string 0 (str/last-index-of time-string " "))
+        timezone (subs time-string (inc (str/last-index-of time-string " ")))
+        timezone (get string-zone timezone)
+        iso-format (SimpleDateFormat. "yyyy-MM-dd HH:mm:ss")
+        tmp (.setTimeZone iso-format (TimeZone/getTimeZone timezone))
+        time (.parse iso-format time)]
+    time))
+
+(defn get-timezone
+  [time-string]
+  (let [timezone (subs time-string (inc (str/last-index-of time-string " ")))]
+    timezone))
+;; formatters run on several worker threads at once, so this one must be
+;; thread-safe: DateTimeFormatter is, a shared SimpleDateFormat is not
+(def utc-format (.withZone (DateTimeFormatter/ofPattern "yyyy-MM-dd HH:mm:ss") ZoneOffset/UTC))
+(defn utctime-formatter
+  "the input is a java.util.Date, return is a format string"
+  [utc-time]
+  (.format utc-format (.toInstant utc-time)))
 
 (defn -main
   []
@@ -233,9 +311,8 @@ An [example](https://github.com/clojure-finance/clojask-examples/blob/main/src/c
   (ck/group-by df "utc-time")
   (ck/compute df 8 "outputs/timezone1.csv")
   (ck/set-type df "sold" "int")
-  (ck/aggregate df #(reduce + %) "sold")
-  (ck/compute df 8 "outputs/timezone2.csv")
-  
+  (ck/aggregate df #(reduce + %) "sold" "sum(sold)")
+  (ck/compute df 8 "outputs/timezone2.csv"))
 ```
 
 
