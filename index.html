@@ -109,7 +109,7 @@ Most operations will not be executed immediately. Dataframe will intelligently p
 Faster than Dask in most operations, and the larger the dataframe is, the bigger the advantage. Please find the benchmarks <a href="https://clojure-finance.github.io/clojask-website/pages-output/about/#benchmarks">here</a>.</li></ul><ul></ul><ul><li><strong>All native types</strong><br />
 All the datatypes used to store data is native Clojure (or Java) types!</li></ul><ul></ul><ul><li><strong>From file to file</strong><br />
 Integrate IO inside the dataframe. No need to write your own read-in and output functions!</li></ul><ul></ul><ul><li><strong>Parallel</strong><br />
-Most operations could be executed into multiple threads or even machines. See the principle in <a href="http://www.onyxplatform.org/">Onyx</a>.</li></ul><h2 id="demo-video">Demo Video</h2><p>Here is a demo video for a basic introduction to Clojask and some of its applications, including inner join and group-by aggregation.</p><iframe width="640" height="400" src="https://www.youtube.com/embed/Jl-Pbu16Xk8"></iframe> 
+Most operations run on a pool of worker threads, while one thread reads the input and another writes the output.</li></ul><h2 id="demo-video">Demo Video</h2><p>Here is a demo video for a basic introduction to Clojask and some of its applications, including inner join and group-by aggregation.</p><iframe width="640" height="400" src="https://www.youtube.com/embed/Jl-Pbu16Xk8"></iframe> 
 <h2 id="report-bugs">Report Bugs</h2><p>Clojask is currently under active development.<br />
 If you find any bugs or errors, we would appreciate if you could help <a href="https://github.com/clojure-finance/clojask/issues">report</a> these issues so that we could repair them accordingly.</p>
 
