@@ -110,7 +110,7 @@
 'architecture': 'x86_64',
 'processor': 'i386',
 'ram': '8 GB'
-</code></pre><p><strong>Source code</strong></p><p>The benchmarking code for Dask and Clojask could be found here respectively:</p><ul><li><a href="https://github.com/clojure-finance/clojask/blob/main/benchmark/dask-benchmark.ipynb">Dask benchmarking code</a></li><li><a href="https://github.com/clojure-finance/clojask/blob/main/benchmark/clojure-benchmark.clj">Clojask benchmaking code</a></li></ul>
+</code></pre><p><strong>Source code</strong></p><p>The benchmarking code for Dask and Clojask could be found here respectively:</p><ul><li><a href="https://github.com/clojure-finance/clojask/blob/2.x.x/benchmark/dask-benchmark.ipynb">Dask benchmarking code</a></li><li><a href="https://github.com/clojure-finance/clojask/blob/2.x.x/benchmark/clojure-benchmark.clj">Clojask benchmaking code</a></li></ul>
 
 <hr /><h2 id="comparisonadvantages-with-other-larger-than-memory-systems">Comparison/Advantages with other larger than memory systems</h2><p><strong>Hadoop MapReduce</strong></p><table><thead><tr><th>Functions</th><th>Clojask</th><th>Hadoop MapReduce</th></tr></thead><tbody><tr><td>Larger-than-memory source file</td><td>✅</td><td>✅</td></tr><tr><td>Write intermediate results to tmp files</td><td>✅</td><td>✅</td></tr><tr><td>MapReduce paradigm</td><td>✅</td><td>✅</td></tr><tr><td>Join, filter, aggregate, etc. on large files</td><td>✅</td><td>❌</td></tr></tbody></table><p><strong>Spark</strong></p><table><thead><tr><th>Functions</th><th>Clojask</th><th>Spark</th></tr></thead><tbody><tr><td>Construct operations' DAG</td><td>❌</td><td>✅</td></tr><tr><td>Join, filter, aggregate, etc</td><td>✅</td><td>✅</td></tr><tr><td>Cache intermediate results between stages in memory</td><td>❌</td><td>✅</td></tr><tr><td>Minimum memory usage</td><td>✅</td><td>❌</td></tr></tbody></table>
 
@@ -134,7 +134,7 @@
             <!-- <hr/> -->
             <br/>
             <div id="footercont">
-                Copyright &copy; 2023 Clojask
+                Copyright &copy; 2026 Clojask
                 <br>Powered by <a href="http://cryogenweb.org">Cryogen</a>
             </div>
         </article>
