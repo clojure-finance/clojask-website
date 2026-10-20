@@ -11,13 +11,13 @@ Clojask is on [Clojars](https://clojars.org/com.github.clojure-finance/clojask).
 Leiningen (`project.clj`):
 
 ```clojure
-[com.github.clojure-finance/clojask "2.1.1"]
+[com.github.clojure-finance/clojask "2.1.2"]
 ```
 
 deps.edn:
 
 ```clojure
-com.github.clojure-finance/clojask {:mvn/version "2.1.1"}
+com.github.clojure-finance/clojask {:mvn/version "2.1.2"}
 ```
 
 This also brings in [clojask-io](https://github.com/clojure-finance/clojask-io), which reads and writes the dataset files. Then require the API:

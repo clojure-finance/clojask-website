@@ -23,10 +23,8 @@ An [example](https://github.com/clojure-finance/clojask-examples/blob/main/src/c
   (ck/set-type df "Salary" "double")
   (ck/filter df "Salary" (fn [salary] (<= salary 800)))
   (ck/operate df (fn [salary] (* salary 1.2)) "Salary")
+  ;; the output keeps the input's row order
   (ck/compute df 8 "outputs/basic.csv")
-
-  ;; outputs keep the input order; since clojask 2.1.0 :order is accepted but ignored
-  (ck/compute df 8 "outputs/basic2.csv" :order true)
 
   ;; Using the `->` macro:
   ;; tsv dataset
@@ -93,16 +91,17 @@ An [example](https://github.com/clojure-finance/clojask-examples/blob/main/src/c
 
 ---
 #### Store Results in Memory
-An [example](https://github.com/clojure-finance/clojask-examples/blob/main/src/clojask_examples/in_memory.clj) of storing Clojask output in memory.
+An [example](https://github.com/clojure-finance/clojask-examples/blob/main/src/clojask_examples/in_memory.clj) of storing Clojask output in memory, reading an Excel file with clojask-io's `read-excel`, and writing the result to an `.xlsx` file straight from `compute`.
 ```clojure
 
 (defn time-diff
   [start end]
   (/ (- (.getTime end) (.getTime start)) 60000))
 
-;; todo
-;; output function automatic
-;; format option for in memory
+;; With output path nil, compute keeps the result in memory and returns the
+;; rows (header first) as formatted strings, which can feed another
+;; dataframe. The last compute writes an Excel file: compute picks the
+;; output format from the file's extension.
 
 (defn -main
   []
@@ -114,13 +113,12 @@ An [example](https://github.com/clojure-finance/clojask-examples/blob/main/src/c
   (let [groupby-key ["COURSE CODE" "CLASS SECTION" "START DATE"]]
     (ck/group-by df groupby-key)
     (ck/aggregate df #(reduce + %) "diff" "MINS/WEEK")
-    (def res (ck/compute df 8 nil :order true))
+    (def res (ck/compute df 8 nil))
     (def res-df (ck/dataframe (fn [] res)))
     ;; reinitialize df
     (def df (ck/dataframe (fn [] (input/read-excel "resources/course timetable.xlsx" "Sheet1" :stat true))))
     (def join-df (ck/right-join df res-df groupby-key groupby-key))
-    (def res2 (ck/compute join-df 8 nil :select ["1_COURSE CODE" "1_TERM" "1_START DATE" "1_END DATE" "1_START TIME" "1_END TIME" "2_MINS/WEEK"]))
-    (output/write-excel "outputs/in-mem.xlsx" "Sheet1" res2)))
+    (ck/compute join-df 8 "outputs/in-mem.xlsx" :select ["1_COURSE CODE" "1_TERM" "1_START DATE" "1_END DATE" "1_START TIME" "1_END TIME" "2_MINS/WEEK"])))
 ```
 
 
