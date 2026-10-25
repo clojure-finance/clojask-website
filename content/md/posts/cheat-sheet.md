@@ -43,7 +43,8 @@ All functions are in `clojask.dataframe`, used here as `ck`. Each name links to 
 | I want to… | Use |
 | ---------- | --- |
 | Group rows by one or more columns | [`(ck/group-by df "Dept")`, `(ck/group-by df ["Dept" "Year"])`](/posts-output/API/#group-by) |
-| Group by something computed | Add it as a column first: `(ck/operate df year-of "Date" "Year")`, then `(ck/group-by df "Year")` |
+| Group by a function of a column | `(ck/group-by df [[year-of "Date"]])`, which names the output column `year-of(Date)` |
+| …or by a computed column | `(ck/operate df year-of "Date" "Year")`, then `(ck/group-by df "Year")` |
 | Aggregate each group | [`(ck/aggregate df gb-agg/sum "Salary" "total")`](/posts-output/API/#aggregate), with `clojask.api.gb-aggregate` as `gb-agg` |
 | Aggregate the whole file, no groups | `(ck/aggregate df agg/max "Salary")`, with `clojask.api.aggregate` as `agg` |
 | See or write aggregation functions | [Aggregation Functions](/posts-output/aggregate-function/) |

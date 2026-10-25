@@ -12,13 +12,13 @@ Clojask is on [Clojars](https://clojars.org/com.github.clojure-finance/clojask).
 deps.edn:
 
 ```clojure
-com.github.clojure-finance/clojask {:mvn/version "2.1.2"}
+com.github.clojure-finance/clojask {:mvn/version "2.1.3"}
 ```
 
 Leiningen (`project.clj`):
 
 ```clojure
-[com.github.clojure-finance/clojask "2.1.2"]
+[com.github.clojure-finance/clojask "2.1.3"]
 ```
 
 This also brings in [clojask-io](https://github.com/clojure-finance/clojask-io), which reads and writes the files. In your code, require the API under a short alias:
@@ -44,7 +44,7 @@ Employee,EmployeeName,Department,Salary,UpdateDate
 7,Amy,11,50000,2020/11/26
 ```
 
-Seven rows fit in memory, of course. The point is that the same code works unchanged on a file with a billion rows. All outputs below come from running the code with Clojask 2.1.2.
+Seven rows fit in memory, of course. The point is that the same code works unchanged on a file with a billion rows. All outputs below come from running the code with Clojask 2.1.3.
 
 ### 1. Create a dataframe
 

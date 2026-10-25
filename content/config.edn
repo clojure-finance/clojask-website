@@ -34,7 +34,7 @@
 
  ;; Shown on the home page and in the sidebar. Also update the install
  ;; snippets in content/md/posts/get-started.md on each release.
- :clojask-version              "2.1.2"
+ :clojask-version              "2.1.3"
 
  ;; The sidebar, in reading order. Each page listed here gets "previous" and
  ;; "next" links to its neighbours (see src/cryogen/site.clj). Paths are

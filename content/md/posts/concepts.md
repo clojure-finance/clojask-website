@@ -138,7 +138,7 @@ Filters run on the values as they come out of the file (after type conversion), 
 ;; the output then shows those salaries multiplied by 100
 ```
 
-For the same reason you can't filter on a column created by `operate`. Either write the filter on the source columns (a filter can take several columns), or `compute` first and filter the result. You *can* `group-by` a computed column, which is the easiest way to group by something derived, such as the year of a date.
+For the same reason you can't filter on a column created by `operate`. Either write the filter on the source columns (a filter can take several columns), or `compute` first and filter the result. You *can* `group-by` a computed column, or group directly by a function of a column, such as the year of a date; see [group-by](/posts-output/API/#group-by).
 
 ### Joined dataframes are final
 
