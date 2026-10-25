@@ -43,7 +43,7 @@
             <a class="brand brand-desktop" href="/clojask-website/">
                 <img class="brand-logo" src="/clojask-website/img/logo.svg" alt="" width="32" height="32">
                 <span class="brand-name">Clojask</span>
-                <span class="version" title="Latest release">v2.1.2</span>
+                <span class="version" title="Latest release">v2.1.3</span>
             </a>
 
             <nav class="nav" aria-label="Documentation">
@@ -125,8 +125,8 @@
         
 
         <div class="doc-body">
-            <h2 id="install">Install</h2><p>Clojask is on <a href="https://clojars.org/com.github.clojure-finance/clojask">Clojars</a>. It needs <strong>JDK 17 or newer</strong> and runs on <strong>macOS and Linux</strong>.</p><p>deps.edn:</p><pre><code class="clojure">com.github.clojure-finance/clojask {:mvn/version "2.1.2"}
-</code></pre><p>Leiningen (<code>project.clj</code>):</p><pre><code class="clojure">[com.github.clojure-finance/clojask "2.1.2"]
+            <h2 id="install">Install</h2><p>Clojask is on <a href="https://clojars.org/com.github.clojure-finance/clojask">Clojars</a>. It needs <strong>JDK 17 or newer</strong> and runs on <strong>macOS and Linux</strong>.</p><p>deps.edn:</p><pre><code class="clojure">com.github.clojure-finance/clojask {:mvn/version "2.1.3"}
+</code></pre><p>Leiningen (<code>project.clj</code>):</p><pre><code class="clojure">[com.github.clojure-finance/clojask "2.1.3"]
 </code></pre><p>This also brings in <a href="https://github.com/clojure-finance/clojask-io">clojask-io</a>, which reads and writes the files. In your code, require the API under a short alias:</p><pre><code class="clojure">(require '[clojask.dataframe :as ck])
 </code></pre><blockquote><p><strong>Tip</strong> Every example on this site uses the alias <code>ck</code>. The function names (<code>filter</code>, <code>group-by</code>, <code>sort</code>) clash with <code>clojure.core</code>, so don't <code>:refer :all</code> them.</p></blockquote><h2 id="a-ten-minute-tour">A ten-minute tour</h2><p>The tour uses a small file, <code>employees.csv</code>, from the <a href="https://github.com/clojure-finance/clojask-examples/blob/main/resources/employees.csv">examples repository</a>. Save it next to your project to follow along:</p><pre><code class="text">Employee,EmployeeName,Department,Salary,UpdateDate
 1,Alice,11,300,2020/12/12
@@ -136,7 +136,7 @@
 5,Evelyn,13,800,2020/12/03
 6,Ferdinand,21,700,2020/12/05
 7,Amy,11,50000,2020/11/26
-</code></pre><p>Seven rows fit in memory, of course. The point is that the same code works unchanged on a file with a billion rows. All outputs below come from running the code with Clojask 2.1.2.</p><h3 id="1-create-a-dataframe">1. Create a dataframe</h3><pre><code class="clojure">(def df (ck/dataframe "employees.csv"))
+</code></pre><p>Seven rows fit in memory, of course. The point is that the same code works unchanged on a file with a billion rows. All outputs below come from running the code with Clojask 2.1.3.</p><h3 id="1-create-a-dataframe">1. Create a dataframe</h3><pre><code class="clojure">(def df (ck/dataframe "employees.csv"))
 </code></pre><p>This doesn't load the file. A Clojask dataframe is a <em>description</em> of work to do on a file: where the data comes from, and (soon) what to do with it. To look at the data, print a preview:</p><pre><code class="clojure">(ck/print-df df)
 </code></pre><pre><code class="text">|         Employee |     EmployeeName |       Department |           Salary |       UpdateDate |
 |------------------+------------------+------------------+------------------+------------------|
