@@ -1,195 +1,280 @@
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <meta charset="utf-8">
-        <title>Clojask: Get Started</title>
-        
-<meta name="keywords" content="Start">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Get Started · Clojask</title>
+    
+<meta name="description" content="InstallClojask is on Clojars. It needs JDK 17 or newer and runs on macOS and Linux.">
+<meta property="og:description" content="InstallClojask is on Clojars. It needs JDK 17 or newer and runs on macOS and Linux.">
+<meta property="og:url" content="https://clojure-finance.github.io/clojask-website/clojask-website/posts-output/get-started/">
+<meta property="og:title" content="Get Started · Clojask">
+<meta property="og:type" content="article">
 
-<meta name="description" content="InstallationClojask is on Clojars. It needs JDK 17 or newer and runs on macOS and Linux.">
+    <script>
+        // Apply the saved colour theme before the page paints.
+        try {
+            var t = localStorage.getItem("theme");
+            if (t === "light" || t === "dark") document.documentElement.setAttribute("data-theme", t);
+        } catch (e) {}
+    </script>
+    <link rel="icon" type="image/svg+xml" href="/clojask-website/img/logo.svg">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+    <link href="/clojask-website/css/site.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+    <a class="skip-link" href="#content">Skip to content</a>
 
-<meta property="og:description" content="InstallationClojask is on Clojars. It needs JDK 17 or newer and runs on macOS and Linux.">
+    <header class="topbar">
+        <a class="brand" href="/clojask-website/">
+            <img class="brand-logo" src="/clojask-website/img/logo.svg" alt="" width="28" height="28">
+            <span class="brand-name">Clojask</span>
+        </a>
+        <button class="menu-toggle" type="button" aria-controls="sidebar" aria-expanded="false">
+            <svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true"><path d="M3 6h18M3 12h18M3 18h18" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+            <span class="visually-hidden">Menu</span>
+        </button>
+    </header>
 
-<meta property="og:url" content="https://clojure-finance.github.io/clojask-website/clojask-website/posts-output/get-started/" />
-<meta property="og:title" content="Get Started" />
-<meta property="og:type" content="article" />
+    <div class="layout">
+        <aside class="sidebar" id="sidebar">
+            <a class="brand brand-desktop" href="/clojask-website/">
+                <img class="brand-logo" src="/clojask-website/img/logo.svg" alt="" width="32" height="32">
+                <span class="brand-name">Clojask</span>
+                <span class="version" title="Latest release">v2.1.2</span>
+            </a>
 
-        <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
-        
-        <link rel="shortcut icon" href="images/ico/favicon.png">
-        <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700|Oxygen:300,400,700|Inconsolata" rel="stylesheet">
-        <link rel="preconnect" href="https://fonts.googleapis.com">
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-        <link href="https://fonts.googleapis.com/css2?family=Raleway:wght@300&display=swap" rel="stylesheet">
-        <link href="/clojask-website/css/normalize.css" rel="stylesheet" type="text/css" />
-        <link href="/clojask-website/css/blog.css" rel="stylesheet" type="text/css" />
-        <link href="/clojask-website/css/lotus-highlightjs.min.css" rel="stylesheet" type="text/css" />
-        <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.7.0/styles/tomorrow-night-eighties.min.css">
-    </head>
-    <body>
-        <aside id="sidebar">
-            <div id="logo">
-                <a title="Clojask" href="/clojask-website/">
-                    <!-- <img class="icon" src="/clojask-website/img/white-lotus.svg"> -->
-                    <div class="title-text text desktop-and-tablet-only">
-                        <span class="desktop-and-tablet-only fa fa-cubes"></span>
-                        <br>
-                        <br>
-                        Clojask
-                    </div>
-                    <div class="title-text text mobile-only">Clojask</div>
-                </a>
-            </div> 
-
-            <nav id="sidebar-links">
-                <nav id="menucont">
-                    <input type="checkbox" id="menu-checkbox" class="menu-checkbox">
-                    <label for="menu-checkbox" class="menutitle">
-                        <svg class="icon icon-menu" aria-hidden="true"><use xlink:href="/clojask-website/img/icons.svg#icon-menu"></use></svg><span class="menu-text">Menu</span>
-                    </label>
-                    <ul class="menu">
-                        <li ><a title="Home" href="/clojask-website/"><div class="menu-item-text">Home</div></a></li>
-                        <!-- 
-                        <li ><a title="Tags" href="/clojask-website/tags/"><div class="menu-item-text">Tags</div></a></li>
-                         -->
-                        
-                        <li >
-                            <a href="/clojask-website/pages-output/about/"><div class="menu-item-text">About</div></a>
-                        </li>
-                        
-                         <!-- custom navbar item -->
-                        <li>
-                            <a title="Get Started" href="/clojask-website/posts-output/get-started/"><div class="menu-item-text">Getting Started</div></a>
-                        </li>
-                        <li>
-                            <a title="API Docs" href="/clojask-website/posts-output/API/"><div class="menu-item-text">API Docs</div></a>
-                        </li>
-                        <li >
-                            <a title="Examples" href="/clojask-website/posts-output/examples/"><div class="menu-item-text">Examples</div></a>
-                        </li>
-                        <li >
-                            <a title="Extensions" href="/clojask-website/posts-output/extensions/"><div class="menu-item-text">Extensions</div></a>
-                        </li>
-                        
-<!-- 
-                        <button class="dropdown">Dropdown
-                            <i class="fa fa-caret-down"></i>
-                        </button>
-                        <div class="dropdown-container">
-                            <a href="#">Link 1</a>
-                            <a href="##">Link 2</a>
-                            <a href="###">Link 3</a>
-                        </div>
-                        </a> -->
-
-                        <li ><a title="Archives" href="/clojask-website/archives/"><div class="menu-item-text">Archives</div></a></li>
-                        <!-- <li><a title="RSS" href="/clojask-website/feed.xml"><div class="menu-item-text">RSS</div></a></li> -->
-                    </ul>
-                </nav>
-
-                <nav id="socialmedia">
+            <nav class="nav" aria-label="Documentation">
+                
+                <div class="nav-section">
+                    <div class="nav-heading">Start here</div>
                     <ul>
-                        <li><a title="GitHub" href="https://github.com/clojure-finance/clojask" rel="external"><svg class="icon icon-github-circled"><use xlink:href="/clojask-website/img/icons.svg#icon-github-circled"></use></svg></a></li>
+                        
+                        <li><a href="/clojask-website/">Home</a></li>
+                        
+                        <li><a href="/clojask-website/posts-output/get-started/" class="active" aria-current="page">Get Started</a></li>
+                        
+                        <li><a href="/clojask-website/posts-output/concepts/">Core Concepts</a></li>
+                        
+                        <li><a href="/clojask-website/posts-output/cheat-sheet/">Cheat Sheet</a></li>
+                        
                     </ul>
-                </nav>
+                </div>
+                
+                <div class="nav-section">
+                    <div class="nav-heading">Reference</div>
+                    <ul>
+                        
+                        <li><a href="/clojask-website/posts-output/API/">API Docs</a></li>
+                        
+                        <li><a href="/clojask-website/posts-output/aggregate-function/">Aggregation Functions</a></li>
+                        
+                        <li><a href="/clojask-website/posts-output/extensions/">Extensions</a></li>
+                        
+                    </ul>
+                </div>
+                
+                <div class="nav-section">
+                    <div class="nav-heading">Learn more</div>
+                    <ul>
+                        
+                        <li><a href="/clojask-website/posts-output/examples/">Examples</a></li>
+                        
+                        <li><a href="/clojask-website/pages-output/about/">About &amp; Benchmarks</a></li>
+                        
+                    </ul>
+                </div>
+                
             </nav>
-        </aside>
 
-        <article id="main">
+            <div class="sidebar-foot">
+                <a class="icon-link" href="https://github.com/clojure-finance/clojask" title="Clojask on GitHub">
+                    <svg viewBox="0 0 16 16" width="18" height="18" aria-hidden="true"><path fill="currentColor" d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/></svg>
+                    GitHub
+                </a>
+                <a class="icon-link" href="https://clojars.org/com.github.clojure-finance/clojask" title="Clojask on Clojars">
+                    <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path d="M12 2 3 7v10l9 5 9-5V7l-9-5Zm0 2.3L18.8 8 12 11.7 5.2 8 12 4.3ZM5 9.7l6 3.3v6.7l-6-3.3V9.7Zm8 10V13l6-3.3v6.7l-6 3.3Z" fill="currentColor"/></svg>
+                    Clojars
+                </a>
+                <button class="theme-toggle" type="button" title="Switch between light and dark mode">
+                    <svg class="icon-sun" viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><circle cx="12" cy="12" r="4.5" fill="none" stroke="currentColor" stroke-width="2"/><path d="M12 1.5v3M12 19.5v3M1.5 12h3M19.5 12h3M4.6 4.6l2.1 2.1M17.3 17.3l2.1 2.1M4.6 19.4l2.1-2.1M17.3 6.7l2.1-2.1" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+                    <svg class="icon-moon" viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path d="M20 14.5A8.5 8.5 0 0 1 9.5 4a8.5 8.5 0 1 0 10.5 10.5Z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></svg>
+                    <span class="visually-hidden">Toggle dark mode</span>
+                </button>
+            </div>
+        </aside>
+        <div class="scrim" hidden></div>
+
+        <main class="main" id="content">
             
-<div id="post">
-    <div class="post-header">
-    <div id="post-meta">
-        <h1>Get Started</h1>
-        <div class="byline">
-            <!-- <span class="date">September 30, 2021</span> -->
-            
-        </div>
-    </div>
-</div>
-<div>
-    <ul class="toc"><li><a href="#installation">Installation</a></li><li><a href="#clojask-types">Clojask Types</a></li><ul><li><a href="#string">string</a></li><li><a href="#int">int</a></li><li><a href="#double">double</a></li><li><a href="#date">date</a></li><li><a href="#datetime">datetime</a></li></ul><li><a href="#empty-fields--values-that-fail-to-parse">Empty Fields & Values That Fail to Parse</a></li><li><a href="#system-of-operations">System of operations</a></li><ul><li><a href="#replaceable-operations">Replaceable operations</a></li><li><a href="#incremental-operations">Incremental operations</a></li></ul></ul>
-    <h2 id="installation">Installation</h2><p>Clojask is on <a href="https://clojars.org/com.github.clojure-finance/clojask">Clojars</a>. It needs JDK 17 or newer and runs on macOS and Linux.</p><p>Leiningen (<code>project.clj</code>):</p><pre><code class="clojure">[com.github.clojure-finance/clojask "2.1.2"]
-</code></pre><p>deps.edn:</p><pre><code class="clojure">com.github.clojure-finance/clojask {:mvn/version "2.1.2"}
-</code></pre><p>This also brings in <a href="https://github.com/clojure-finance/clojask-io">clojask-io</a>, which reads and writes the dataset files. Then require the API:</p><pre><code class="clojure">(require '[clojask.dataframe :as ck])
-</code></pre><h2 id="clojask-types">Clojask Types</h2><h3 id="string">string</h3><p>The default type for all columns</p><p>Class: <code>java.lang.String</code></p><p><strong>Examples</strong></p><pre><code class="clojure">(set-type dataframe "col-name" "string")
-</code></pre><h3 id="int">int</h3><p>Most efficiently stores an integer</p><p>Class: <code>java.lang.Integer</code></p><p><strong>Examples</strong></p><pre><code class="clojure">(set-type dataframe "col-name" "int")
-</code></pre><h3 id="double">double</h3><p>Accepts floats and integers</p><p>Class: <code>java.lang.Double</code></p><p><strong>Examples</strong></p><pre><code class="clojure">(set-type dataframe "col-name" "double")
-</code></pre><h3 id="date">date</h3><p>Transform a date string (no time field)</p><p>Class: <code>java.util.Date</code> (default format string: <code>yyyy-MM-dd</code>)</p><p><strong>Examples</strong></p><pre><code class="clojure">;; if the date looks like this 2020/11/12
-(set-type dataframe "col-name" "date:yyyy/MM/dd")
-</code></pre><h3 id="datetime">datetime</h3><p>Transform a date-time string</p><p>Class: <code>java.util.Date</code> (default format string: <code>yyyy-MM-dd</code>, so give a pattern that includes the time fields)</p><p><strong>Examples</strong></p><pre><code class="clojure">;; if the date looks like this 2020/11/12 12:12:36
-(set-type dataframe "col-name" "datetime:yyyy/MM/dd HH:mm:ss")
-</code></pre><h2 id="empty-fields--values-that-fail-to-parse">Empty Fields &amp; Values That Fail to Parse</h2><p>Take this dataset as an example.</p><table><thead><tr><th>Employee</th><th>EmployeeName</th><th>Department</th><th>Salary</th></tr></thead><tbody><tr><td>1</td><td>Alice</td><td>11</td><td>300</td></tr><tr><td>2</td><td>Bob</td><td>11</td><td>N/A</td></tr><tr><td>3</td><td>Carla</td><td> </td><td>900</td></tr><tr><td>4</td><td>Daniel</td><td>12</td><td>1000</td></tr><tr><td>5</td><td>Evelyn</td><td>13</td><td>800</td></tr><tr><td>...</td><td>...</td><td>...</td><td>...</td></tr></tbody></table><p>The first thing to do after creating this dataframe is to set the type of column <strong>Salary</strong> to <code>int</code>.</p><pre><code class="clojure">(def df (ck/dataframe "Employees.csv"))
+
+<div class="doc-grid has-toc">
+    <article class="doc">
+        <header class="doc-header">
+            <h1>Get Started</h1>
+            <p class="lede">Install Clojask and build your first pipeline in ten minutes.</p>
+        </header>
+
+        
+        <details class="toc-inline">
+            <summary>On this page</summary>
+            <ul class="toc"><li><a href="#install">Install</a></li><li><a href="#a-ten-minute-tour">A ten-minute tour</a></li><ul><li><a href="#1-create-a-dataframe">1. Create a dataframe</a></li><li><a href="#2-set-column-types">2. Set column types</a></li><li><a href="#3-filter-rows-and-add-a-column">3. Filter rows and add a column</a></li><li><a href="#4-compute">4. Compute</a></li><li><a href="#5-group-and-aggregate">5. Group and aggregate</a></li><li><a href="#6-join-two-files">6. Join two files</a></li><li><a href="#7-put-it-together-with--">7. Put it together with <code>-></code></a></li><li><a href="#8-keep-a-small-result-in-memory">8. Keep a small result in memory</a></li></ul><li><a href="#column-types">Column types</a></li><li><a href="#empty-fields-and-values-that-fail-to-parse">Empty fields and values that fail to parse</a></li><li><a href="#next-steps">Next steps</a></li></ul>
+        </details>
+        
+
+        <div class="doc-body">
+            <h2 id="install">Install</h2><p>Clojask is on <a href="https://clojars.org/com.github.clojure-finance/clojask">Clojars</a>. It needs <strong>JDK 17 or newer</strong> and runs on <strong>macOS and Linux</strong>.</p><p>deps.edn:</p><pre><code class="clojure">com.github.clojure-finance/clojask {:mvn/version "2.1.2"}
+</code></pre><p>Leiningen (<code>project.clj</code>):</p><pre><code class="clojure">[com.github.clojure-finance/clojask "2.1.2"]
+</code></pre><p>This also brings in <a href="https://github.com/clojure-finance/clojask-io">clojask-io</a>, which reads and writes the files. In your code, require the API under a short alias:</p><pre><code class="clojure">(require '[clojask.dataframe :as ck])
+</code></pre><blockquote><p><strong>Tip</strong> Every example on this site uses the alias <code>ck</code>. The function names (<code>filter</code>, <code>group-by</code>, <code>sort</code>) clash with <code>clojure.core</code>, so don't <code>:refer :all</code> them.</p></blockquote><h2 id="a-ten-minute-tour">A ten-minute tour</h2><p>The tour uses a small file, <code>employees.csv</code>, from the <a href="https://github.com/clojure-finance/clojask-examples/blob/main/resources/employees.csv">examples repository</a>. Save it next to your project to follow along:</p><pre><code class="text">Employee,EmployeeName,Department,Salary,UpdateDate
+1,Alice,11,300,2020/12/12
+2,Bob,11,600,2020/12/01
+3,Carla,12,900,2020/12/03
+4,Daniel,12,1000,2020/12/05
+5,Evelyn,13,800,2020/12/03
+6,Ferdinand,21,700,2020/12/05
+7,Amy,11,50000,2020/11/26
+</code></pre><p>Seven rows fit in memory, of course. The point is that the same code works unchanged on a file with a billion rows. All outputs below come from running the code with Clojask 2.1.2.</p><h3 id="1-create-a-dataframe">1. Create a dataframe</h3><pre><code class="clojure">(def df (ck/dataframe "employees.csv"))
+</code></pre><p>This doesn't load the file. A Clojask dataframe is a <em>description</em> of work to do on a file: where the data comes from, and (soon) what to do with it. To look at the data, print a preview:</p><pre><code class="clojure">(ck/print-df df)
+</code></pre><pre><code class="text">|         Employee |     EmployeeName |       Department |           Salary |       UpdateDate |
+|------------------+------------------+------------------+------------------+------------------|
+| java.lang.String | java.lang.String | java.lang.String | java.lang.String | java.lang.String |
+|                1 |            Alice |               11 |              300 |       2020/12/12 |
+|                2 |              Bob |               11 |              600 |       2020/12/01 |
+|                3 |            Carla |               12 |              900 |       2020/12/03 |
+|                4 |           Daniel |               12 |             1000 |       2020/12/05 |
+|                5 |           Evelyn |               13 |              800 |       2020/12/03 |
+|                6 |        Ferdinand |               21 |              700 |       2020/12/05 |
+|                7 |              Amy |               11 |            50000 |       2020/11/26 |
+</code></pre><p><code>print-df</code> reads only the first 1000 rows (you can change that) and shows the first 10 results. The third line is each column's type.</p><h3 id="2-set-column-types">2. Set column types</h3><p>Every column starts out as a string. Before you can compare or add salaries, tell Clojask to read the column as an integer:</p><pre><code class="clojure">(ck/set-type df "Salary" "int")
+(ck/print-df df 1000 3)   ; sample 1000 rows, show 3
+</code></pre><pre><code class="text">|         Employee |     EmployeeName |       Department |            Salary |       UpdateDate |
+|------------------+------------------+------------------+-------------------+------------------|
+| java.lang.String | java.lang.String | java.lang.String | java.lang.Integer | java.lang.String |
+|                1 |            Alice |               11 |               300 |       2020/12/12 |
+|                2 |              Bob |               11 |               600 |       2020/12/01 |
+|                3 |            Carla |               12 |               900 |       2020/12/03 |
+|              ... |              ... |              ... |               ... |              ... |
+</code></pre><p>The other types are <code>double</code>, <code>date</code> and <code>datetime</code>; see <a href="#column-types">Column types</a> below.</p><h3 id="3-filter-rows-and-add-a-column">3. Filter rows and add a column</h3><p>Amy's salary of 50000 looks like a typo, so drop salaries of 10000 or more. Then add a <code>Bonus</code> column worth a tenth of the salary:</p><pre><code class="clojure">(ck/filter df "Salary" (fn [salary] (&lt; salary 10000)))
+(ck/operate df (fn [salary] (quot salary 10)) "Salary" "Bonus")
+(ck/print-df df)
+</code></pre><pre><code class="text">|         Employee |     EmployeeName |       Department |            Salary |       UpdateDate |          Bonus |
+|------------------+------------------+------------------+-------------------+------------------+----------------|
+| java.lang.String | java.lang.String | java.lang.String | java.lang.Integer | java.lang.String | java.lang.Long |
+|                1 |            Alice |               11 |               300 |       2020/12/12 |             30 |
+|                2 |              Bob |               11 |               600 |       2020/12/01 |             60 |
+|                3 |            Carla |               12 |               900 |       2020/12/03 |             90 |
+|                4 |           Daniel |               12 |              1000 |       2020/12/05 |            100 |
+|                5 |           Evelyn |               13 |               800 |       2020/12/03 |             80 |
+|                6 |        Ferdinand |               21 |               700 |       2020/12/05 |             70 |
+</code></pre><p>Your functions receive one value per column you name, already converted to the column's type. <code>filter</code> keeps the rows where the function returns true. <code>operate</code> with a new column name (<code>"Bonus"</code>) adds a column; without one, it changes the column in place.</p><blockquote><p><strong>Note</strong> <code>ck/filter</code> and the other functions change <code>df</code> and return it. You don't need to re-<code>def</code> anything, and you can chain the calls with <code>-&gt;</code> (step 7).</p></blockquote><h3 id="4-compute">4. Compute</h3><p>Nothing has touched the file yet, apart from the previews. <code>compute</code> runs everything in one pass and writes the result:</p><pre><code class="clojure">(ck/compute df 4 "with-bonus.csv")   ; 4 worker threads
+</code></pre><p>with-bonus.csv:</p><pre><code class="text">Employee,EmployeeName,Department,Salary,UpdateDate,Bonus
+1,Alice,11,300,2020/12/12,30
+2,Bob,11,600,2020/12/01,60
+3,Carla,12,900,2020/12/03,90
+4,Daniel,12,1000,2020/12/05,100
+5,Evelyn,13,800,2020/12/03,80
+6,Ferdinand,21,700,2020/12/05,70
+</code></pre><p>One thread reads the input in batches, four worker threads filter and transform them, and your thread writes the results in the original row order. Memory use stays flat however large the file is. <code>compute</code> returns a new dataframe that reads <code>with-bonus.csv</code>, so you can keep working on the result.</p><h3 id="5-group-and-aggregate">5. Group and aggregate</h3><p>How many people work in each department, and what does each department pay in total? Start a new dataframe, group by <code>Department</code>, and add one aggregation per output column:</p><pre><code class="clojure">(require '[clojask.api.gb-aggregate :as gb-agg])
+
+(def by-dept (ck/dataframe "employees.csv"))
+(ck/set-type by-dept "Salary" "int")
+(ck/filter by-dept "Salary" (fn [salary] (&lt; salary 10000)))
+(ck/group-by by-dept "Department")
+(ck/aggregate by-dept gb-agg/count "Employee" "headcount")
+(ck/aggregate by-dept gb-agg/sum "Salary" "total-salary")
+(ck/compute by-dept 4 "by-dept.csv")
+</code></pre><p>by-dept.csv:</p><pre><code class="text">Department,headcount,total-salary
+11,2,900
+13,1,800
+12,2,1900
+21,1,700
+</code></pre><p>Groups come out in the order Clojask stores them, not sorted. <code>clojask.api.gb-aggregate</code> has <code>count</code>, <code>sum</code>, <code>mean</code>, <code>median</code>, <code>sd</code>, <code>min</code>, <code>max</code> and more, and any function of a collection works too; see <a href="/clojask-website/posts-output/aggregate-function/">Aggregation Functions</a>.</p><h3 id="6-join-two-files">6. Join two files</h3><p>A second file, <code>employees-workleave.csv</code>, holds days of leave per employee. A left join keeps every employee and adds the leave where there is a match:</p><pre><code class="clojure">(def staff (ck/dataframe "employees.csv"))
+(def leave (ck/dataframe "employees-workleave.csv"))
+(def joined (ck/left-join staff leave "Employee" "Employee"))
+(ck/compute joined 4 "staff-leave.csv"
+            :select ["1_EmployeeName" "1_Department" "2_WorkLeave"])
+</code></pre><p>staff-leave.csv:</p><pre><code class="text">1_EmployeeName,1_Department,2_WorkLeave
+Alice,11,20
+Bob,11,15
+Carla,12,5
+Daniel,12,
+Evelyn,13,
+Ferdinand,21,
+Amy,11,30
+</code></pre><p>The columns get the prefixes <code>1_</code> (left) and <code>2_</code> (right) so their names stay unique; <code>:col-prefix</code> changes them. A joined dataframe can only be computed or previewed: to filter or group the result, compute it first and start a new dataframe from the output.</p><h3 id="7-put-it-together-with--">7. Put it together with <code>-&gt;</code></h3><p>Every function returns the dataframe, so a whole job reads as one pipeline:</p><pre><code class="clojure">(-&gt; (ck/dataframe "employees.csv")
+    (ck/set-type "Salary" "int")
+    (ck/filter "Department" (fn [dept] (= dept "11")))
+    (ck/operate (fn [salary] (* salary 2)) "Salary")
+    (ck/compute 4 "dept-11.csv" :select ["EmployeeName" "Salary"]))
+</code></pre><p>dept-11.csv:</p><pre><code class="text">EmployeeName,Salary
+Alice,600
+Bob,1200
+Amy,100000
+</code></pre><h3 id="8-keep-a-small-result-in-memory">8. Keep a small result in memory</h3><p>When the result is small, pass <code>nil</code> as the output path and <code>compute</code> returns the rows (header first) instead of writing a file:</p><pre><code class="clojure">(def small (ck/dataframe "employees.csv"))
+(ck/filter small "Department" (fn [dept] (= dept "12")))
+(ck/compute small 2 nil :select ["EmployeeName" "Salary"])
+;; =&gt; [["EmployeeName" "Salary"] ["Carla" "900"] ["Daniel" "1000"]]
+</code></pre><p>That's the whole workflow. <a href="/clojask-website/posts-output/concepts/">Core Concepts</a> explains what happens under the hood and the rules that follow from it, and the <a href="/clojask-website/posts-output/cheat-sheet/">Cheat Sheet</a> lists every function on one page.</p><h2 id="column-types">Column types</h2><p><code>set-type</code> takes one of these type names:</p><table><thead><tr><th>Type</th><th>Java class</th><th>Example</th></tr></thead><tbody><tr><td><code>string</code></td><td><code>java.lang.String</code></td><td>The default for every column (except Excel input, where cells keep their types)</td></tr><tr><td><code>int</code></td><td><code>java.lang.Integer</code></td><td><code>(ck/set-type df "Salary" "int")</code></td></tr><tr><td><code>double</code></td><td><code>java.lang.Double</code></td><td>Accepts floats and integers: <code>(ck/set-type df "Price" "double")</code></td></tr><tr><td><code>date</code></td><td><code>java.util.Date</code></td><td>A date without a time. Default pattern <code>yyyy-MM-dd</code>; for <code>2020/11/12</code> use <code>"date:yyyy/MM/dd"</code></td></tr><tr><td><code>datetime</code></td><td><code>java.util.Date</code></td><td>A date and time. Give a pattern with the time fields, such as <code>"datetime:yyyy/MM/dd HH:mm:ss"</code></td></tr></tbody></table><p>The patterns are <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/text/SimpleDateFormat.html"><code>java.text.SimpleDateFormat</code></a> patterns. On output, a typed value is written back in its original format: a <code>date:yyyy/MM/dd</code> column comes out as <code>2020/12/12</code>, not as a Java date.</p><p>For anything else, give the column your own parser (string in, value out) and, if needed, a formatter (value in, string out):</p><pre><code class="clojure">;; parse "12.5%" as 0.125, and write it back as a percentage
+(ck/set-parser df "Rate" (fn [s] (/ (Double/parseDouble (subs s 0 (dec (count s)))) 100)))
+(ck/set-formatter df "Rate" (fn [x] (str (* x 100) "%")))
+</code></pre><h2 id="empty-fields-and-values-that-fail-to-parse">Empty fields and values that fail to parse</h2><p>Real files have gaps. Take this version of the employee data:</p><table><thead><tr><th>Employee</th><th>EmployeeName</th><th>Department</th><th>Salary</th></tr></thead><tbody><tr><td>1</td><td>Alice</td><td>11</td><td>300</td></tr><tr><td>2</td><td>Bob</td><td>11</td><td>N/A</td></tr><tr><td>3</td><td>Carla</td><td> </td><td>900</td></tr></tbody></table><pre><code class="clojure">(def df (ck/dataframe "Employees.csv"))
 (ck/set-type df "Salary" "int")
-</code></pre><p>A value that the type's parser cannot read, such as Bob's <code>N/A</code>, becomes <code>nil</code>, and so does an empty field in a typed column. In the output, <code>nil</code> is written as an empty field. If you need different handling, give the column your own parser instead:</p><pre><code class="clojure">;; read "N/A" as -1
-(ck/set-parser df "Salary" (fn [s] (if (= s "N/A") -1 (Integer/parseInt s))))
-</code></pre><p>An empty field in a column that keeps the default <code>string</code> type, such as Carla's <strong>Department</strong>, stays the empty string <code>""</code>.</p><p>Your operation functions therefore have to accept <code>nil</code> (or <code>""</code>) inputs. By default, an operation that throws an exception on a row writes <code>nil</code> to that field and <code>compute</code> carries on:</p><pre><code class="clojure">(ck/operate df (fn [salary] (* salary 2)) "Salary")
+</code></pre><ul><li>A value that the type's parser cannot read, such as Bob's <code>N/A</code>, becomes <code>nil</code>. So does an empty field in a typed column. In the output, <code>nil</code> is written as an empty field.</li><li>An empty field in a column that keeps the default <code>string</code> type, such as Carla's <strong>Department</strong>, stays the empty string <code>""</code>.</li></ul><p>Your functions therefore have to cope with <code>nil</code> (or <code>""</code>). If they don't, Clojask's default is forgiving: an operation that throws on a row writes <code>nil</code> to that field, and <code>compute</code> carries on.</p><pre><code class="clojure">(ck/operate df (fn [salary] (* salary 2)) "Salary")
 (ck/compute df 8 "output.csv")
 ;; Bob's Salary is empty in output.csv
-</code></pre><p>With <code>:exception true</code>, the first exception stops <code>compute</code> instead, which helps with debugging:</p><pre><code class="clojure">(ck/compute df 8 "output.csv" :exception true)
-</code></pre><p>Note that each operation is also tried on a sample from the start of the dataset when you add it. If it throws there, the call itself fails (unless debug mode is on, see <code>enable-debug</code> in the <a href="/clojask-website/posts-output/API/">API docs</a>).</p><h2 id="system-of-operations">System of operations</h2><p>Clojask has two kinds of operations: replaceable and incremental.</p><h3 id="replaceable-operations">Replaceable operations</h3><p>Replaceable operations include</p><ul><li>set-type</li><li>set-parser</li><li>set-formatter</li><li>group-by</li></ul><p>Calling a replaceable operation again on the same column (or, for <code>group-by</code>, on the same dataframe) <strong>replaces</strong> the previous call.</p><pre><code class="clojure">(def x (dataframe "path/to/a.csv"))
-;; defines dataframe from csv file "a.csv"
-
-(set-type x "employee_no" "int")
-;; makes column "employee_no" integers
-
-(set-type x "employee_no" "string")
-;; makes column "employee_no" strings
-</code></pre><p>In the case above, Clojask will ultimately interpret the "employee_no" column as a <strong>string</strong>, rather than an <strong>integer</strong>.</p><h3 id="incremental-operations">Incremental operations</h3><p>Incremental operations include</p><ul><li>filter</li><li>operate</li><li>aggregate</li></ul><p>Incremental operations build on top of one another: each call is <strong>added</strong> to the ones before it.</p><pre><code class="clojure">(filter x "Salary" (fn [salary] (&lt;= salary 800)))
-;; this statement deletes all the rows that have a salary larger than 800
-
-(filter x "Department" (fn [dept] (= dept "computer science")))
-;; this statement deletes all the rows that contain people not in the computer science department
-
-;; the two filters above together are equivalent to
-(filter x ["Salary" "Department"] (fn [salary dept] (and (&lt;= salary 800) (= dept "computer science"))))
-;; keeps only people from computer science department with salary not larger than 800
-</code></pre>
-</div>
-<!-- 
-<div id="post-tags">
-    <br/>
-    <b>Tags: </b>
-    
-    <a href="/clojask-website/tags-output/Start/">Start</a>
-    
-</div>
- -->
-<!-- <br/> -->
-
-
-    <!-- 
-    <div id="prev-next">
-    
-    <a class="prev" href="/clojask-website/posts-output/extensions/"><svg class="icon icon-circle-left"><use xlink:href="/clojask-website/img/icons.svg#icon-circle-left"></use></svg><div class="nav-text">Extensions</div></a>
-    
-    
-    <a class="next" href="/clojask-website/posts-output/examples/"><div class="nav-text"">Examples</div><svg class="icon icon-circle-right"><use xlink:href="/clojask-website/img/icons.svg#icon-circle-right"></use></svg></a>
-    
-</div>
-
-     -->
-
-    
-
-
-</div>
-
-            <!-- <hr/> -->
-            <br/>
-            <div id="footercont">
-                Copyright &copy; 2026 Clojask
-                <br>Powered by <a href="http://cryogenweb.org">Cryogen</a>
-            </div>
-        </article>
-
-        <script src="/clojask-website/js/highlight.pack.js" type="application/javascript"></script>
-        <script>hljs.initHighlightingOnLoad();</script>
-        <script src="/clojask-website/js.dropdown.js" type="application/javascript"></script> 
-        
+</code></pre><p>While developing, pass <code>:exception true</code> so that the first exception stops <code>compute</code> and you see it:</p><pre><code class="clojure">(ck/compute df 8 "output.csv" :exception true)
+</code></pre><p>If you need different handling, give the column your own parser:</p><pre><code class="clojure">;; read "N/A" as -1
+(ck/set-parser df "Salary" (fn [s] (if (= s "N/A") -1 (Integer/parseInt s))))
+</code></pre><blockquote><p><strong>Note</strong> Each operation is also tried on a sample from the start of the file as soon as you add it, so a function that cannot work at all fails right away rather than halfway through a long <code>compute</code>. To turn that check off, call <code>(ck/enable-debug)</code>.</p></blockquote><h2 id="next-steps">Next steps</h2><ul><li><a href="/clojask-website/posts-output/concepts/">Core Concepts</a>: how a <code>compute</code> runs, and what that means for your code.</li><li><a href="/clojask-website/posts-output/cheat-sheet/">Cheat Sheet</a>: which function to reach for.</li><li><a href="/clojask-website/posts-output/API/">API Docs</a>: every argument and option.</li><li><a href="/clojask-website/posts-output/examples/">Examples</a>: complete programs, with their input and output files.</li></ul>
+        </div>
 
         
+        <nav class="pager" aria-label="Previous and next page">
+            
+            <a class="pager-link prev" href="/clojask-website/">
+                <span class="pager-label">&larr; Previous</span>
+                <span class="pager-title">Home</span>
+            </a>
+            
+            
+            <a class="pager-link next" href="/clojask-website/posts-output/concepts/">
+                <span class="pager-label">Next &rarr;</span>
+                <span class="pager-title">Core Concepts</span>
+            </a>
+            
+        </nav>
         
-    </body>
+    </article>
+
+    
+    <aside class="toc-side" aria-label="On this page">
+        <div class="toc-title">On this page</div>
+        <ul class="toc"><li><a href="#install">Install</a></li><li><a href="#a-ten-minute-tour">A ten-minute tour</a></li><ul><li><a href="#1-create-a-dataframe">1. Create a dataframe</a></li><li><a href="#2-set-column-types">2. Set column types</a></li><li><a href="#3-filter-rows-and-add-a-column">3. Filter rows and add a column</a></li><li><a href="#4-compute">4. Compute</a></li><li><a href="#5-group-and-aggregate">5. Group and aggregate</a></li><li><a href="#6-join-two-files">6. Join two files</a></li><li><a href="#7-put-it-together-with--">7. Put it together with <code>-></code></a></li><li><a href="#8-keep-a-small-result-in-memory">8. Keep a small result in memory</a></li></ul><li><a href="#column-types">Column types</a></li><li><a href="#empty-fields-and-values-that-fail-to-parse">Empty fields and values that fail to parse</a></li><li><a href="#next-steps">Next steps</a></li></ul>
+    </aside>
+    
+</div>
+
+
+
+            <footer class="site-footer">
+                <p>
+                    Clojask is open source (MIT) and developed at
+                    <a href="https://www.hkubs.hku.hk/">HKU Business School</a>.
+                    Found a bug? <a href="https://github.com/clojure-finance/clojask/issues">Open an issue</a>.
+                </p>
+                <p class="muted">
+                    &copy; 2026 Clojask contributors · Built with <a href="http://cryogenweb.org">Cryogen</a>
+                    · <a href="https://github.com/clojure-finance/clojask-website/blob/main/content/md/posts/get-started.md">Edit this page</a>
+                </p>
+            </footer>
+        </main>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/clojure.min.js"></script>
+    <script src="/clojask-website/js/site.js" type="application/javascript"></script>
+</body>
 </html>

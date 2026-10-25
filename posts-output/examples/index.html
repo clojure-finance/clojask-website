@@ -1,117 +1,149 @@
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <meta charset="utf-8">
-        <title>Clojask: Examples</title>
-        
-<meta name="keywords" content="Start">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Examples · Clojask</title>
+    
+<meta name="description" content="Each example below is a complete program from the
+clojask-examples repository, shown without its ns form. The input
+and output files are included, so you can follow along without running
+anything.">
+<meta property="og:description" content="Each example below is a complete program from the
+clojask-examples repository, shown without its ns form. The input
+and output files are included, so you can follow along without running
+anything.">
+<meta property="og:url" content="https://clojure-finance.github.io/clojask-website/clojask-website/posts-output/examples/">
+<meta property="og:title" content="Examples · Clojask">
+<meta property="og:type" content="article">
 
-<meta name="description" content="Examples and their corresponding source files have been moved to a GitHub Repository for ease of useAll of the following operations can be executed on the files provided on the Clojask Examples GitHub Repository">
+    <script>
+        // Apply the saved colour theme before the page paints.
+        try {
+            var t = localStorage.getItem("theme");
+            if (t === "light" || t === "dark") document.documentElement.setAttribute("data-theme", t);
+        } catch (e) {}
+    </script>
+    <link rel="icon" type="image/svg+xml" href="/clojask-website/img/logo.svg">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+    <link href="/clojask-website/css/site.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+    <a class="skip-link" href="#content">Skip to content</a>
 
-<meta property="og:description" content="Examples and their corresponding source files have been moved to a GitHub Repository for ease of useAll of the following operations can be executed on the files provided on the Clojask Examples GitHub Repository">
+    <header class="topbar">
+        <a class="brand" href="/clojask-website/">
+            <img class="brand-logo" src="/clojask-website/img/logo.svg" alt="" width="28" height="28">
+            <span class="brand-name">Clojask</span>
+        </a>
+        <button class="menu-toggle" type="button" aria-controls="sidebar" aria-expanded="false">
+            <svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true"><path d="M3 6h18M3 12h18M3 18h18" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+            <span class="visually-hidden">Menu</span>
+        </button>
+    </header>
 
-<meta property="og:url" content="https://clojure-finance.github.io/clojask-website/clojask-website/posts-output/examples/" />
-<meta property="og:title" content="Examples" />
-<meta property="og:type" content="article" />
+    <div class="layout">
+        <aside class="sidebar" id="sidebar">
+            <a class="brand brand-desktop" href="/clojask-website/">
+                <img class="brand-logo" src="/clojask-website/img/logo.svg" alt="" width="32" height="32">
+                <span class="brand-name">Clojask</span>
+                <span class="version" title="Latest release">v2.1.2</span>
+            </a>
 
-        <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
-        
-        <link rel="shortcut icon" href="images/ico/favicon.png">
-        <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700|Oxygen:300,400,700|Inconsolata" rel="stylesheet">
-        <link rel="preconnect" href="https://fonts.googleapis.com">
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-        <link href="https://fonts.googleapis.com/css2?family=Raleway:wght@300&display=swap" rel="stylesheet">
-        <link href="/clojask-website/css/normalize.css" rel="stylesheet" type="text/css" />
-        <link href="/clojask-website/css/blog.css" rel="stylesheet" type="text/css" />
-        <link href="/clojask-website/css/lotus-highlightjs.min.css" rel="stylesheet" type="text/css" />
-        <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.7.0/styles/tomorrow-night-eighties.min.css">
-    </head>
-    <body>
-        <aside id="sidebar">
-            <div id="logo">
-                <a title="Clojask" href="/clojask-website/">
-                    <!-- <img class="icon" src="/clojask-website/img/white-lotus.svg"> -->
-                    <div class="title-text text desktop-and-tablet-only">
-                        <span class="desktop-and-tablet-only fa fa-cubes"></span>
-                        <br>
-                        <br>
-                        Clojask
-                    </div>
-                    <div class="title-text text mobile-only">Clojask</div>
-                </a>
-            </div> 
-
-            <nav id="sidebar-links">
-                <nav id="menucont">
-                    <input type="checkbox" id="menu-checkbox" class="menu-checkbox">
-                    <label for="menu-checkbox" class="menutitle">
-                        <svg class="icon icon-menu" aria-hidden="true"><use xlink:href="/clojask-website/img/icons.svg#icon-menu"></use></svg><span class="menu-text">Menu</span>
-                    </label>
-                    <ul class="menu">
-                        <li ><a title="Home" href="/clojask-website/"><div class="menu-item-text">Home</div></a></li>
-                        <!-- 
-                        <li ><a title="Tags" href="/clojask-website/tags/"><div class="menu-item-text">Tags</div></a></li>
-                         -->
-                        
-                        <li >
-                            <a href="/clojask-website/pages-output/about/"><div class="menu-item-text">About</div></a>
-                        </li>
-                        
-                         <!-- custom navbar item -->
-                        <li>
-                            <a title="Get Started" href="/clojask-website/posts-output/get-started/"><div class="menu-item-text">Getting Started</div></a>
-                        </li>
-                        <li>
-                            <a title="API Docs" href="/clojask-website/posts-output/API/"><div class="menu-item-text">API Docs</div></a>
-                        </li>
-                        <li >
-                            <a title="Examples" href="/clojask-website/posts-output/examples/"><div class="menu-item-text">Examples</div></a>
-                        </li>
-                        <li >
-                            <a title="Extensions" href="/clojask-website/posts-output/extensions/"><div class="menu-item-text">Extensions</div></a>
-                        </li>
-                        
-<!-- 
-                        <button class="dropdown">Dropdown
-                            <i class="fa fa-caret-down"></i>
-                        </button>
-                        <div class="dropdown-container">
-                            <a href="#">Link 1</a>
-                            <a href="##">Link 2</a>
-                            <a href="###">Link 3</a>
-                        </div>
-                        </a> -->
-
-                        <li ><a title="Archives" href="/clojask-website/archives/"><div class="menu-item-text">Archives</div></a></li>
-                        <!-- <li><a title="RSS" href="/clojask-website/feed.xml"><div class="menu-item-text">RSS</div></a></li> -->
-                    </ul>
-                </nav>
-
-                <nav id="socialmedia">
+            <nav class="nav" aria-label="Documentation">
+                
+                <div class="nav-section">
+                    <div class="nav-heading">Start here</div>
                     <ul>
-                        <li><a title="GitHub" href="https://github.com/clojure-finance/clojask" rel="external"><svg class="icon icon-github-circled"><use xlink:href="/clojask-website/img/icons.svg#icon-github-circled"></use></svg></a></li>
+                        
+                        <li><a href="/clojask-website/">Home</a></li>
+                        
+                        <li><a href="/clojask-website/posts-output/get-started/">Get Started</a></li>
+                        
+                        <li><a href="/clojask-website/posts-output/concepts/">Core Concepts</a></li>
+                        
+                        <li><a href="/clojask-website/posts-output/cheat-sheet/">Cheat Sheet</a></li>
+                        
                     </ul>
-                </nav>
+                </div>
+                
+                <div class="nav-section">
+                    <div class="nav-heading">Reference</div>
+                    <ul>
+                        
+                        <li><a href="/clojask-website/posts-output/API/">API Docs</a></li>
+                        
+                        <li><a href="/clojask-website/posts-output/aggregate-function/">Aggregation Functions</a></li>
+                        
+                        <li><a href="/clojask-website/posts-output/extensions/">Extensions</a></li>
+                        
+                    </ul>
+                </div>
+                
+                <div class="nav-section">
+                    <div class="nav-heading">Learn more</div>
+                    <ul>
+                        
+                        <li><a href="/clojask-website/posts-output/examples/" class="active" aria-current="page">Examples</a></li>
+                        
+                        <li><a href="/clojask-website/pages-output/about/">About &amp; Benchmarks</a></li>
+                        
+                    </ul>
+                </div>
+                
             </nav>
-        </aside>
 
-        <article id="main">
+            <div class="sidebar-foot">
+                <a class="icon-link" href="https://github.com/clojure-finance/clojask" title="Clojask on GitHub">
+                    <svg viewBox="0 0 16 16" width="18" height="18" aria-hidden="true"><path fill="currentColor" d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/></svg>
+                    GitHub
+                </a>
+                <a class="icon-link" href="https://clojars.org/com.github.clojure-finance/clojask" title="Clojask on Clojars">
+                    <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path d="M12 2 3 7v10l9 5 9-5V7l-9-5Zm0 2.3L18.8 8 12 11.7 5.2 8 12 4.3ZM5 9.7l6 3.3v6.7l-6-3.3V9.7Zm8 10V13l6-3.3v6.7l-6 3.3Z" fill="currentColor"/></svg>
+                    Clojars
+                </a>
+                <button class="theme-toggle" type="button" title="Switch between light and dark mode">
+                    <svg class="icon-sun" viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><circle cx="12" cy="12" r="4.5" fill="none" stroke="currentColor" stroke-width="2"/><path d="M12 1.5v3M12 19.5v3M1.5 12h3M19.5 12h3M4.6 4.6l2.1 2.1M17.3 17.3l2.1 2.1M4.6 19.4l2.1-2.1M17.3 6.7l2.1-2.1" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+                    <svg class="icon-moon" viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path d="M20 14.5A8.5 8.5 0 0 1 9.5 4a8.5 8.5 0 1 0 10.5 10.5Z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></svg>
+                    <span class="visually-hidden">Toggle dark mode</span>
+                </button>
+            </div>
+        </aside>
+        <div class="scrim" hidden></div>
+
+        <main class="main" id="content">
             
-<div id="post">
-    <div class="post-header">
-    <div id="post-meta">
-        <h1>Examples</h1>
-        <div class="byline">
-            <!-- <span class="date">September 29, 2021</span> -->
-            
-        </div>
-    </div>
-</div>
-<div>
-    <ol class="toc"><li><a href="#basic-tutorial">Basic Tutorial</a></li><li><a href="#groupby-aggregation">Groupby Aggregation</a></li><li><a href="#ordinary-join">Ordinary Join</a></li><li><a href="#store-results-in-memory">Store Results in Memory</a></li><li><a href="#connection-with-techmldataset">Connection with <code>tech.ml.dataset</code></a></li><li><a href="#rolling-join">Rolling Join</a></li><li><a href="#outer-join">Outer Join</a></li><li><a href="#enhanced-reshape">Enhanced Reshape</a></li><li><a href="#timezone">Timezone</a></li></ol>
-    <p>Examples and their corresponding source files have been moved to a <a href="https://github.com/clojure-finance/clojask-examples">GitHub Repository</a> for ease of use</p><p>All of the following operations can be executed on the files provided on the Clojask Examples <a href="https://github.com/clojure-finance/clojask-examples">GitHub Repository</a></p><hr /><h4 id="basic-tutorial">Basic Tutorial</h4><p>An <a href="https://github.com/clojure-finance/clojask-examples/blob/main/src/clojask_examples/basic_tutorial.clj">example</a> of basic data manipulation operations performed through Clojask</p><pre><code class="clojure">
-(defn -main
+
+<div class="doc-grid has-toc">
+    <article class="doc">
+        <header class="doc-header">
+            <h1>Examples</h1>
+            <p class="lede">Complete programs from clojask-examples, with the files they read and write.</p>
+        </header>
+
+        
+        <details class="toc-inline">
+            <summary>On this page</summary>
+            <ul class="toc"><li><a href="#basic-tutorial">Basic tutorial</a></li><li><a href="#group-by-and-aggregate">Group-by and aggregate</a></li><li><a href="#inner-left-and-right-join">Inner, left and right join</a></li><li><a href="#outer-join">Outer join</a></li><li><a href="#rolling-join">Rolling join</a></li><li><a href="#results-in-memory-excel-in-and-out">Results in memory, Excel in and out</a></li><li><a href="#converting-to-and-from-techmldataset">Converting to and from tech.ml.dataset</a></li><li><a href="#reshaping-melt-dcast-rbind">Reshaping: melt, dcast, rbind</a></li><li><a href="#time-zones">Time zones</a></li></ul>
+        </details>
+        
+
+        <div class="doc-body">
+            <!-- Generated by `lein update-examples` from clojask-examples; edit
+     src/cryogen/update.clj, not this file. --><p>Each example below is a complete program from the
+<a href="https://github.com/clojure-finance/clojask-examples">clojask-examples</a> repository, shown without its <code>ns</code> form. The input
+and output files are included, so you can follow along without running
+anything.</p><blockquote><p><strong>Run them yourself.</strong> Clone the repository, set <code>:main</code> in <code>project.clj</code>
+to the example you want (for instance <code>clojask-examples.basic-tutorial/-main</code>),
+and run <code>lein run</code>. The results land in <code>outputs/</code>. <code>lein test</code> runs every
+example and checks its outputs.</p></blockquote><pre><code class="bash">git clone https://github.com/clojure-finance/clojask-examples
+cd clojask-examples
+lein run
+</code></pre><p>All examples use <code>ck</code> for <code>clojask.dataframe</code>. The other aliases they use
+are <code>gb-agg</code> (<code>clojask.api.gb-aggregate</code>), <code>agg</code> (<code>clojask.api.aggregate</code>),
+<code>input</code> (<code>clojask-io.input</code>) and <code>ds</code> (<code>tech.ml.dataset</code>).</p><h2 id="basic-tutorial">Basic tutorial</h2><p>Set a column type, filter rows and update a column, then write the result. The same steps also run on a TSV file, written with the <code>-&gt;</code> macro, and through clojask-io's <code>read-file</code>.</p><p>Source: <a href="https://github.com/clojure-finance/clojask-examples/blob/main/src/clojask_examples/basic_tutorial.clj"><code>basic_tutorial.clj</code></a> · run with <code>:main clojask-examples.basic-tutorial/-main</code></p><pre><code class="clojure">(defn -main
   []
   ;; The simple way
   (def df (ck/dataframe "resources/employees.csv"))
@@ -134,8 +166,30 @@
       (ck/set-type "Weight(kg)" "double")
       (ck/filter "Weight(kg)" (fn [weight] (&lt;= weight 5)))
       (ck/compute 8 "outputs/basic4.tsv")))
-</code></pre><hr /><h4 id="groupby-aggregation">Groupby Aggregation</h4><p>An <a href="https://github.com/clojure-finance/clojask-examples/blob/main/src/clojask_examples/groupby_aggregate.clj">example</a> of Group-by, then aggregate v.s. direct aggregate</p><pre><code class="clojure">
-(defn -main
+</code></pre><details><summary>Input <code>employees.csv</code></summary><pre><code class="text">Employee,EmployeeName,Department,Salary,UpdateDate
+1,Alice,11,300,2020/12/12
+2,Bob,11,600,2020/12/01
+3,Carla,12,900,2020/12/03
+4,Daniel,12,1000,2020/12/05
+5,Evelyn,13,800,2020/12/03
+6,Ferdinand,21,700,2020/12/05
+7,Amy,11,50000,2020/11/26
+</code></pre></details><details><summary>Input <code>cats.tsv</code></summary><pre><code class="text">Cat's name	Weight(kg)
+Lily	2.3
+George	7
+Meow	3.2
+</code></pre></details><details><summary>Output <code>basic.csv</code></summary><pre><code class="text">Employee,EmployeeName,Department,Salary,UpdateDate
+1,Alice,11,360.0,2020/12/12
+2,Bob,11,720.0,2020/12/01
+5,Evelyn,13,960.0,2020/12/03
+6,Ferdinand,21,840.0,2020/12/05
+</code></pre></details><details><summary>Output <code>basic3.csv</code></summary><pre><code class="text">Cat's name,Weight(kg)
+Lily,2.3
+Meow,3.2
+</code></pre></details><details><summary>Output <code>basic4.tsv</code></summary><pre><code class="text">Cat's name	Weight(kg)
+Lily	2.3
+Meow	3.2
+</code></pre></details><h2 id="group-by-and-aggregate">Group-by and aggregate</h2><p>Aggregate within each department after <code>group-by</code>, then aggregate the whole dataframe without grouping. Note the different function namespaces: <code>gb-agg</code> for groups, <code>agg</code> for the whole dataframe.</p><p>Source: <a href="https://github.com/clojure-finance/clojask-examples/blob/main/src/clojask_examples/groupby_aggregate.clj"><code>groupby_aggregate.clj</code></a> · run with <code>:main clojask-examples.groupby-aggregate/-main</code></p><pre><code class="clojure">(defn -main
   []
   ;; groupby aggregate
   (def df (ck/dataframe "resources/employees.csv"))
@@ -156,8 +210,22 @@
   (ck/aggregate df agg/max "UpdateDate")
   (ck/aggregate df agg/min "UpdateDate") ;; can aggregate on multiple columns
   (ck/compute df 8 "outputs/agg.csv"))
-</code></pre><hr /><h4 id="ordinary-join">Ordinary Join</h4><p>An <a href="https://github.com/clojure-finance/clojask-examples/blob/main/src/clojask_examples/ordinary_join.clj">example</a> of a basic join operation on Clojask</p><pre><code class="clojure">
-(defn -main
+</code></pre><details><summary>Input <code>employees.csv</code></summary><pre><code class="text">Employee,EmployeeName,Department,Salary,UpdateDate
+1,Alice,11,300,2020/12/12
+2,Bob,11,600,2020/12/01
+3,Carla,12,900,2020/12/03
+4,Daniel,12,1000,2020/12/05
+5,Evelyn,13,800,2020/12/03
+6,Ferdinand,21,700,2020/12/05
+7,Amy,11,50000,2020/11/26
+</code></pre></details><details><summary>Output <code>gb-agg.csv</code></summary><pre><code class="text">Department,max(UpdateDate),sum(Salary)
+12,2020/12/05,1900
+21,2020/12/05,700
+11,2020/12/12,50900
+13,2020/12/03,800
+</code></pre></details><details><summary>Output <code>agg.csv</code></summary><pre><code class="text">max(UpdateDate),min(UpdateDate)
+Sat Dec 12 00:00:00 HKT 2020,Thu Nov 26 00:00:00 HKT 2020
+</code></pre></details><h2 id="inner-left-and-right-join">Inner, left and right join</h2><p>Join the employee table with a table of leave days on the <code>Employee</code> column. Columns from the left dataframe get the prefix <code>1_</code>, those from the right <code>2_</code>.</p><p>Source: <a href="https://github.com/clojure-finance/clojask-examples/blob/main/src/clojask_examples/ordinary_join.clj"><code>ordinary_join.clj</code></a> · run with <code>:main clojask-examples.ordinary-join/-main</code></p><pre><code class="clojure">(defn -main
   []
   (def x (ck/dataframe "resources/employees.csv"))
   (def y (ck/dataframe "resources/employees-workleave.csv"))
@@ -168,8 +236,138 @@
   (ck/compute z 8 "outputs/inner-join.csv" :select ["1_Employee" "1_Salary" "2_WorkLeave"])
   (ck/compute (ck/left-join x y ["Employee"] ["Employee"]) 8 "outputs/left-join.csv" :exception false)
   (ck/compute (ck/right-join x y ["Employee"] ["Employee"]) 8 "outputs/right-join.csv" :exception false))
-</code></pre><hr /><h4 id="store-results-in-memory">Store Results in Memory</h4><p>An <a href="https://github.com/clojure-finance/clojask-examples/blob/main/src/clojask_examples/in_memory.clj">example</a> of storing Clojask output in memory, reading an Excel file with clojask-io's <code>read-excel</code>, and writing the result to an <code>.xlsx</code> file straight from <code>compute</code>.</p><pre><code class="clojure">
-(defn time-diff
+</code></pre><details><summary>Input <code>employees.csv</code></summary><pre><code class="text">Employee,EmployeeName,Department,Salary,UpdateDate
+1,Alice,11,300,2020/12/12
+2,Bob,11,600,2020/12/01
+3,Carla,12,900,2020/12/03
+4,Daniel,12,1000,2020/12/05
+5,Evelyn,13,800,2020/12/03
+6,Ferdinand,21,700,2020/12/05
+7,Amy,11,50000,2020/11/26
+</code></pre></details><details><summary>Input <code>employees-workleave.csv</code></summary><pre><code class="text">Employee,EmployeeName,WorkLeave,UpdateDate
+1,Alice,20,2020/12/10
+2,Bob,15,2020/12/05
+3,Carla,5,2020/12/03
+7,Angel,30,2020/12/11
+8,Leo,100,2020/03/23
+</code></pre></details><details><summary>Output <code>inner-join.csv</code></summary><pre><code class="text">1_Employee,1_Salary,2_WorkLeave
+1,300,20
+2,600,15
+3,900,5
+7,50000,30
+</code></pre></details><details><summary>Output <code>left-join.csv</code></summary><pre><code class="text">1_Employee,1_EmployeeName,1_Department,1_Salary,1_UpdateDate,2_Employee,2_EmployeeName,2_WorkLeave,2_UpdateDate
+1,Alice,11,300,2020/12/12,1,Alice,20,2020/12/10
+2,Bob,11,600,2020/12/01,2,Bob,15,2020/12/05
+3,Carla,12,900,2020/12/03,3,Carla,5,2020/12/03
+4,Daniel,12,1000,2020/12/05,,,,
+5,Evelyn,13,800,2020/12/03,,,,
+6,Ferdinand,21,700,2020/12/05,,,,
+7,Amy,11,50000,2020/11/26,7,Angel,30,2020/12/11
+</code></pre></details><details><summary>Output <code>right-join.csv</code></summary><pre><code class="text">2_Employee,2_EmployeeName,2_WorkLeave,2_UpdateDate,1_Employee,1_EmployeeName,1_Department,1_Salary,1_UpdateDate
+1,Alice,20,2020/12/10,1,Alice,11,300,2020/12/12
+2,Bob,15,2020/12/05,2,Bob,11,600,2020/12/01
+3,Carla,5,2020/12/03,3,Carla,12,900,2020/12/03
+7,Angel,30,2020/12/11,7,Amy,11,50000,2020/11/26
+8,Leo,100,2020/03/23,,,,,
+</code></pre></details><h2 id="outer-join">Outer join</h2><p>Keep the rows of both tables, matched or not. A row found in only one table has empty columns for the other.</p><p>Source: <a href="https://github.com/clojure-finance/clojask-examples/blob/main/src/clojask_examples/outer_join.clj"><code>outer_join.clj</code></a> · run with <code>:main clojask-examples.outer-join/-main</code></p><pre><code class="clojure">(defn -main
+  []
+  (def x (ck/dataframe "resources/employees.csv"))
+  (def y (ck/dataframe "resources/employees-workleave.csv"))
+  (ck/set-type x "Employee" "int")
+  (ck/set-type y "Employee" "int")
+  (def z (ck/outer-join x y ["Employee"] ["Employee"]))
+  (ck/print-df z)
+  ;; rows found only in y have empty 1_ columns, so keep the 2_ key columns:
+  ;; for those rows 2_Employee is the only place their Employee appears
+  (ck/compute z 8 "outputs/outer-join.csv"))
+</code></pre><details><summary>Input <code>employees.csv</code></summary><pre><code class="text">Employee,EmployeeName,Department,Salary,UpdateDate
+1,Alice,11,300,2020/12/12
+2,Bob,11,600,2020/12/01
+3,Carla,12,900,2020/12/03
+4,Daniel,12,1000,2020/12/05
+5,Evelyn,13,800,2020/12/03
+6,Ferdinand,21,700,2020/12/05
+7,Amy,11,50000,2020/11/26
+</code></pre></details><details><summary>Input <code>employees-workleave.csv</code></summary><pre><code class="text">Employee,EmployeeName,WorkLeave,UpdateDate
+1,Alice,20,2020/12/10
+2,Bob,15,2020/12/05
+3,Carla,5,2020/12/03
+7,Angel,30,2020/12/11
+8,Leo,100,2020/03/23
+</code></pre></details><details><summary>Output <code>outer-join.csv</code></summary><pre><code class="text">1_Employee,1_EmployeeName,1_Department,1_Salary,1_UpdateDate,2_Employee,2_EmployeeName,2_WorkLeave,2_UpdateDate
+2,Bob,11,600,2020/12/01,2,Bob,15,2020/12/05
+4,Daniel,12,1000,2020/12/05,,,,
+7,Amy,11,50000,2020/11/26,7,Angel,30,2020/12/11
+1,Alice,11,300,2020/12/12,1,Alice,20,2020/12/10
+3,Carla,12,900,2020/12/03,3,Carla,5,2020/12/03
+6,Ferdinand,21,700,2020/12/05,,,,
+5,Evelyn,13,800,2020/12/03,,,,
+,,,,,8,Leo,100,2020/03/23
+</code></pre></details><h2 id="rolling-join">Rolling join</h2><p>Match each employee record with the leave record of the nearest date: the latest one not after it (forward) or the earliest one not before it (backward), optionally only within 7 days (<code>:limit</code>).</p><p>Source: <a href="https://github.com/clojure-finance/clojask-examples/blob/main/src/clojask_examples/rolling_join.clj"><code>rolling_join.clj</code></a> · run with <code>:main clojask-examples.rolling-join/-main</code></p><pre><code class="clojure">(defn within-days
+  "A :limit for rolling joins: join two rows only when their roll values
+   (here dates) are at most n days apart."
+  [n]
+  (fn [a b]
+    (&lt;= (Math/abs (- (.getTime a) (.getTime b)))
+        (* n 24 60 60 1000))))
+
+(defn -main
+  []
+  (def x (ck/dataframe "resources/employees.csv"))
+  (def y (ck/dataframe "resources/employees-workleave.csv"))
+
+  (ck/set-type x "UpdateDate" "date:yyyy/MM/dd")
+  (ck/set-type y "UpdateDate" "date:yyyy/MM/dd")
+
+  ;; forward: each row of x gets the row of y with the same Employee and
+  ;; the latest UpdateDate that is not after x's
+  (ck/compute (ck/rolling-join-forward x y ["Employee"] ["Employee"] "UpdateDate" "UpdateDate") 8 "outputs/rolling-forward.csv")
+
+  ;; backward: the earliest UpdateDate that is not before x's
+  (ck/compute (ck/rolling-join-backward x y ["Employee"] ["Employee"] "UpdateDate" "UpdateDate") 8 "outputs/rolling-backward.csv")
+
+  ;; threshold: :limit is called on the two roll values and skips the join
+  ;; when it returns false; here rows more than 7 days apart stay unjoined
+  (ck/compute (ck/rolling-join-backward x y ["Employee"] ["Employee"] "UpdateDate" "UpdateDate" :limit (within-days 7)) 8 "outputs/rolling-backward-7days.csv"))
+</code></pre><details><summary>Input <code>employees.csv</code></summary><pre><code class="text">Employee,EmployeeName,Department,Salary,UpdateDate
+1,Alice,11,300,2020/12/12
+2,Bob,11,600,2020/12/01
+3,Carla,12,900,2020/12/03
+4,Daniel,12,1000,2020/12/05
+5,Evelyn,13,800,2020/12/03
+6,Ferdinand,21,700,2020/12/05
+7,Amy,11,50000,2020/11/26
+</code></pre></details><details><summary>Input <code>employees-workleave.csv</code></summary><pre><code class="text">Employee,EmployeeName,WorkLeave,UpdateDate
+1,Alice,20,2020/12/10
+2,Bob,15,2020/12/05
+3,Carla,5,2020/12/03
+7,Angel,30,2020/12/11
+8,Leo,100,2020/03/23
+</code></pre></details><details><summary>Output <code>rolling-forward.csv</code></summary><pre><code class="text">1_Employee,1_EmployeeName,1_Department,1_Salary,1_UpdateDate,2_Employee,2_EmployeeName,2_WorkLeave,2_UpdateDate
+1,Alice,11,300,2020/12/12,1,Alice,20,2020/12/10
+2,Bob,11,600,2020/12/01,,,,
+3,Carla,12,900,2020/12/03,3,Carla,5,2020/12/03
+4,Daniel,12,1000,2020/12/05,,,,
+5,Evelyn,13,800,2020/12/03,,,,
+6,Ferdinand,21,700,2020/12/05,,,,
+7,Amy,11,50000,2020/11/26,,,,
+</code></pre></details><details><summary>Output <code>rolling-backward.csv</code></summary><pre><code class="text">1_Employee,1_EmployeeName,1_Department,1_Salary,1_UpdateDate,2_Employee,2_EmployeeName,2_WorkLeave,2_UpdateDate
+1,Alice,11,300,2020/12/12,,,,
+2,Bob,11,600,2020/12/01,2,Bob,15,2020/12/05
+3,Carla,12,900,2020/12/03,3,Carla,5,2020/12/03
+4,Daniel,12,1000,2020/12/05,,,,
+5,Evelyn,13,800,2020/12/03,,,,
+6,Ferdinand,21,700,2020/12/05,,,,
+7,Amy,11,50000,2020/11/26,7,Angel,30,2020/12/11
+</code></pre></details><details><summary>Output <code>rolling-backward-7days.csv</code></summary><pre><code class="text">1_Employee,1_EmployeeName,1_Department,1_Salary,1_UpdateDate,2_Employee,2_EmployeeName,2_WorkLeave,2_UpdateDate
+1,Alice,11,300,2020/12/12,,,,
+2,Bob,11,600,2020/12/01,2,Bob,15,2020/12/05
+3,Carla,12,900,2020/12/03,3,Carla,5,2020/12/03
+4,Daniel,12,1000,2020/12/05,,,,
+5,Evelyn,13,800,2020/12/03,,,,
+6,Ferdinand,21,700,2020/12/05,,,,
+7,Amy,11,50000,2020/11/26,,,,
+</code></pre></details><h2 id="results-in-memory-excel-in-and-out">Results in memory, Excel in and out</h2><p>Read an Excel sheet with clojask-io's <code>read-excel</code>, keep an intermediate result in memory (<code>compute</code> with output path <code>nil</code>), feed it into a join, and write the final result to an <code>.xlsx</code> file.</p><p>Source: <a href="https://github.com/clojure-finance/clojask-examples/blob/main/src/clojask_examples/in_memory.clj"><code>in_memory.clj</code></a> · run with <code>:main clojask-examples.in-memory/-main</code></p><pre><code class="clojure">(defn time-diff
   [start end]
   (/ (- (.getTime end) (.getTime start)) 60000))
 
@@ -194,8 +392,7 @@
     (def df (ck/dataframe (fn [] (input/read-excel "resources/course timetable.xlsx" "Sheet1" :stat true))))
     (def join-df (ck/right-join df res-df groupby-key groupby-key))
     (ck/compute join-df 8 "outputs/in-mem.xlsx" :select ["1_COURSE CODE" "1_TERM" "1_START DATE" "1_END DATE" "1_START TIME" "1_END TIME" "2_MINS/WEEK"])))
-</code></pre><hr /><h4 id="connection-with-techmldataset">Connection with <code>tech.ml.dataset</code></h4><p>An <a href="https://github.com/clojure-finance/clojask-examples/blob/main/src/clojask_examples/techmldataset.clj">example</a> of converting from and to the popular Clojure DataFrame library <code>tech.ml.dataset</code>.</p><pre><code class="clojure">
-(defn get-from
+</code></pre><h2 id="converting-to-and-from-techmldataset">Converting to and from tech.ml.dataset</h2><p>Turn a <a href="https://github.com/techascent/tech.ml.dataset">tech.ml.dataset</a> dataset into a Clojask dataframe, and a Clojask result back into a dataset.</p><p>Source: <a href="https://github.com/clojure-finance/clojask-examples/blob/main/src/clojask_examples/techmldataset.clj"><code>techmldataset.clj</code></a> · run with <code>:main clojask-examples.techmldataset/-main</code></p><pre><code class="clojure">(defn get-from
   [list keys]
   (map #(get list %) keys))
 
@@ -227,47 +424,15 @@
   ;; More details about tech.ml.dataset can be found at
   ;; https://github.com/techascent/tech.ml.dataset
   )
-</code></pre><hr /><h4 id="rolling-join">Rolling Join</h4><p>An <a href="https://github.com/clojure-finance/clojask-examples/blob/main/src/clojask_examples/rolling_join.clj">example</a> of forward and backward rolling joins in Clojask, also with a threshold (<code>:limit</code>)</p><pre><code class="clojure">
-(defn within-days
-  "A :limit for rolling joins: join two rows only when their roll values
-   (here dates) are at most n days apart."
-  [n]
-  (fn [a b]
-    (&lt;= (Math/abs (- (.getTime a) (.getTime b)))
-        (* n 24 60 60 1000))))
-
-(defn -main
-  []
-  (def x (ck/dataframe "resources/employees.csv"))
-  (def y (ck/dataframe "resources/employees-workleave.csv"))
-
-  (ck/set-type x "UpdateDate" "date:yyyy/MM/dd")
-  (ck/set-type y "UpdateDate" "date:yyyy/MM/dd")
-
-  ;; forward: each row of x gets the row of y with the same Employee and
-  ;; the latest UpdateDate that is not after x's
-  (ck/compute (ck/rolling-join-forward x y ["Employee"] ["Employee"] "UpdateDate" "UpdateDate") 8 "outputs/rolling-forward.csv")
-
-  ;; backward: the earliest UpdateDate that is not before x's
-  (ck/compute (ck/rolling-join-backward x y ["Employee"] ["Employee"] "UpdateDate" "UpdateDate") 8 "outputs/rolling-backward.csv")
-
-  ;; threshold: :limit is called on the two roll values and skips the join
-  ;; when it returns false; here rows more than 7 days apart stay unjoined
-  (ck/compute (ck/rolling-join-backward x y ["Employee"] ["Employee"] "UpdateDate" "UpdateDate" :limit (within-days 7)) 8 "outputs/rolling-backward-7days.csv"))
-</code></pre><hr /><h4 id="outer-join">Outer Join</h4><p>An <a href="https://github.com/clojure-finance/clojask-examples/blob/main/src/clojask_examples/outer_join.clj">example</a> of an outer join operation on Clojask</p><pre><code class="clojure">
-(defn -main
-  []
-  (def x (ck/dataframe "resources/employees.csv"))
-  (def y (ck/dataframe "resources/employees-workleave.csv"))
-  (ck/set-type x "Employee" "int")
-  (ck/set-type y "Employee" "int")
-  (def z (ck/outer-join x y ["Employee"] ["Employee"]))
-  (ck/print-df z)
-  ;; rows found only in y have empty 1_ columns, so keep the 2_ key columns:
-  ;; for those rows 2_Employee is the only place their Employee appears
-  (ck/compute z 8 "outputs/outer-join.csv"))
-</code></pre><hr /><h4 id="enhanced-reshape">Enhanced Reshape</h4><p>An <a href="https://github.com/clojure-finance/clojask-examples/blob/main/src/clojask_examples/enhanced_reshape.clj">example</a> of melt and dcast, together with <code>cbind-csv</code> and <code>rbind-csv</code>, in Clojask</p><pre><code class="clojure">
-;; find more explicit explanation here
+</code></pre><details><summary>Input <code>employees.csv</code></summary><pre><code class="text">Employee,EmployeeName,Department,Salary,UpdateDate
+1,Alice,11,300,2020/12/12
+2,Bob,11,600,2020/12/01
+3,Carla,12,900,2020/12/03
+4,Daniel,12,1000,2020/12/05
+5,Evelyn,13,800,2020/12/03
+6,Ferdinand,21,700,2020/12/05
+7,Amy,11,50000,2020/11/26
+</code></pre></details><h2 id="reshaping-melt-dcast-rbind">Reshaping: melt, dcast, rbind</h2><p>Reshape a wide table to long with <code>melt</code> and back with <code>dcast</code>, and stack files with <code>rbind-csv</code> (see <a href="/clojask-website/posts-output/extensions/">Extensions</a>).</p><p>Source: <a href="https://github.com/clojure-finance/clojask-examples/blob/main/src/clojask_examples/enhanced_reshape.clj"><code>enhanced_reshape.clj</code></a> · run with <code>:main clojask-examples.enhanced-reshape/-main</code></p><pre><code class="clojure">;; find more explicit explanation here
 ;; https://cran.r-project.org/web/packages/data.table/vignettes/datatable-reshape.html#enhanced-new-functionality
 (defn -main
   []
@@ -308,8 +473,67 @@
   ;; you can rename the column names of res here
   ;; skipped
   (ck/compute res 8 "outputs/dcast_result.csv" :exclude ["dob_family_id" "dob_age_mother"]))
-</code></pre><hr /><h4 id="timezone">Timezone</h4><p>An <a href="https://github.com/clojure-finance/clojask-examples/blob/main/src/clojask_examples/timezone.clj">example</a> on running timezone operations on clojask</p><pre><code class="clojure">
-(def string-zone
+</code></pre><details><summary>Input <code>melt.csv</code></summary><pre><code class="text">family_id,age_mother,dob_child1,dob_child2,dob_child3,gender_child1,gender_child2,gender_child3
+1,30,1998-11-26,2000-01-29,,1,2,
+2,27,1996-06-22,,,2,,
+3,26,2002-07-11,2004-04-05,2007-09-02,2,2,1
+4,32,2004-10-10,2009-08-27,2012-07-21,1,1,1
+5,29,2000-12-05,2005-02-28,,2,1,
+</code></pre></details><details><summary>Input <code>dcast.csv</code></summary><pre><code class="text">family_id,age_mother,child,dob,gender
+1,30,1,1998-11-26,1
+2,27,1,1996-06-22,2
+3,26,1,2002-07-11,2
+4,32,1,2004-10-10,1
+5,29,1,2000-12-05,2
+1,30,2,2000-01-29,2
+2,27,2,,
+3,26,2,2004-04-05,2
+4,32,2,2009-08-27,1
+5,29,2,2005-02-28,1
+1,30,3,,
+2,27,3,,
+3,26,3,2007-09-02,1
+4,32,3,2012-07-21,1
+5,29,3,,
+</code></pre></details><details><summary>Output <code>melt_result.csv</code></summary><pre><code class="text">family_id1,age_mother1,child1,dob,gender
+1,30,child1,1998-11-26,1
+1,30,child2,2000-01-29,2
+1,30,child3,,
+2,27,child1,1996-06-22,2
+2,27,child2,,
+2,27,child3,,
+3,26,child1,2002-07-11,2
+3,26,child2,2004-04-05,2
+3,26,child3,2007-09-02,1
+4,32,child1,2004-10-10,1
+4,32,child2,2009-08-27,1
+4,32,child3,2012-07-21,1
+5,29,child1,2000-12-05,2
+5,29,child2,2005-02-28,1
+5,29,child3,,
+</code></pre></details><details><summary>Output <code>rbind_result.csv</code></summary><pre><code class="text">family_id,age_mother,child,dob,gender
+1,30,1,1998-11-26,1
+2,27,1,1996-06-22,2
+3,26,1,2002-07-11,2
+4,32,1,2004-10-10,1
+5,29,1,2000-12-05,2
+1,30,2,2000-01-29,2
+2,27,2,,
+3,26,2,2004-04-05,2
+4,32,2,2009-08-27,1
+5,29,2,2005-02-28,1
+1,30,3,,
+2,27,3,,
+3,26,3,2007-09-02,1
+4,32,3,2012-07-21,1
+5,29,3,,
+</code></pre></details><details><summary>Output <code>dcast_result.csv</code></summary><pre><code class="text">dob_child1,dob_child2,dob_child3,gender_family_id,gender_age_mother,gender_child1,gender_child2,gender_child3
+1996-06-22,,,2,27,2,,
+1998-11-26,2000-01-29,,1,30,1,2,
+2000-12-05,2005-02-28,,5,29,2,1,
+2002-07-11,2004-04-05,2007-09-02,3,26,2,2,1
+2004-10-10,2009-08-27,2012-07-21,4,32,1,1,1
+</code></pre></details><h2 id="time-zones">Time zones</h2><p>Parse timestamps that end in a time zone code, convert them to UTC with <code>operate</code>, write them with a custom formatter, and sum sales per UTC timestamp.</p><p>Source: <a href="https://github.com/clojure-finance/clojask-examples/blob/main/src/clojask_examples/timezone.clj"><code>timezone.clj</code></a> · run with <code>:main clojask-examples.timezone/-main</code></p><pre><code class="clojure">(def string-zone
   {"UTC" "UTC"
    "HKG" "Asia/Hong_Kong"
    "UK" "Europe/London"
@@ -351,43 +575,69 @@
   (ck/set-type df "sold" "int")
   (ck/aggregate df #(reduce + %) "sold" "sum(sold)")
   (ck/compute df 8 "outputs/timezone2.csv"))
-</code></pre><hr />
-</div>
-<!--  -->
-<!-- <br/> -->
-
-
-    <!-- 
-    <div id="prev-next">
-    
-    <a class="prev" href="/clojask-website/posts-output/get-started/"><svg class="icon icon-circle-left"><use xlink:href="/clojask-website/img/icons.svg#icon-circle-left"></use></svg><div class="nav-text">Get Started</div></a>
-    
-    
-    <a class="next" href="/clojask-website/posts-output/API/"><div class="nav-text"">API Docs</div><svg class="icon icon-circle-right"><use xlink:href="/clojask-website/img/icons.svg#icon-circle-right"></use></svg></a>
-    
-</div>
-
-     -->
-
-    
-
-
-</div>
-
-            <!-- <hr/> -->
-            <br/>
-            <div id="footercont">
-                Copyright &copy; 2026 Clojask
-                <br>Powered by <a href="http://cryogenweb.org">Cryogen</a>
-            </div>
-        </article>
-
-        <script src="/clojask-website/js/highlight.pack.js" type="application/javascript"></script>
-        <script>hljs.initHighlightingOnLoad();</script>
-        <script src="/clojask-website/js.dropdown.js" type="application/javascript"></script> 
-        
+</code></pre><details><summary>Input <code>sales.csv</code></summary><pre><code class="text">datetime,cust,item,sold
+2010-01-19 12:12:12 UTC,101,2,11
+2010-01-22 23:34:23 HKG,102,1,7
+2010-01-22 15:34:23 UK,102,1,7
+2010-01-25 23:34:23 DUB,101,2,9
+2010-01-26 23:34:23 LA,101,1,10
+</code></pre></details><details><summary>Output <code>timezone1.csv</code></summary><pre><code class="text">utc-time
+2010-01-27 07:34:23
+2010-01-25 19:34:23
+2010-01-19 12:12:12
+2010-01-22 15:34:23
+</code></pre></details><details><summary>Output <code>timezone2.csv</code></summary><pre><code class="text">utc-time,sum(sold)
+2010-01-27 07:34:23,10
+2010-01-25 19:34:23,9
+2010-01-19 12:12:12,11
+2010-01-22 15:34:23,14
+</code></pre></details>
+        </div>
 
         
+        <nav class="pager" aria-label="Previous and next page">
+            
+            <a class="pager-link prev" href="/clojask-website/posts-output/extensions/">
+                <span class="pager-label">&larr; Previous</span>
+                <span class="pager-title">Extensions</span>
+            </a>
+            
+            
+            <a class="pager-link next" href="/clojask-website/pages-output/about/">
+                <span class="pager-label">Next &rarr;</span>
+                <span class="pager-title">About &amp; Benchmarks</span>
+            </a>
+            
+        </nav>
         
-    </body>
+    </article>
+
+    
+    <aside class="toc-side" aria-label="On this page">
+        <div class="toc-title">On this page</div>
+        <ul class="toc"><li><a href="#basic-tutorial">Basic tutorial</a></li><li><a href="#group-by-and-aggregate">Group-by and aggregate</a></li><li><a href="#inner-left-and-right-join">Inner, left and right join</a></li><li><a href="#outer-join">Outer join</a></li><li><a href="#rolling-join">Rolling join</a></li><li><a href="#results-in-memory-excel-in-and-out">Results in memory, Excel in and out</a></li><li><a href="#converting-to-and-from-techmldataset">Converting to and from tech.ml.dataset</a></li><li><a href="#reshaping-melt-dcast-rbind">Reshaping: melt, dcast, rbind</a></li><li><a href="#time-zones">Time zones</a></li></ul>
+    </aside>
+    
+</div>
+
+
+
+            <footer class="site-footer">
+                <p>
+                    Clojask is open source (MIT) and developed at
+                    <a href="https://www.hkubs.hku.hk/">HKU Business School</a>.
+                    Found a bug? <a href="https://github.com/clojure-finance/clojask/issues">Open an issue</a>.
+                </p>
+                <p class="muted">
+                    &copy; 2026 Clojask contributors · Built with <a href="http://cryogenweb.org">Cryogen</a>
+                    · <a href="https://github.com/clojure-finance/clojask-website/blob/main/content/md/posts/examples.md">Edit this page</a>
+                </p>
+            </footer>
+        </main>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/clojure.min.js"></script>
+    <script src="/clojask-website/js/site.js" type="application/javascript"></script>
+</body>
 </html>

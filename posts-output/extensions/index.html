@@ -1,116 +1,131 @@
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <meta charset="utf-8">
-        <title>Clojask: Extensions</title>
-        
-<meta name="keywords" content="Start">
-
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Extensions · Clojask</title>
+    
 <meta name="description" content="clojask.extensionsLike many popular Python libraries, such as numpy and pandas, third-party users can extend the function of  Clojask by introducing more codes above the basic source code. This attempt is interesting and encouraged. Here is an example of creating such extension functions.">
-
 <meta property="og:description" content="clojask.extensionsLike many popular Python libraries, such as numpy and pandas, third-party users can extend the function of  Clojask by introducing more codes above the basic source code. This attempt is interesting and encouraged. Here is an example of creating such extension functions.">
+<meta property="og:url" content="https://clojure-finance.github.io/clojask-website/clojask-website/posts-output/extensions/">
+<meta property="og:title" content="Extensions · Clojask">
+<meta property="og:type" content="article">
 
-<meta property="og:url" content="https://clojure-finance.github.io/clojask-website/clojask-website/posts-output/extensions/" />
-<meta property="og:title" content="Extensions" />
-<meta property="og:type" content="article" />
+    <script>
+        // Apply the saved colour theme before the page paints.
+        try {
+            var t = localStorage.getItem("theme");
+            if (t === "light" || t === "dark") document.documentElement.setAttribute("data-theme", t);
+        } catch (e) {}
+    </script>
+    <link rel="icon" type="image/svg+xml" href="/clojask-website/img/logo.svg">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+    <link href="/clojask-website/css/site.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+    <a class="skip-link" href="#content">Skip to content</a>
 
-        <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
-        
-        <link rel="shortcut icon" href="images/ico/favicon.png">
-        <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700|Oxygen:300,400,700|Inconsolata" rel="stylesheet">
-        <link rel="preconnect" href="https://fonts.googleapis.com">
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-        <link href="https://fonts.googleapis.com/css2?family=Raleway:wght@300&display=swap" rel="stylesheet">
-        <link href="/clojask-website/css/normalize.css" rel="stylesheet" type="text/css" />
-        <link href="/clojask-website/css/blog.css" rel="stylesheet" type="text/css" />
-        <link href="/clojask-website/css/lotus-highlightjs.min.css" rel="stylesheet" type="text/css" />
-        <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.7.0/styles/tomorrow-night-eighties.min.css">
-    </head>
-    <body>
-        <aside id="sidebar">
-            <div id="logo">
-                <a title="Clojask" href="/clojask-website/">
-                    <!-- <img class="icon" src="/clojask-website/img/white-lotus.svg"> -->
-                    <div class="title-text text desktop-and-tablet-only">
-                        <span class="desktop-and-tablet-only fa fa-cubes"></span>
-                        <br>
-                        <br>
-                        Clojask
-                    </div>
-                    <div class="title-text text mobile-only">Clojask</div>
-                </a>
-            </div> 
+    <header class="topbar">
+        <a class="brand" href="/clojask-website/">
+            <img class="brand-logo" src="/clojask-website/img/logo.svg" alt="" width="28" height="28">
+            <span class="brand-name">Clojask</span>
+        </a>
+        <button class="menu-toggle" type="button" aria-controls="sidebar" aria-expanded="false">
+            <svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true"><path d="M3 6h18M3 12h18M3 18h18" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+            <span class="visually-hidden">Menu</span>
+        </button>
+    </header>
 
-            <nav id="sidebar-links">
-                <nav id="menucont">
-                    <input type="checkbox" id="menu-checkbox" class="menu-checkbox">
-                    <label for="menu-checkbox" class="menutitle">
-                        <svg class="icon icon-menu" aria-hidden="true"><use xlink:href="/clojask-website/img/icons.svg#icon-menu"></use></svg><span class="menu-text">Menu</span>
-                    </label>
-                    <ul class="menu">
-                        <li ><a title="Home" href="/clojask-website/"><div class="menu-item-text">Home</div></a></li>
-                        <!-- 
-                        <li ><a title="Tags" href="/clojask-website/tags/"><div class="menu-item-text">Tags</div></a></li>
-                         -->
-                        
-                        <li >
-                            <a href="/clojask-website/pages-output/about/"><div class="menu-item-text">About</div></a>
-                        </li>
-                        
-                         <!-- custom navbar item -->
-                        <li>
-                            <a title="Get Started" href="/clojask-website/posts-output/get-started/"><div class="menu-item-text">Getting Started</div></a>
-                        </li>
-                        <li>
-                            <a title="API Docs" href="/clojask-website/posts-output/API/"><div class="menu-item-text">API Docs</div></a>
-                        </li>
-                        <li >
-                            <a title="Examples" href="/clojask-website/posts-output/examples/"><div class="menu-item-text">Examples</div></a>
-                        </li>
-                        <li >
-                            <a title="Extensions" href="/clojask-website/posts-output/extensions/"><div class="menu-item-text">Extensions</div></a>
-                        </li>
-                        
-<!-- 
-                        <button class="dropdown">Dropdown
-                            <i class="fa fa-caret-down"></i>
-                        </button>
-                        <div class="dropdown-container">
-                            <a href="#">Link 1</a>
-                            <a href="##">Link 2</a>
-                            <a href="###">Link 3</a>
-                        </div>
-                        </a> -->
+    <div class="layout">
+        <aside class="sidebar" id="sidebar">
+            <a class="brand brand-desktop" href="/clojask-website/">
+                <img class="brand-logo" src="/clojask-website/img/logo.svg" alt="" width="32" height="32">
+                <span class="brand-name">Clojask</span>
+                <span class="version" title="Latest release">v2.1.2</span>
+            </a>
 
-                        <li ><a title="Archives" href="/clojask-website/archives/"><div class="menu-item-text">Archives</div></a></li>
-                        <!-- <li><a title="RSS" href="/clojask-website/feed.xml"><div class="menu-item-text">RSS</div></a></li> -->
-                    </ul>
-                </nav>
-
-                <nav id="socialmedia">
+            <nav class="nav" aria-label="Documentation">
+                
+                <div class="nav-section">
+                    <div class="nav-heading">Start here</div>
                     <ul>
-                        <li><a title="GitHub" href="https://github.com/clojure-finance/clojask" rel="external"><svg class="icon icon-github-circled"><use xlink:href="/clojask-website/img/icons.svg#icon-github-circled"></use></svg></a></li>
+                        
+                        <li><a href="/clojask-website/">Home</a></li>
+                        
+                        <li><a href="/clojask-website/posts-output/get-started/">Get Started</a></li>
+                        
+                        <li><a href="/clojask-website/posts-output/concepts/">Core Concepts</a></li>
+                        
+                        <li><a href="/clojask-website/posts-output/cheat-sheet/">Cheat Sheet</a></li>
+                        
                     </ul>
-                </nav>
+                </div>
+                
+                <div class="nav-section">
+                    <div class="nav-heading">Reference</div>
+                    <ul>
+                        
+                        <li><a href="/clojask-website/posts-output/API/">API Docs</a></li>
+                        
+                        <li><a href="/clojask-website/posts-output/aggregate-function/">Aggregation Functions</a></li>
+                        
+                        <li><a href="/clojask-website/posts-output/extensions/" class="active" aria-current="page">Extensions</a></li>
+                        
+                    </ul>
+                </div>
+                
+                <div class="nav-section">
+                    <div class="nav-heading">Learn more</div>
+                    <ul>
+                        
+                        <li><a href="/clojask-website/posts-output/examples/">Examples</a></li>
+                        
+                        <li><a href="/clojask-website/pages-output/about/">About &amp; Benchmarks</a></li>
+                        
+                    </ul>
+                </div>
+                
             </nav>
-        </aside>
 
-        <article id="main">
+            <div class="sidebar-foot">
+                <a class="icon-link" href="https://github.com/clojure-finance/clojask" title="Clojask on GitHub">
+                    <svg viewBox="0 0 16 16" width="18" height="18" aria-hidden="true"><path fill="currentColor" d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/></svg>
+                    GitHub
+                </a>
+                <a class="icon-link" href="https://clojars.org/com.github.clojure-finance/clojask" title="Clojask on Clojars">
+                    <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path d="M12 2 3 7v10l9 5 9-5V7l-9-5Zm0 2.3L18.8 8 12 11.7 5.2 8 12 4.3ZM5 9.7l6 3.3v6.7l-6-3.3V9.7Zm8 10V13l6-3.3v6.7l-6 3.3Z" fill="currentColor"/></svg>
+                    Clojars
+                </a>
+                <button class="theme-toggle" type="button" title="Switch between light and dark mode">
+                    <svg class="icon-sun" viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><circle cx="12" cy="12" r="4.5" fill="none" stroke="currentColor" stroke-width="2"/><path d="M12 1.5v3M12 19.5v3M1.5 12h3M19.5 12h3M4.6 4.6l2.1 2.1M17.3 17.3l2.1 2.1M4.6 19.4l2.1-2.1M17.3 6.7l2.1-2.1" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+                    <svg class="icon-moon" viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path d="M20 14.5A8.5 8.5 0 0 1 9.5 4a8.5 8.5 0 1 0 10.5 10.5Z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></svg>
+                    <span class="visually-hidden">Toggle dark mode</span>
+                </button>
+            </div>
+        </aside>
+        <div class="scrim" hidden></div>
+
+        <main class="main" id="content">
             
-<div id="post">
-    <div class="post-header">
-    <div id="post-meta">
-        <h1>Extensions</h1>
-        <div class="byline">
-            <!-- <span class="date">February 22, 2022</span> -->
-            
-        </div>
-    </div>
-</div>
-<div>
-    <ul class="toc"><li><a href="#clojaskextensions">clojask.extensions</a></li><ul><li><a href="#ns-clojaskextensionsbind">ns: clojask.extensions.bind</a></li><ul><li><a href="#api-foundation">API Foundation</a></li><li><a href="#cbind-csv"><code>cbind-csv</code></a></li><li><a href="#rbind-csv"><code>rbind-csv</code></a></li><li><a href="#it-is-also-possible-and-encouraged-to-create-more-binding-functions-for-other-file-types"><strong>It is also possible and encouraged to create more binding functions for other file types.</strong></a></li></ul><li><a href="#ns-clojaskextensionsreshape">ns: clojask.extensions.reshape</a></li><ul><li><a href="#api-foundation-1">API Foundation</a></li><li><a href="#melt"><code>melt</code></a></li><li><a href="#dcast"><code>dcast</code></a></li></ul></ul></ul>
-    <h2 id="clojaskextensions">clojask.extensions</h2><p>Like many popular Python libraries, such as numpy and pandas, third-party users can extend the function of  Clojask by introducing more codes above the basic source code. This attempt is interesting and encouraged. Here is an example of creating such extension functions.</p><h3 id="ns-clojaskextensionsbind">ns: clojask.extensions.bind</h3><p>Contains functions that can help to bind several dataset files together on both directions.</p><h4 id="api-foundation">API Foundation</h4><p>When defining a clojask.classes.DataFrame.DataFrame using <code>dataframe</code> function, one can input a function instead of the path of the source file. This function should produce a sequence of rows, each a collection of values, with the column names as the first row. If this sequence is lazy, the theoretical length of the sequence can be infinite. Otherwise, it must have a finite length that is smaller than the memory size.</p><pre><code class="clojure">(def x (dataframe (fn [] [["col1" "col2"] ["1" "2"] ["3" "4"]])))
+
+<div class="doc-grid has-toc">
+    <article class="doc">
+        <header class="doc-header">
+            <h1>Extensions</h1>
+            <p class="lede">Binding files together and reshaping dataframes, built on the public API.</p>
+        </header>
+
+        
+        <details class="toc-inline">
+            <summary>On this page</summary>
+            <ul class="toc"><li><a href="#clojaskextensions">clojask.extensions</a></li><ul><li><a href="#ns-clojaskextensionsbind">ns: clojask.extensions.bind</a></li><ul><li><a href="#api-foundation">API Foundation</a></li><li><a href="#cbind-csv"><code>cbind-csv</code></a></li><li><a href="#rbind-csv"><code>rbind-csv</code></a></li><li><a href="#it-is-also-possible-and-encouraged-to-create-more-binding-functions-for-other-file-types"><strong>It is also possible and encouraged to create more binding functions for other file types.</strong></a></li></ul><li><a href="#ns-clojaskextensionsreshape">ns: clojask.extensions.reshape</a></li><ul><li><a href="#api-foundation-1">API Foundation</a></li><li><a href="#melt"><code>melt</code></a></li><li><a href="#dcast"><code>dcast</code></a></li></ul></ul></ul>
+        </details>
+        
+
+        <div class="doc-body">
+            <h2 id="clojaskextensions">clojask.extensions</h2><p>Like many popular Python libraries, such as numpy and pandas, third-party users can extend the function of  Clojask by introducing more codes above the basic source code. This attempt is interesting and encouraged. Here is an example of creating such extension functions.</p><h3 id="ns-clojaskextensionsbind">ns: clojask.extensions.bind</h3><p>Contains functions that can help to bind several dataset files together on both directions.</p><h4 id="api-foundation">API Foundation</h4><p>When defining a clojask.classes.DataFrame.DataFrame using <code>dataframe</code> function, one can input a function instead of the path of the source file. This function should produce a sequence of rows, each a collection of values, with the column names as the first row. If this sequence is lazy, the theoretical length of the sequence can be infinite. Otherwise, it must have a finite length that is smaller than the memory size.</p><pre><code class="clojure">(def x (dataframe (fn [] [["col1" "col2"] ["1" "2"] ["3" "4"]])))
 </code></pre><p>Based on this API, we can define the <code>cbind</code> and <code>rbind</code> function for two csv files.</p><h4 id="cbind-csv"><code>cbind-csv</code></h4><p>Joins some csv files into a new dataframe by columns.</p><table><thead><tr><th>Argument</th><th>Type</th><th>Function</th><th>Remarks</th></tr></thead><tbody><tr><td>path-a</td><td>String</td><td>The path of the first csv file</td><td>Can be absolute or relative path</td></tr><tr><td>path-b</td><td>String</td><td>The path of the second csv file</td><td>Can be absolute or relative path</td></tr><tr><td>[path-c's]</td><td>String</td><td>Paths of further csv files</td><td>Can be absolute or relative path; the number is not limited</td></tr></tbody></table><p><strong>Example</strong></p><pre><code class="clojure">;; file a
 ;; date,item,price
 ;; 2010-01-20,1,18.3
@@ -194,42 +209,52 @@
 ;; 5,29,dob_child3,
 (dcast x "resources/test.csv" ["family_id" "age_mother"] "measure" "value" ["dob_child1" "dob_child2" "dob_child3"])
 </code></pre>
-</div>
-<!--  -->
-<!-- <br/> -->
-
-
-    <!-- 
-    <div id="prev-next">
-    
-    <div class="prev"></div>
-    
-    
-    <a class="next" href="/clojask-website/posts-output/get-started/"><div class="nav-text"">Get Started</div><svg class="icon icon-circle-right"><use xlink:href="/clojask-website/img/icons.svg#icon-circle-right"></use></svg></a>
-    
-</div>
-
-     -->
-
-    
-
-
-</div>
-
-            <!-- <hr/> -->
-            <br/>
-            <div id="footercont">
-                Copyright &copy; 2026 Clojask
-                <br>Powered by <a href="http://cryogenweb.org">Cryogen</a>
-            </div>
-        </article>
-
-        <script src="/clojask-website/js/highlight.pack.js" type="application/javascript"></script>
-        <script>hljs.initHighlightingOnLoad();</script>
-        <script src="/clojask-website/js.dropdown.js" type="application/javascript"></script> 
-        
+        </div>
 
         
+        <nav class="pager" aria-label="Previous and next page">
+            
+            <a class="pager-link prev" href="/clojask-website/posts-output/aggregate-function/">
+                <span class="pager-label">&larr; Previous</span>
+                <span class="pager-title">Aggregation Functions</span>
+            </a>
+            
+            
+            <a class="pager-link next" href="/clojask-website/posts-output/examples/">
+                <span class="pager-label">Next &rarr;</span>
+                <span class="pager-title">Examples</span>
+            </a>
+            
+        </nav>
         
-    </body>
+    </article>
+
+    
+    <aside class="toc-side" aria-label="On this page">
+        <div class="toc-title">On this page</div>
+        <ul class="toc"><li><a href="#clojaskextensions">clojask.extensions</a></li><ul><li><a href="#ns-clojaskextensionsbind">ns: clojask.extensions.bind</a></li><ul><li><a href="#api-foundation">API Foundation</a></li><li><a href="#cbind-csv"><code>cbind-csv</code></a></li><li><a href="#rbind-csv"><code>rbind-csv</code></a></li><li><a href="#it-is-also-possible-and-encouraged-to-create-more-binding-functions-for-other-file-types"><strong>It is also possible and encouraged to create more binding functions for other file types.</strong></a></li></ul><li><a href="#ns-clojaskextensionsreshape">ns: clojask.extensions.reshape</a></li><ul><li><a href="#api-foundation-1">API Foundation</a></li><li><a href="#melt"><code>melt</code></a></li><li><a href="#dcast"><code>dcast</code></a></li></ul></ul></ul>
+    </aside>
+    
+</div>
+
+
+
+            <footer class="site-footer">
+                <p>
+                    Clojask is open source (MIT) and developed at
+                    <a href="https://www.hkubs.hku.hk/">HKU Business School</a>.
+                    Found a bug? <a href="https://github.com/clojure-finance/clojask/issues">Open an issue</a>.
+                </p>
+                <p class="muted">
+                    &copy; 2026 Clojask contributors · Built with <a href="http://cryogenweb.org">Cryogen</a>
+                    · <a href="https://github.com/clojure-finance/clojask-website/blob/main/content/md/posts/extensions.md">Edit this page</a>
+                </p>
+            </footer>
+        </main>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/clojure.min.js"></script>
+    <script src="/clojask-website/js/site.js" type="application/javascript"></script>
+</body>
 </html>

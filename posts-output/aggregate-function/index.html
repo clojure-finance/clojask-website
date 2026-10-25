@@ -1,116 +1,131 @@
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <meta charset="utf-8">
-        <title>Clojask: Aggregation Functions</title>
-        
-<meta name="keywords" content="Start">
-
-<meta name="description" content="In Clojask, you can aggregate on the whole dataframe, or on the group-by dataframe. We call the first case &quot;simple aggregation&quot; and the second &quot;group-by aggregation&quot;. Some given functions for simple aggregation are defined in namespace clojask.api.aggregate, and the given functions for group-by aggregation are defined in namespace clojask.api.gb-aggregate.Below is the full list of given functions for the two types.">
-
-<meta property="og:description" content="In Clojask, you can aggregate on the whole dataframe, or on the group-by dataframe. We call the first case &quot;simple aggregation&quot; and the second &quot;group-by aggregation&quot;. Some given functions for simple aggregation are defined in namespace clojask.api.aggregate, and the given functions for group-by aggregation are defined in namespace clojask.api.gb-aggregate.Below is the full list of given functions for the two types.">
-
-<meta property="og:url" content="https://clojure-finance.github.io/clojask-website/clojask-website/posts-output/aggregate-function/" />
-<meta property="og:title" content="Aggregation Functions" />
-<meta property="og:type" content="article" />
-
-        <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
-        
-        <link rel="shortcut icon" href="images/ico/favicon.png">
-        <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700|Oxygen:300,400,700|Inconsolata" rel="stylesheet">
-        <link rel="preconnect" href="https://fonts.googleapis.com">
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-        <link href="https://fonts.googleapis.com/css2?family=Raleway:wght@300&display=swap" rel="stylesheet">
-        <link href="/clojask-website/css/normalize.css" rel="stylesheet" type="text/css" />
-        <link href="/clojask-website/css/blog.css" rel="stylesheet" type="text/css" />
-        <link href="/clojask-website/css/lotus-highlightjs.min.css" rel="stylesheet" type="text/css" />
-        <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.7.0/styles/tomorrow-night-eighties.min.css">
-    </head>
-    <body>
-        <aside id="sidebar">
-            <div id="logo">
-                <a title="Clojask" href="/clojask-website/">
-                    <!-- <img class="icon" src="/clojask-website/img/white-lotus.svg"> -->
-                    <div class="title-text text desktop-and-tablet-only">
-                        <span class="desktop-and-tablet-only fa fa-cubes"></span>
-                        <br>
-                        <br>
-                        Clojask
-                    </div>
-                    <div class="title-text text mobile-only">Clojask</div>
-                </a>
-            </div> 
-
-            <nav id="sidebar-links">
-                <nav id="menucont">
-                    <input type="checkbox" id="menu-checkbox" class="menu-checkbox">
-                    <label for="menu-checkbox" class="menutitle">
-                        <svg class="icon icon-menu" aria-hidden="true"><use xlink:href="/clojask-website/img/icons.svg#icon-menu"></use></svg><span class="menu-text">Menu</span>
-                    </label>
-                    <ul class="menu">
-                        <li ><a title="Home" href="/clojask-website/"><div class="menu-item-text">Home</div></a></li>
-                        <!-- 
-                        <li ><a title="Tags" href="/clojask-website/tags/"><div class="menu-item-text">Tags</div></a></li>
-                         -->
-                        
-                        <li >
-                            <a href="/clojask-website/pages-output/about/"><div class="menu-item-text">About</div></a>
-                        </li>
-                        
-                         <!-- custom navbar item -->
-                        <li>
-                            <a title="Get Started" href="/clojask-website/posts-output/get-started/"><div class="menu-item-text">Getting Started</div></a>
-                        </li>
-                        <li>
-                            <a title="API Docs" href="/clojask-website/posts-output/API/"><div class="menu-item-text">API Docs</div></a>
-                        </li>
-                        <li >
-                            <a title="Examples" href="/clojask-website/posts-output/examples/"><div class="menu-item-text">Examples</div></a>
-                        </li>
-                        <li >
-                            <a title="Extensions" href="/clojask-website/posts-output/extensions/"><div class="menu-item-text">Extensions</div></a>
-                        </li>
-                        
-<!-- 
-                        <button class="dropdown">Dropdown
-                            <i class="fa fa-caret-down"></i>
-                        </button>
-                        <div class="dropdown-container">
-                            <a href="#">Link 1</a>
-                            <a href="##">Link 2</a>
-                            <a href="###">Link 3</a>
-                        </div>
-                        </a> -->
-
-                        <li ><a title="Archives" href="/clojask-website/archives/"><div class="menu-item-text">Archives</div></a></li>
-                        <!-- <li><a title="RSS" href="/clojask-website/feed.xml"><div class="menu-item-text">RSS</div></a></li> -->
-                    </ul>
-                </nav>
-
-                <nav id="socialmedia">
-                    <ul>
-                        <li><a title="GitHub" href="https://github.com/clojure-finance/clojask" rel="external"><svg class="icon icon-github-circled"><use xlink:href="/clojask-website/img/icons.svg#icon-github-circled"></use></svg></a></li>
-                    </ul>
-                </nav>
-            </nav>
-        </aside>
-
-        <article id="main">
-            
-<div id="post">
-    <div class="post-header">
-    <div id="post-meta">
-        <h1>Aggregation Functions</h1>
-        <div class="byline">
-            <!-- <span class="date">September 28, 2021</span> -->
-            
-        </div>
-    </div>
-</div>
-<div>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Aggregation Functions · Clojask</title>
     
-    <p>In Clojask, you can aggregate on the whole dataframe, or on the group-by dataframe. We call the first case "simple aggregation" and the second "group-by aggregation". Some given functions for simple aggregation are defined in namespace <code>clojask.api.aggregate</code>, and the given functions for group-by aggregation are defined in namespace <code>clojask.api.gb-aggregate</code>.</p><p>Below is the full list of given functions for the two types.</p><h4 id="clojaskapiaggregate"><code>clojask.api.aggregate</code>:</h4><p><code>max</code> / <code>min</code>: Find the max / min value (use <code>clojure.core/compare</code> as the comparator)</p><p><em><code>compare</code> sorts <code>nil</code> (an empty cell) below every other value, so <code>min</code> returns <code>nil</code> if the column has an empty cell.</em></p><p><code>sum</code> / <code>count</code>: Sum / count the values</p><p><code>smallest3</code> / <code>largest3</code>: The three smallest / largest values</p><p><code>smallestk</code> / <code>largestk</code>: The k smallest / largest values; they take k as a third argument, so wrap them, e.g. <code>#(agg/largestk %1 %2 5)</code></p><h4 id="clojaskapigb-aggregate"><code>clojask.api.gb-aggregate</code>:</h4><p><code>max</code> / <code>min</code>: Find the max / min value (use <code>clojure.core/compare</code> as the comparator)</p><p><em><code>compare</code> sorts <code>nil</code> (an empty cell) below every other value, so <code>min</code> returns <code>nil</code> if the column has an empty cell.</em></p><p><code>sum</code> / <code>count</code>: Sum / count the values</p><p><code>mean</code> / <code>median</code>: Arithmetic mean / median, as doubles</p><p><code>mode</code>: The most frequent values</p><p><code>sd</code>: Sample standard deviation, as a double</p><p><code>skew</code>: Pearson's second skewness coefficient; NaN when all values are equal</p><p><code>smallest3</code> / <code>largest3</code>: The three smallest / largest values</p><p><code>smallestk</code> / <code>largestk</code>: The k smallest / largest values; they take k as a second argument, so wrap them, e.g. <code>#(gb-agg/largestk % 5)</code></p><p>Besides these given functions, you are also welcomed to define your own.</p><h4 id="how-to-define-group-by-aggregation-functions">How to define group-by aggregation functions?</h4><p>This is the template:</p><pre><code class="clojure">(defn gb-aggre-template
+<meta name="description" content="In Clojask, you can aggregate on the whole dataframe, or on the group-by dataframe. We call the first case &quot;simple aggregation&quot; and the second &quot;group-by aggregation&quot;. Some given functions for simple aggregation are defined in namespace clojask.api.aggregate, and the given functions for group-by aggregation are defined in namespace clojask.api.gb-aggregate.Below is the full list of given functions for the two types.">
+<meta property="og:description" content="In Clojask, you can aggregate on the whole dataframe, or on the group-by dataframe. We call the first case &quot;simple aggregation&quot; and the second &quot;group-by aggregation&quot;. Some given functions for simple aggregation are defined in namespace clojask.api.aggregate, and the given functions for group-by aggregation are defined in namespace clojask.api.gb-aggregate.Below is the full list of given functions for the two types.">
+<meta property="og:url" content="https://clojure-finance.github.io/clojask-website/clojask-website/posts-output/aggregate-function/">
+<meta property="og:title" content="Aggregation Functions · Clojask">
+<meta property="og:type" content="article">
+
+    <script>
+        // Apply the saved colour theme before the page paints.
+        try {
+            var t = localStorage.getItem("theme");
+            if (t === "light" || t === "dark") document.documentElement.setAttribute("data-theme", t);
+        } catch (e) {}
+    </script>
+    <link rel="icon" type="image/svg+xml" href="/clojask-website/img/logo.svg">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+    <link href="/clojask-website/css/site.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+    <a class="skip-link" href="#content">Skip to content</a>
+
+    <header class="topbar">
+        <a class="brand" href="/clojask-website/">
+            <img class="brand-logo" src="/clojask-website/img/logo.svg" alt="" width="28" height="28">
+            <span class="brand-name">Clojask</span>
+        </a>
+        <button class="menu-toggle" type="button" aria-controls="sidebar" aria-expanded="false">
+            <svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true"><path d="M3 6h18M3 12h18M3 18h18" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+            <span class="visually-hidden">Menu</span>
+        </button>
+    </header>
+
+    <div class="layout">
+        <aside class="sidebar" id="sidebar">
+            <a class="brand brand-desktop" href="/clojask-website/">
+                <img class="brand-logo" src="/clojask-website/img/logo.svg" alt="" width="32" height="32">
+                <span class="brand-name">Clojask</span>
+                <span class="version" title="Latest release">v2.1.2</span>
+            </a>
+
+            <nav class="nav" aria-label="Documentation">
+                
+                <div class="nav-section">
+                    <div class="nav-heading">Start here</div>
+                    <ul>
+                        
+                        <li><a href="/clojask-website/">Home</a></li>
+                        
+                        <li><a href="/clojask-website/posts-output/get-started/">Get Started</a></li>
+                        
+                        <li><a href="/clojask-website/posts-output/concepts/">Core Concepts</a></li>
+                        
+                        <li><a href="/clojask-website/posts-output/cheat-sheet/">Cheat Sheet</a></li>
+                        
+                    </ul>
+                </div>
+                
+                <div class="nav-section">
+                    <div class="nav-heading">Reference</div>
+                    <ul>
+                        
+                        <li><a href="/clojask-website/posts-output/API/">API Docs</a></li>
+                        
+                        <li><a href="/clojask-website/posts-output/aggregate-function/" class="active" aria-current="page">Aggregation Functions</a></li>
+                        
+                        <li><a href="/clojask-website/posts-output/extensions/">Extensions</a></li>
+                        
+                    </ul>
+                </div>
+                
+                <div class="nav-section">
+                    <div class="nav-heading">Learn more</div>
+                    <ul>
+                        
+                        <li><a href="/clojask-website/posts-output/examples/">Examples</a></li>
+                        
+                        <li><a href="/clojask-website/pages-output/about/">About &amp; Benchmarks</a></li>
+                        
+                    </ul>
+                </div>
+                
+            </nav>
+
+            <div class="sidebar-foot">
+                <a class="icon-link" href="https://github.com/clojure-finance/clojask" title="Clojask on GitHub">
+                    <svg viewBox="0 0 16 16" width="18" height="18" aria-hidden="true"><path fill="currentColor" d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/></svg>
+                    GitHub
+                </a>
+                <a class="icon-link" href="https://clojars.org/com.github.clojure-finance/clojask" title="Clojask on Clojars">
+                    <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path d="M12 2 3 7v10l9 5 9-5V7l-9-5Zm0 2.3L18.8 8 12 11.7 5.2 8 12 4.3ZM5 9.7l6 3.3v6.7l-6-3.3V9.7Zm8 10V13l6-3.3v6.7l-6 3.3Z" fill="currentColor"/></svg>
+                    Clojars
+                </a>
+                <button class="theme-toggle" type="button" title="Switch between light and dark mode">
+                    <svg class="icon-sun" viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><circle cx="12" cy="12" r="4.5" fill="none" stroke="currentColor" stroke-width="2"/><path d="M12 1.5v3M12 19.5v3M1.5 12h3M19.5 12h3M4.6 4.6l2.1 2.1M17.3 17.3l2.1 2.1M4.6 19.4l2.1-2.1M17.3 6.7l2.1-2.1" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+                    <svg class="icon-moon" viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path d="M20 14.5A8.5 8.5 0 0 1 9.5 4a8.5 8.5 0 1 0 10.5 10.5Z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></svg>
+                    <span class="visually-hidden">Toggle dark mode</span>
+                </button>
+            </div>
+        </aside>
+        <div class="scrim" hidden></div>
+
+        <main class="main" id="content">
+            
+
+<div class="doc-grid has-toc">
+    <article class="doc">
+        <header class="doc-header">
+            <h1>Aggregation Functions</h1>
+            <p class="lede">The built-in aggregation functions, and how to write your own.</p>
+        </header>
+
+        
+        <details class="toc-inline">
+            <summary>On this page</summary>
+            <ul class="toc"><li><a href="#clojaskapiaggregate"><code>clojask.api.aggregate</code>:</a></li><li><a href="#clojaskapigb-aggregate"><code>clojask.api.gb-aggregate</code>:</a></li><li><a href="#how-to-define-group-by-aggregation-functions">How to define group-by aggregation functions?</a></li><li><a href="#how-to-define-simple-aggregation-functions">How to define simple aggregation functions?</a></li></ul>
+        </details>
+        
+
+        <div class="doc-body">
+            <p>In Clojask, you can aggregate on the whole dataframe, or on the group-by dataframe. We call the first case "simple aggregation" and the second "group-by aggregation". Some given functions for simple aggregation are defined in namespace <code>clojask.api.aggregate</code>, and the given functions for group-by aggregation are defined in namespace <code>clojask.api.gb-aggregate</code>.</p><p>Below is the full list of given functions for the two types.</p><h4 id="clojaskapiaggregate"><code>clojask.api.aggregate</code>:</h4><p><code>max</code> / <code>min</code>: Find the max / min value (use <code>clojure.core/compare</code> as the comparator)</p><p><em><code>compare</code> sorts <code>nil</code> (an empty cell) below every other value, so <code>min</code> returns <code>nil</code> if the column has an empty cell.</em></p><p><code>sum</code> / <code>count</code>: Sum / count the values</p><p><code>smallest3</code> / <code>largest3</code>: The three smallest / largest values</p><p><code>smallestk</code> / <code>largestk</code>: The k smallest / largest values; they take k as a third argument, so wrap them, e.g. <code>#(agg/largestk %1 %2 5)</code></p><h4 id="clojaskapigb-aggregate"><code>clojask.api.gb-aggregate</code>:</h4><p><code>max</code> / <code>min</code>: Find the max / min value (use <code>clojure.core/compare</code> as the comparator)</p><p><em><code>compare</code> sorts <code>nil</code> (an empty cell) below every other value, so <code>min</code> returns <code>nil</code> if the column has an empty cell.</em></p><p><code>sum</code> / <code>count</code>: Sum / count the values</p><p><code>mean</code> / <code>median</code>: Arithmetic mean / median, as doubles</p><p><code>mode</code>: The most frequent values</p><p><code>sd</code>: Sample standard deviation, as a double</p><p><code>skew</code>: Pearson's second skewness coefficient; NaN when all values are equal</p><p><code>smallest3</code> / <code>largest3</code>: The three smallest / largest values</p><p><code>smallestk</code> / <code>largestk</code>: The k smallest / largest values; they take k as a second argument, so wrap them, e.g. <code>#(gb-agg/largestk % 5)</code></p><p>Besides these given functions, you are also welcomed to define your own.</p><h4 id="how-to-define-group-by-aggregation-functions">How to define group-by aggregation functions?</h4><p>This is the template:</p><pre><code class="clojure">(defn gb-aggre-template
   [col]  ;; take only one argument which is the aggregation column in the format of vector
   ;; ... your implementation
   result    ;; return one variable (could be int / double / string / collection of above)
@@ -124,42 +139,52 @@
   )
 </code></pre><p><strong>Notes:</strong></p><ol><li>The old-result for the first <code>aggre-template</code> is <code>clojask.api.aggregate/start</code>. So your function must be able to deal with cases when the first argument is <code>clojask.api.aggregate/start</code>.</li><li>Your function should be self-sustainable, meaning that the result of <code>aggre-template</code> should be safe as the input for <code>aggre-template</code>.
 <ol><li>To better understand this template, you may refer to the documentation of <a href="https://clojuredocs.org/clojure.core/reduce"><code>reduce</code></a>, the <code>aggre-template</code> should be able to use in <code>reduce</code>.</li></ol></li><li>If the dataframe has no rows, the result is an empty cell.</li></ol>
-</div>
-<!--  -->
-<!-- <br/> -->
-
-
-    <!-- 
-    <div id="prev-next">
-    
-    <a class="prev" href="/clojask-website/posts-output/API/"><svg class="icon icon-circle-left"><use xlink:href="/clojask-website/img/icons.svg#icon-circle-left"></use></svg><div class="nav-text">API Docs</div></a>
-    
-    
-    <div class="next"></div>
-    
-</div>
-
-     -->
-
-    
-
-
-</div>
-
-            <!-- <hr/> -->
-            <br/>
-            <div id="footercont">
-                Copyright &copy; 2026 Clojask
-                <br>Powered by <a href="http://cryogenweb.org">Cryogen</a>
-            </div>
-        </article>
-
-        <script src="/clojask-website/js/highlight.pack.js" type="application/javascript"></script>
-        <script>hljs.initHighlightingOnLoad();</script>
-        <script src="/clojask-website/js.dropdown.js" type="application/javascript"></script> 
-        
+        </div>
 
         
+        <nav class="pager" aria-label="Previous and next page">
+            
+            <a class="pager-link prev" href="/clojask-website/posts-output/API/">
+                <span class="pager-label">&larr; Previous</span>
+                <span class="pager-title">API Docs</span>
+            </a>
+            
+            
+            <a class="pager-link next" href="/clojask-website/posts-output/extensions/">
+                <span class="pager-label">Next &rarr;</span>
+                <span class="pager-title">Extensions</span>
+            </a>
+            
+        </nav>
         
-    </body>
+    </article>
+
+    
+    <aside class="toc-side" aria-label="On this page">
+        <div class="toc-title">On this page</div>
+        <ul class="toc"><li><a href="#clojaskapiaggregate"><code>clojask.api.aggregate</code>:</a></li><li><a href="#clojaskapigb-aggregate"><code>clojask.api.gb-aggregate</code>:</a></li><li><a href="#how-to-define-group-by-aggregation-functions">How to define group-by aggregation functions?</a></li><li><a href="#how-to-define-simple-aggregation-functions">How to define simple aggregation functions?</a></li></ul>
+    </aside>
+    
+</div>
+
+
+
+            <footer class="site-footer">
+                <p>
+                    Clojask is open source (MIT) and developed at
+                    <a href="https://www.hkubs.hku.hk/">HKU Business School</a>.
+                    Found a bug? <a href="https://github.com/clojure-finance/clojask/issues">Open an issue</a>.
+                </p>
+                <p class="muted">
+                    &copy; 2026 Clojask contributors · Built with <a href="http://cryogenweb.org">Cryogen</a>
+                    · <a href="https://github.com/clojure-finance/clojask-website/blob/main/content/md/posts/aggregate-function.md">Edit this page</a>
+                </p>
+            </footer>
+        </main>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/clojure.min.js"></script>
+    <script src="/clojask-website/js/site.js" type="application/javascript"></script>
+</body>
 </html>
