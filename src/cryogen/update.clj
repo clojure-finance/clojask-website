@@ -1,90 +1,144 @@
 (ns cryogen.update
-  (:require [clojure.string :as str]))
+  "Regenerates content/md/posts/examples.md from a local clone of
+  clojask-examples: `lein update-examples [path]` (default
+  ../clojask-examples).
 
-(def basic_tutorial "#### Basic Tutorial\nAn [example](https://github.com/clojure-finance/clojask-examples/blob/main/src/clojask_examples/basic_tutorial.clj) of basic data manipulation operations performed through Clojask")
-(def gb-agg "#### Groupby Aggregation\nAn [example](https://github.com/clojure-finance/clojask-examples/blob/main/src/clojask_examples/groupby_aggregate.clj) of Group-by, then aggregate v.s. direct aggregate")
+  For each example the page shows its source minus the `ns` form, the input
+  files it reads, and the output files it writes. Outputs come from the
+  clone's outputs/ folder, so run `lein test` there first to refresh them."
+  (:require [clojure.java.io :as io]
+            [clojure.string :as str])
+  (:import (clojure.lang LineNumberingPushbackReader)
+           (java.io StringReader)))
 
-(def ordinary_join "#### Ordinary Join\nAn [example](https://github.com/clojure-finance/clojask-examples/blob/main/src/clojask_examples/ordinary_join.clj) of a basic join operation on Clojask ")
-(def in-mem "#### Store Results in Memory\nAn [example](https://github.com/clojure-finance/clojask-examples/blob/main/src/clojask_examples/in_memory.clj) of storing Clojask output in memory.")
-(def techml "#### Connection with `tech.ml.dataset`\nAn [example](https://github.com/clojure-finance/clojask-examples/blob/main/src/clojask_examples/techmldataset.clj) of converting from and to the popular Clojure DataFrame library `tech.ml.dataset`.")
-(def outer_join  "#### Outer Join\nAn [example](https://github.com/clojure-finance/clojask-examples/blob/main/src/clojask_examples/outer_join.clj) of an outer join operation on Clojask ")
+(def repo-url "https://github.com/clojure-finance/clojask-examples")
 
-(def rolling_join "#### Rolling Join\nAn [example](https://github.com/clojure-finance/clojask-examples/blob/main/src/clojask_examples/rolling_join.clj) on performing rolling joins in Clojask ")
+(def examples
+  [{:file    "basic_tutorial.clj"
+    :ns      "basic-tutorial"
+    :title   "Basic tutorial"
+    :about   "Set a column type, filter rows and update a column, then write the result. The same steps also run on a TSV file, written with the `->` macro, and through clojask-io's `read-file`."
+    :inputs  ["employees.csv" "cats.tsv"]
+    :outputs ["basic.csv" "basic3.csv" "basic4.tsv"]}
+   {:file    "groupby_aggregate.clj"
+    :ns      "groupby-aggregate"
+    :title   "Group-by and aggregate"
+    :about   "Aggregate within each department after `group-by`, then aggregate the whole dataframe without grouping. Note the different function namespaces: `gb-agg` for groups, `agg` for the whole dataframe."
+    :inputs  ["employees.csv"]
+    :outputs ["gb-agg.csv" "agg.csv"]}
+   {:file    "ordinary_join.clj"
+    :ns      "ordinary-join"
+    :title   "Inner, left and right join"
+    :about   "Join the employee table with a table of leave days on the `Employee` column. Columns from the left dataframe get the prefix `1_`, those from the right `2_`."
+    :inputs  ["employees.csv" "employees-workleave.csv"]
+    :outputs ["inner-join.csv" "left-join.csv" "right-join.csv"]}
+   {:file    "outer_join.clj"
+    :ns      "outer-join"
+    :title   "Outer join"
+    :about   "Keep the rows of both tables, matched or not. A row found in only one table has empty columns for the other."
+    :inputs  ["employees.csv" "employees-workleave.csv"]
+    :outputs ["outer-join.csv"]}
+   {:file    "rolling_join.clj"
+    :ns      "rolling-join"
+    :title   "Rolling join"
+    :about   "Match each employee record with the leave record of the nearest date: the latest one not after it (forward) or the earliest one not before it (backward), optionally only within 7 days (`:limit`)."
+    :inputs  ["employees.csv" "employees-workleave.csv"]
+    :outputs ["rolling-forward.csv" "rolling-backward.csv" "rolling-backward-7days.csv"]}
+   {:file    "in_memory.clj"
+    :ns      "in-memory"
+    :title   "Results in memory, Excel in and out"
+    :about   "Read an Excel sheet with clojask-io's `read-excel`, keep an intermediate result in memory (`compute` with output path `nil`), feed it into a join, and write the final result to an `.xlsx` file."
+    :inputs  []
+    :outputs []}
+   {:file    "techmldataset.clj"
+    :ns      "techmldataset"
+    :title   "Converting to and from tech.ml.dataset"
+    :about   "Turn a [tech.ml.dataset](https://github.com/techascent/tech.ml.dataset) dataset into a Clojask dataframe, and a Clojask result back into a dataset."
+    :inputs  ["employees.csv"]
+    :outputs []}
+   {:file    "enhanced_reshape.clj"
+    :ns      "enhanced-reshape"
+    :title   "Reshaping: melt, dcast, rbind"
+    :about   "Reshape a wide table to long with `melt` and back with `dcast`, and stack files with `rbind-csv` (see [Extensions](/posts-output/extensions/))."
+    :inputs  ["melt.csv" "dcast.csv"]
+    :outputs ["melt_result.csv" "rbind_result.csv" "dcast_result.csv"]}
+   {:file    "timezone.clj"
+    :ns      "timezone"
+    :title   "Time zones"
+    :about   "Parse timestamps that end in a time zone code, convert them to UTC with `operate`, write them with a custom formatter, and sum sales per UTC timestamp."
+    :inputs  ["sales.csv"]
+    :outputs ["timezone1.csv" "timezone2.csv"]}])
 
-;; (def multi_threading "#### Multi-Threading\nAn [example](https://github.com/clojure-finance/clojask-examples/blob/main/src/clojask_examples/multi_threading.clj) of multi threading various operations on Clojask ")
+(def header
+  "{:title \"Examples\"
+ :subtitle \"Complete programs from clojask-examples, with the files they read and write.\"
+ :date \"2021-09-29\"
+ :layout :post
+ :toc :ul}
 
-(def enhanced_reshape "#### Enhanced Reshape\nAn [example](https://github.com/clojure-finance/clojask-examples/blob/main/src/clojask_examples/enhanced_reshape.clj) on performing melt and cast operations in Clojask ")
+<!-- Generated by `lein update-examples` from clojask-examples; edit
+     src/cryogen/update.clj, not this file. -->
 
-(def timezone "#### Timezone\nAn [example](https://github.com/clojure-finance/clojask-examples/blob/main/src/clojask_examples/timezone.clj) on running timezone operations on clojask")
+Each example below is a complete program from the
+[clojask-examples](%s) repository, shown without its `ns` form. The input
+and output files are included, so you can follow along without running
+anything.
 
-;; (def ending_message "#### Coming Soon\n - foverlaps")
+> **Run them yourself.** Clone the repository, set `:main` in `project.clj`
+> to the example you want (for instance `clojask-examples.basic-tutorial/-main`),
+> and run `lein run`. The results land in `outputs/`. `lein test` runs every
+> example and checks its outputs.
 
-(defn grab_data
-  [input]
-  (str/split
-   (str/join ""
-             (drop-last
-              (slurp (str "https://raw.githubusercontent.com/clojure-finance/clojask-examples/main/src/clojask_examples/" input)))) #"(?=[(])"))
+```bash
+git clone %s
+cd clojask-examples
+lein run
+```
 
-;; (defn parse [text remove-num]
-;;   (->> text
-;;        (drop remove-num)
-;;        (str/join)
-;;        (spit "test.md")))
+All examples use `ck` for `clojask.dataframe`. The other aliases they use
+are `gb-agg` (`clojask.api.gb-aggregate`), `agg` (`clojask.api.aggregate`),
+`input` (`clojask-io.input`) and `ds` (`tech.ml.dataset`).
+")
 
-(defn parse [text]
-  (apply str "\n```clojure\n"
-         (->> text
-              (str/join))
-         "\n```\n\n"))
+(defn- without-ns-form
+  "The source after its first form (the `ns` form), without the
+  `;; Content Below` marker that older versions of this script needed."
+  [source]
+  (let [reader (LineNumberingPushbackReader. (StringReader. source))]
+    (read reader)
+    (-> (slurp reader)
+        (str/replace #"(?m)^;; Content Below\n" "")
+        str/trim)))
 
-;; Old parsing setting 
-;; (defn option
-;;   [text]
-;;   (cond (str/includes? text "requires")
-;;         (parse text 4)
-;;         :else (parse text 3)))
+(defn- file-block
+  "A collapsible block showing a data file."
+  [label path]
+  (let [file (io/file path)]
+    (if (.exists file)
+      (format "<details>\n<summary>%s <code>%s</code></summary>\n\n```text\n%s\n```\n\n</details>\n"
+              label (.getName file) (str/trimr (slurp file)))
+      (throw (ex-info (str "Missing file: " path
+                           " (run `lein test` in clojask-examples to create outputs)")
+                      {:path path})))))
 
-(defn option
-  [text]
-  (parse (apply str (rest (str/split (str/join "" text) #";; Content Below")))))
+(defn- section
+  [repo {:keys [file ns title about inputs outputs]}]
+  (str "## " title "\n\n"
+       about "\n\n"
+       (format "Source: [`%s`](%s/blob/main/src/clojask_examples/%s) · run with `:main clojask-examples.%s/-main`\n\n"
+               file repo-url file ns)
+       "```clojure\n"
+       (without-ns-form (slurp (io/file repo "src/clojask_examples" file)))
+       "\n```\n\n"
+       (str/join (map #(file-block "Input" (str repo "/resources/" %)) inputs))
+       (str/join (map #(file-block "Output" (str repo "/outputs/" %)) outputs))
+       "\n"))
 
-(defn -main []
-  (spit "content/md/posts/examples.md"
-        (str (slurp "doc/template.md")
-             "\n"
-             basic_tutorial
-             (option (grab_data "basic_tutorial.clj"))
-             "\n---\n"
-             gb-agg
-             (option (grab_data "groupby_aggregate.clj"))
-             "\n---\n"
-             ordinary_join
-             (option (grab_data "ordinary_join.clj"))
-             "\n---\n"
-             in-mem
-             (option (grab_data "in_memory.clj"))
-             "\n---\n"
-             techml
-             (option (grab_data "techmldataset.clj"))
-             "\n---\n"
-             rolling_join
-             (option (grab_data "rolling_join.clj"))
-             "\n---\n"
-             outer_join
-             (option (grab_data "outer_join.clj"))
-             "\n---\n"
-            ;;  multi_threading
-            ;;  (option (grab_data "multi_threading.clj"))
-            ;;  "\n---\n"
-             enhanced_reshape
-             (option (grab_data "enhanced_reshape.clj"))
-             "\n---\n"
-             timezone
-             (option (grab_data "timezone.clj"))
-             "\n---\n"
-            ;;  ending_message
-             ))
-  (println "All done"))
-
-
+(defn -main
+  [& [repo]]
+  (let [repo (or repo "../clojask-examples")]
+    (spit "content/md/posts/examples.md"
+          (str (format header repo-url repo-url)
+               "\n"
+               (str/join (map #(section repo %) examples))))
+    (println "Wrote content/md/posts/examples.md from" repo)))

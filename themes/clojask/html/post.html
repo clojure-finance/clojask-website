@@ -1,0 +1,13 @@
+{% extends "/html/base.html" %}
+{% block subtitle %}{{post.title}} · {% endblock %}
+{% block meta %}
+<meta name="description" content="{% if post.description %}{{post.description}}{% else %}{{description}}{% endif %}">
+<meta property="og:description" content="{% if post.description %}{{post.description}}{% else %}{{description}}{% endif %}">
+<meta property="og:url" content="{{site-url}}{{uri}}">
+<meta property="og:title" content="{{post.title}} · Clojask">
+<meta property="og:type" content="article">
+{% endblock %}
+{% block content %}
+{% with doc=post %}{% include "/html/doc.html" %}{% endwith %}
+{% endblock %}
+{% block edit-link %}· <a href="{{post.source-url}}">Edit this page</a>{% endblock %}

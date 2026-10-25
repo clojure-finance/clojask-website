@@ -1,0 +1,14 @@
+{% extends "/html/base.html" %}
+{% block subtitle %}Tags · {% endblock %}
+{% block content %}
+<div class="doc-grid">
+    <article class="doc">
+        <header class="doc-header"><h1>Tags</h1></header>
+        <ul class="page-list">
+            {% for tag in tags %}
+            <li><a href="{{tag.uri}}">{{tag.name}}</a></li>
+            {% endfor %}
+        </ul>
+    </article>
+</div>
+{% endblock %}

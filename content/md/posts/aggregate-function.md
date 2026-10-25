@@ -1,7 +1,9 @@
 {:title "Aggregation Functions"
-:date "2021-09-28"
-:layout :post 
-:tags  []}
+ :subtitle "The built-in aggregation functions, and how to write your own."
+ :date "2021-09-28"
+ :layout :post
+ :toc :ul
+ :tags []}
 
 In Clojask, you can aggregate on the whole dataframe, or on the group-by dataframe. We call the first case "simple aggregation" and the second "group-by aggregation". Some given functions for simple aggregation are defined in namespace `clojask.api.aggregate`, and the given functions for group-by aggregation are defined in namespace `clojask.api.gb-aggregate`. 
 

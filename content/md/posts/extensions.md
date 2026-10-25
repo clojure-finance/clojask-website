@@ -1,7 +1,8 @@
-{:title "Extensions" 
-:date "2022-02-22"
-:layout :post
-:toc :ul}
+{:title "Extensions"
+ :subtitle "Binding files together and reshaping dataframes, built on the public API."
+ :date "2022-02-22"
+ :layout :post
+ :toc :ul}
 
 ## clojask.extensions
 

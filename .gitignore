@@ -13,3 +13,6 @@ pom.xml.asc
 /.cpcache/
 /.clj-kondo/
 .lsp
+.DS_Store
+.nrepl-port
+/.clojask/

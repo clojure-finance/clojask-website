@@ -1,177 +1,86 @@
-{:title "About"
+{:title "About & Benchmarks"
+ :subtitle "Where Clojask comes from, how fast it is, and how it compares with other big-data tools."
  :layout :page
  :toc :ul
- :page-index 0
+ :page-index 1
  :navbar? true}
 
-## Talk on Clojure data-recur meeting
+## The project
 
-This talk is about the general information and status of the project as of Oct 2022. (From: 9:09 To: 58:02)
+Clojask is an open-source Clojure library developed at [HKU Business School](https://www.hkubs.hku.hk/), as part of [clojure-finance](https://github.com/clojure-finance). It aims to make data that doesn't fit in memory as easy to work with as a small dataframe, on a single machine.
 
-<iframe width="560" height="315" src="https://www.youtube.com/embed/nTyPMxDlw0w?start=549&end=586" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+It is made of three parts:
 
-</a>
+- [**clojask**](https://github.com/clojure-finance/clojask): the dataframe API and the engine that runs it.
+- [**clojask-io**](https://github.com/clojure-finance/clojask-io): reading and writing text and Excel files, installed together with clojask.
+- [**clojask-examples**](https://github.com/clojure-finance/clojask-examples): runnable example programs, shown on the [Examples](/posts-output/examples/) page.
 
----
+## Talk at the Clojure data-recur meeting
+
+The general state of the project as of October 2022, presented at a Clojure data-recur meeting (from 9:09 to 58:02):
+
+<iframe src="https://www.youtube-nocookie.com/embed/nTyPMxDlw0w?start=549" title="Clojask talk at data-recur" allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen loading="lazy"></iframe>
 
 ## Benchmarks
 
-Number of workers = 4
+Clojask against [Dask](https://www.dask.org/), the Python library for larger-than-memory dataframes, with 4 workers each. Times are in seconds; N is the number of rows in the CSV file.
 
-<table id = "box" class = "table1">
-    <thead class = "thead1">
-    <tr>
-        <th>Operation</th>
-        <th>Dask (N=1.8M)</th>
-        <th>Dask (N=3.6M)</th>
-        <th>Dask (N=80M)*</th>
-        <th>Clojask (N=1.8M)</th>
-        <th>Clojask (N=3.6M)</th>
-        <th>Clojask (N=80M)</th>
-    </tr>
-    </thead>
-    <tbody>
-    <tr>
-        <td>Element-wise operation</td>
-        <td>119.3</td>
-        <td>261.3</td>
-        <td>N/A</td>
-        <td>72.3</td>
-        <td>133.3</td>
-        <td>1836.6</td>
-    </tr>
-    <tr>
-        <td>Row-wise selection</td>
-        <td>115.0</td>
-        <td>232.0</td>
-        <td>N/A</td>
-        <td>67.9</td>
-        <td>145.6</td>
-        <td>1757.5</td>
-    </tr>
-    <tr>
-        <td>Aggregation</td>
-        <td>116.0</td>
-        <td>226.7</td>
-        <td>N/A</td>
-        <td>58.6</td>
-        <td>112.1</td>
-        <td>1236.9</td>
-    </tr>
-    <tr>
-        <td>Groupby-aggregate</td>
-        <td>116.7</td>
-        <td>229.3</td>
-        <td>N/A</td>
-        <td>459.4</td>
-        <td>803.1</td>
-        <td>25860.0</td>
-    </tr>
-    <tr>
-        <td>Left join</td>
-        <td>114.7</td>
-        <td>248.7</td>
-        <td>N/A</td>
-        <td>1174.4</td>
-        <td>2310.2</td>
-        <td>14007.9</td>
-    </tr>
-    <tr>
-        <td>Inner join</td>
-        <td>116.7</td>
-        <td>242.0</td>
-        <td>N/A</td>
-        <td>1138.8</td>
-        <td>2768.5</td>
-        <td>21609.3</td>
-    </tr>
-    <tr>
-        <td>Rolling join</td>
-        <td>-</td>
-        <td>-</td>
-        <td>-</td>
-        <td>2812.1</td>
-        <td>3943.1</td>
-        <td>&gt; 28800</td>
-    </tr>
-    </tbody>
+<table class="numeric">
+<thead>
+<tr><th>Operation</th><th>Dask<br>N = 1.8M</th><th>Dask<br>N = 3.6M</th><th>Dask<br>N = 80M</th><th>Clojask<br>N = 1.8M</th><th>Clojask<br>N = 3.6M</th><th>Clojask<br>N = 80M</th></tr>
+</thead>
+<tbody>
+<tr><td>Element-wise operation</td><td>119.3</td><td>261.3</td><td>N/A*</td><td><strong>72.3</strong></td><td><strong>133.3</strong></td><td><strong>1836.6</strong></td></tr>
+<tr><td>Row-wise selection</td><td>115.0</td><td>232.0</td><td>N/A*</td><td><strong>67.9</strong></td><td><strong>145.6</strong></td><td><strong>1757.5</strong></td></tr>
+<tr><td>Aggregation</td><td>116.0</td><td>226.7</td><td>N/A*</td><td><strong>58.6</strong></td><td><strong>112.1</strong></td><td><strong>1236.9</strong></td></tr>
+<tr><td>Group-by aggregate</td><td><strong>116.7</strong></td><td><strong>229.3</strong></td><td>N/A*</td><td>459.4</td><td>803.1</td><td>25860.0</td></tr>
+<tr><td>Left join</td><td><strong>114.7</strong></td><td><strong>248.7</strong></td><td>N/A*</td><td>1174.4</td><td>2310.2</td><td>14007.9</td></tr>
+<tr><td>Inner join</td><td><strong>116.7</strong></td><td><strong>242.0</strong></td><td>N/A*</td><td>1138.8</td><td>2768.5</td><td>21609.3</td></tr>
+<tr><td>Rolling join</td><td>–</td><td>–</td><td>–</td><td>2812.1</td><td>3943.1</td><td>&gt; 28800</td></tr>
+</tbody>
 </table>
 
-<br>
+<p class="muted">The faster time in each comparable pair is in bold. * Dask could not finish any operation on 80M rows within 7 hours. The rolling join was not benchmarked for Dask.</p>
 
-**Remarks:**
-- These numbers were measured in 2021 with Clojask 1.x, which ran on [Onyx](http://www.onyxplatform.org/). Clojask 2.1.0 replaced Onyx with its own thread pool, which is faster in every operation tested so far; the tables above have not been re-run yet.
-- N = Number of lines in csv file
-- All benchmarks are in the unit of second (s)
-- All benchmarks are inclusive of the time used for importing necssary libraries, loading the dataframe from csv file and ouputting the processed dataframe to one single csv file.
-- *In the case of Dask (N=80M) the program could not manage to complete the operation in 7 hours
+How to read these numbers:
 
-<br>
+- Clojask was faster at element-wise operations, filtering and whole-file aggregation, and it still finished at 80M rows, where Dask did not.
+- Dask was faster at group-by and joins on the smaller files.
+- Every time includes loading the libraries, reading the CSV file, and writing the result to a single CSV file.
 
-**System info**
-```
-'platform': 'Darwin',
-'platform-release': '20.4.0',
-'platform-version': 'Darwin Kernel Version 20.4.0: Thu Apr 22 21:46:47 PDT 2021; root:xnu-7195.101.2~1/RELEASE_X86_64',
-'architecture': 'x86_64',
-'processor': 'i386',
-'ram': '8 GB'
-```
+> **Warning** These numbers were measured in 2021 with Clojask 1.x, which ran on [Onyx](http://www.onyxplatform.org/). Since 2.1.0, Clojask uses its own thread pool, which has been faster in every operation tested so far; the benchmarks have not been rerun yet.
 
-**Source code**
+The benchmarks ran on macOS (Darwin 20.4.0) on an x86_64 machine with 8 GB of RAM. The code is in the clojask repository:
 
-The benchmarking code for Dask and Clojask could be found here respectively:
+- [Dask benchmark (notebook)](https://github.com/clojure-finance/clojask/blob/2.x.x/benchmark/dask-benchmark.ipynb)
+- [Clojask benchmark](https://github.com/clojure-finance/clojask/blob/2.x.x/benchmark/clojure-benchmark.clj)
 
-* [Dask benchmarking code](https://github.com/clojure-finance/clojask/blob/2.x.x/benchmark/dask-benchmark.ipynb)
-* [Clojask benchmaking code](https://github.com/clojure-finance/clojask/blob/2.x.x/benchmark/clojure-benchmark.clj)
+## Compared with Hadoop and Spark
 
-</a>
-
----
-
-## Comparison/Advantages with other larger than memory systems
+Clojask borrows ideas from the big distributed systems, but runs inside one JVM.
 
 **Hadoop MapReduce**
 
-| Functions                      | Clojask             | Hadoop MapReduce   |
-| ------------------------------ | ------------------- | ------------------ |
-| Larger-than-memory source file | ✅                 | ✅                |
-| Write intermediate results to tmp files | ✅                 | ✅                |
-| MapReduce paradigm | ✅                 | ✅                |
-| Join, filter, aggregate, etc. on large files | ✅                | ❌                |
-
+| Feature | Clojask | Hadoop MapReduce |
+| ------- | :-----: | :--------------: |
+| Larger-than-memory source files | ✅ | ✅ |
+| Writes intermediate results to temporary files | ✅ | ✅ |
+| MapReduce paradigm | ✅ | ✅ |
+| Join, filter, aggregate, etc. on large files out of the box | ✅ | ❌ |
 
 **Spark**
 
-| Functions           | Clojask            | Spark               |
-| ------------------- | ------------------- | ------------------ | 
-| Construct operations' DAG | ❌ | ✅ |
-| Join, filter, aggregate, etc | ✅ | ✅ |
-| Cache intermediate results between stages in memory | ❌ | ✅ |
-| Minimum memory usage | ✅ | ❌ |
+| Feature | Clojask | Spark |
+| ------- | :-----: | :---: |
+| Builds a DAG of operations and optimizes it | ❌ | ✅ |
+| Join, filter, aggregate, etc. | ✅ | ✅ |
+| Caches intermediate results in memory between stages | ❌ | ✅ |
+| Minimal memory use | ✅ | ❌ |
 
-</a>
+## Design history
 
----
+Up to version 2.0.x, Clojask ran its pipelines on [Onyx](http://www.onyxplatform.org/), a distributed computation framework, inside one process. Version 2.1.0 replaced Onyx with a small thread pool of its own: one thread reads the input in batches, a pool of worker threads runs the operations, and the calling thread writes the output. That removed a large dependency and the JVM flags it needed, and made every operation tested so far faster. [Core Concepts](/posts-output/concepts/#what-happens-during-compute) describes the current design.
 
-## Clojask Library Ecosystem 
+The diagram below shows the original design. The steps inside each stage are the same today, but the "nodes" are now threads, and `add-parser` and `add-formatter` have become `set-parser` and `set-formatter`. Click it to open the full-size image.
 
-(Click to view a closeup of image)
-
-<!-- ![Clojask operations](/img/clojask_ecosystem.png) -->
-
-<a href="https://raw.githubusercontent.com/clojure-finance/clojask-website/main/content/img/clojask_ecosystem.png" target="_blank" >
-<img src="https://raw.githubusercontent.com/clojure-finance/clojask-website/main/content/img/clojask_ecosystem.png" alt="Clojask ecosystem" />
-</a>
-
----
-
-## Clojask Logic Flow Diagram 
-(Click to view a closeup of image)
-This diagram shows the design up to 2.0.x, when Clojask ran on Onyx (`add-parser` and `add-formatter` are now `set-parser` and `set-formatter`). Since 2.1.0, one thread reads the input in batches, a pool of worker threads runs the operations, and the calling thread writes the output; the steps inside each stage are the same.
-
-<a href="https://raw.githubusercontent.com/clojure-finance/clojask-website/main/content/img/diagram.png" target="_blank" >
-<img src="https://raw.githubusercontent.com/clojure-finance/clojask-website/main/content/img/diagram.png" alt="Clojask logic" />
-</a>
-
----
+<a href="/img/diagram.png"><img src="/img/diagram.png" alt="Clojask logic flow diagram from the Onyx-based design (up to 2.0.x)" loading="lazy"></a>

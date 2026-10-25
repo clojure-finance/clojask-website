@@ -1,0 +1,62 @@
+{% extends "/html/base.html" %}
+{% block subtitle %}{% endblock %}
+{% block meta %}
+<meta name="description" content="{{description}}">
+<meta property="og:description" content="{{description}}">
+<meta property="og:url" content="{{site-url}}/">
+<meta property="og:title" content="Clojask: dataframes larger than memory, in Clojure">
+<meta property="og:type" content="website">
+{% endblock %}
+{% block content %}
+<section class="hero">
+    <div class="hero-text">
+        <p class="eyebrow">Clojure dataframes · v{{clojask-version}}</p>
+        <h1>Process data that doesn&rsquo;t fit in memory.</h1>
+        <p class="hero-lede">
+            Clojask reads a large CSV file in chunks, runs your filters, transformations,
+            group-bys and joins on all CPU cores, and writes the result straight to a
+            new file. You write ordinary Clojure functions; Clojask handles the streaming.
+        </p>
+        <div class="hero-actions">
+            <a class="button primary" href="{{blog-prefix}}/posts-output/get-started/">Get started</a>
+            <a class="button" href="{{blog-prefix}}/posts-output/concepts/">How it works</a>
+            <a class="button ghost" href="https://github.com/clojure-finance/clojask">GitHub</a>
+        </div>
+        <div class="install">
+            <div class="install-row"><span class="install-label">deps.edn</span><code>com.github.clojure-finance/clojask {:mvn/version "{{clojask-version}}"}</code></div>
+            <div class="install-row"><span class="install-label">Leiningen</span><code>[com.github.clojure-finance/clojask "{{clojask-version}}"]</code></div>
+        </div>
+    </div>
+    <div class="hero-code">
+        <div class="window">
+            <div class="window-bar"><span></span><span></span><span></span><em>salaries.clj</em></div>
+<pre><code class="clojure">(require '[clojask.dataframe :as ck])
+
+;; 1. point at a file (nothing is read yet)
+(def df (ck/dataframe "employees.csv"))
+
+;; 2. describe the work
+(ck/set-type df "Salary" "int")
+(ck/filter df "Salary" #(&lt; % 10000))
+(ck/operate df #(quot % 10) "Salary" "Bonus")
+
+;; 3. run it: 4 worker threads, file to file
+(ck/compute df 4 "with-bonus.csv")</code></pre>
+        </div>
+    </div>
+</section>
+
+<div class="home-body doc">
+    {{page.content|safe}}
+
+    {% if page.doc-next %}
+    <nav class="pager" aria-label="Next page">
+        <span></span>
+        <a class="pager-link next" href="{{page.doc-next.uri}}">
+            <span class="pager-label">Next &rarr;</span>
+            <span class="pager-title">{{page.doc-next.title}}</span>
+        </a>
+    </nav>
+    {% endif %}
+</div>
+{% endblock %}

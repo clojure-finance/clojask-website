@@ -1,8 +1,9 @@
 {:title "API Docs"
-:date "2021-09-28"
-:layout :post 
-:toc :ul
-:tags  []} 
+ :subtitle "Every function in clojask.dataframe, with its arguments and options."
+ :date "2021-09-28"
+ :layout :post
+ :toc :ul
+ :tags []}
 
 
 
