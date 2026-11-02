@@ -17,15 +17,23 @@
    [cryogen-core.io :refer [path]]
    [cryogen.site :as site]))
 
+(defn- build
+  "Builds the site, or with a changeset only the pages that changed, then
+  writes the search index."
+  ([] (build {}))
+  ([changeset]
+   (compile-assets-timed site/hooks changeset)
+   (site/write-search-index!)))
+
 (defn init [fast?]
   (println "Init: fast compile enabled = " (boolean fast?))
   (load-plugins)
-  (compile-assets-timed site/hooks)
+  (build)
   (let [ignored-files (-> (resolve-config) :ignored-files)]
     (run!
      #(if fast?
-        (start-watcher-for-changes! % ignored-files compile-assets-timed site/hooks)
-        (start-watcher! % ignored-files (fn [] (compile-assets-timed site/hooks))))
+        (start-watcher-for-changes! % ignored-files build)
+        (start-watcher! % ignored-files build))
      ["content" "themes"])))
 
 (defn wrap-subdirectories

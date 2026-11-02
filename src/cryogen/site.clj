@@ -5,8 +5,11 @@
   turn each link's `:path` into a full URI for the templates, give every
   page in the sidebar a link to the page before and after it, and add the
   GitHub URL of each page's Markdown source."
-  (:require [clojure.string :as str]
+  (:require [cheshire.core :as json]
+            [clojure.string :as str]
             [cryogen-core.compiler :as compiler]
+            [cryogen-core.config :as config]
+            [cryogen-core.io :as cryogen-io]
             [net.cgrand.enlive-html :as html]))
 
 (def ^:private source-url
@@ -37,6 +40,26 @@
          (str source-url (if (= type :post) "posts/" "pages/")
               (str/replace file-name #"\.html$" ".md"))))
 
+(defn- heading-entries
+  "One entry per h2-h4 with an id. An h3 or h4 also names the nearest heading
+  above it at a higher level, so headings that repeat on a page (\"API
+  Foundation\") can be told apart."
+  [page uri content-dom]
+  (first
+   (reduce (fn [[entries parents] heading]
+             (let [text    (str/trim (html/text heading))
+                   id      (get-in heading [:attrs :id])
+                   level   (Character/digit (last (name (:tag heading))) 10)
+                   parents (filterv #(< (first %) level) parents)
+                   section (second (peek parents))]
+               [(if (str/blank? id)
+                  entries
+                  (conj entries (cond-> {:title text :page page :uri (str uri "#" id)}
+                                  section (assoc :section section))))
+                (conj parents [level text])]))
+           [[] []]
+           (html/select content-dom #{[:h2] [:h3] [:h4]}))))
+
 (defn search-index
   "Page titles and section anchors from the compiled documentation, in nav order."
   [params {:keys [posts pages]}]
@@ -46,29 +69,24 @@
       (fn [{:keys [title uri]}]
         (when-let [article (articles uri)]
           (cons {:title title :page title :uri uri}
-                (for [heading (html/select (:content-dom article) #{[:h2] [:h3] [:h4]})
-                      :let [id (get-in heading [:attrs :id])]
-                      :when (not (str/blank? id))]
-                  {:title (str/trim (html/text heading))
-                   :page title
-                   :uri (str uri "#" id)}))))
+                (heading-entries title uri (:content-dom article)))))
       (mapcat :links (nav-sections params))))))
 
-(defn- complete-search-data
-  "Fast preview builds pass only changed articles; search still needs all pages."
-  [params {:keys [posts pages] :as site-data}]
-  (let [available (set (map :uri (concat posts pages)))
-        required (map :uri (mapcat :links (nav-sections params)))]
-    (if (every? available required)
-      site-data
-      {:posts (compiler/read-posts params (constantly true))
-       :pages (compiler/read-pages params (constantly true))})))
+(defn write-search-index!
+  "Writes search.json, which the sidebar search loads on first use. Call it
+  after a build. It reads every page again, since a fast preview build
+  compiles only the pages that changed."
+  []
+  (let [params (config/resolve-config)]
+    (cryogen-io/create-file
+     (cryogen-io/path "/" (:blog-prefix params) "search.json")
+     (json/generate-string
+      (search-index params {:posts (compiler/read-posts params (constantly true))
+                            :pages (compiler/read-pages params (constantly true))})))))
 
 (def hooks
-  {:extend-params-fn  (fn [params site-data]
-                        (assoc params
-                               :nav-sections (nav-sections params)
-                               :search-index (search-index params (complete-search-data params site-data))))
+  {:extend-params-fn  (fn [params _site-data]
+                        (assoc params :nav-sections (nav-sections params)))
    :update-article-fn (fn [article config]
                         (-> article
                             (add-prev-next config)

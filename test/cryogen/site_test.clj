@@ -1,6 +1,9 @@
 (ns cryogen.site-test
-  (:require [clojure.test :refer [deftest is testing]]
+  (:require [cheshire.core :as json]
+            [clojure.test :refer [deftest is testing]]
             [cryogen-core.compiler :as compiler]
+            [cryogen-core.config :as config]
+            [cryogen-core.io :as cryogen-io]
             [cryogen.site :as site]
             [net.cgrand.enlive-html :as html]))
 
@@ -32,16 +35,33 @@
     (testing "missing pages never create dead results"
       (is (empty? (site/search-index params {:pages [] :posts []}))))))
 
-(deftest fast-preview-keeps-unchanged-pages-searchable
+(deftest repeated-headings-name-their-section
+  (let [params {:docs-nav [{:links [{:title "Extensions" :path "/ext/"}]}]}
+        ext {:uri "/ext/"
+             :content-dom (html/html-snippet
+                           (str "<h2 id='extensions'>Extensions</h2>"
+                                "<h3 id='bind'>ns: bind</h3>"
+                                "<h4 id='api-foundation'>API Foundation</h4>"
+                                "<h3 id='reshape'>ns: reshape</h3>"
+                                "<h4 id='api-foundation-2'>API Foundation</h4>"
+                                "<h2 id='next'>Next</h2>"))}]
+    (is (= [nil nil "Extensions" "ns: bind" "Extensions" "ns: reshape" nil]
+           (mapv :section (site/search-index params {:posts [ext]}))))))
+
+(deftest search-json-covers-every-page
   (let [params {:blog-prefix "/docs"
                 :docs-nav [{:links [{:title "API" :path "/api/"}
-                                    {:title "Examples" :path "/examples/"}]}]}
+                                    {:title "About" :path "/about/"}]}]}
         api {:uri "/docs/api/"
              :content-dom (html/html-snippet "<h3 id='compute'>compute</h3>")}
-        examples {:uri "/docs/examples/"
-                  :content-dom (html/html-snippet "<h2 id='joins'>Joins</h2>")}
-        extend-params (:extend-params-fn site/hooks)]
-    (with-redefs [compiler/read-posts (fn [_ include?] (filter include? [api examples]))
-                  compiler/read-pages (fn [_ _] [])]
-      (is (= (:search-index (extend-params params {:posts [api examples]}))
-             (:search-index (extend-params params {:posts [examples]})))))))
+        about {:uri "/docs/about/"
+               :content-dom (html/html-snippet "<h2 id='history'>History</h2>")}
+        written (atom nil)]
+    (with-redefs [config/resolve-config (constantly params)
+                  compiler/read-posts (fn [_ include?] (filter include? [api]))
+                  compiler/read-pages (fn [_ include?] (filter include? [about]))
+                  cryogen-io/create-file (fn [path data] (reset! written [path data]))]
+      (site/write-search-index!))
+    (is (= "/docs/search.json" (first @written)))
+    (is (= ["/docs/api/" "/docs/api/#compute" "/docs/about/" "/docs/about/#history"]
+           (mapv :uri (json/parse-string (second @written) true))))))

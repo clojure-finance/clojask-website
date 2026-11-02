@@ -8,7 +8,8 @@
                  [compojure "1.6.2"]
                  [ring-server "0.5.0"]
                  [cryogen-flexmark "0.1.4"]
-                 [cryogen-core "0.4.0"]]
+                 [cryogen-core "0.4.0"]
+                 [cheshire "5.10.0"]]
   :main cryogen.core
   :aliases {"serve"           ["run" "-m" "cryogen.server"]
             "serve-fast"      ["run" "-m" "cryogen.server" "fast"]

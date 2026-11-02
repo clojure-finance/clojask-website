@@ -11,6 +11,7 @@
   (load-plugins)
   (try
     (time (compile-assets site/hooks nil))
+    (site/write-search-index!)
     (catch Throwable e
       (binding [*out* *err*]
         (println "Build failed:" (.getMessage e)))

@@ -108,7 +108,7 @@ Joins some csv files into a new dataframe by rows.
 
 `cbind` and `rbind` take the same arguments and infer each file's format from its extension instead of assuming csv. The separator for each format is listed under `read-file` in the [clojask-io README](https://github.com/clojure-finance/clojask-io#read-file).
 
-#### **It is also possible and encouraged to create more binding functions for other file types.**
+It is also possible, and encouraged, to create more binding functions for other file types.
 
 ### ns: clojask.extensions.reshape
 

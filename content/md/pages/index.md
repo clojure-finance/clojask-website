@@ -10,6 +10,9 @@
 <div class="card"><h3>Larger than memory</h3><p>Stream a large CSV through filters and transformations in small batches, then write the result straight to a file.</p></div>
 <div class="card"><h3>Parallel on one machine</h3><p>Use up to eight worker threads in one JVM. There is no cluster to set up or manage.</p></div>
 <div class="card"><h3>Plain Clojure functions</h3><p>Clean, filter, group and join your data using ordinary functions on Java and Clojure values.</p></div>
+<div class="card"><h3>Lazy pipeline</h3><p>Steps are recorded, checked on a sample, and run together in a single pass over the file.</p></div>
+<div class="card"><h3>Relational operations</h3><p>Filter, group-by, aggregate, inner, left, right and outer joins, plus rolling joins for time series.</p></div>
+<div class="card"><h3>File in, file out</h3><p>Reads CSV, TSV and other text files (and Excel through clojask-io), and writes text or <code>.xlsx</code>.</p></div>
 </div>
 
 ## Is Clojask the right tool?

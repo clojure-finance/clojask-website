@@ -61,8 +61,11 @@ branch, so **a push to `main` goes live**: preview first.
    previous/next links at the bottom of each page follow that order.
 
 Documentation search is generated from those pages' titles and level 2–4
-headings. It runs in the browser without a search service. Keep function names
-in headings so readers can find them and link to their sections.
+headings: the build writes them to `search.json`, which the sidebar search
+loads the first time a reader focuses it (or presses `/`). A level 3 or 4
+result also shows the level 2 heading above it. Keep function names in
+headings so readers can find them and link to their sections, and don't use a
+heading for an ordinary sentence.
 
 ### Writing conventions
 
@@ -77,11 +80,16 @@ in headings so readers can find them and link to their sections.
 
 ## Where the content comes from
 
-- **API Docs and Extensions** mirror the files in
-  [`clojask/docs/`](https://github.com/clojure-finance/clojask/tree/2.x.x/docs).
-  When those change upstream, copy the changes here (the website keeps its
-  own front matter and links to `/posts-output/...` pages instead of `.md`
-  files).
+- **API Docs** is based on `documentation.md` in
+  [`clojask/docs/`](https://github.com/clojure-finance/clojask/tree/2.x.x/docs),
+  but is laid out differently: functions are grouped under level 2 sections
+  (Read and inspect, Transform, …) with one level 3 heading per function, and
+  the deprecated `sort` comes last. When the upstream file changes, carry the
+  changes over by hand into that layout.
+- **Extensions** mirrors `clojask.extensions.md` in the same folder. When it
+  changes upstream, copy the changes here.
+- Both keep their own front matter and link to `/posts-output/...` pages
+  instead of `.md` files.
 - **Aggregation Functions** is a guide based on the aggregation APIs in
   `clojask/docs/`. Preserve its worked examples and structure when syncing API
   changes. Its sample CSV lives in `content/downloads/aggregation/`.

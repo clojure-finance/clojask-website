@@ -25,29 +25,64 @@
     }
   });
 
-  // ---- Search compiled page titles and headings, without a network request ----
+  // ---- Search page titles and headings from search.json, loaded on first use ----
   var search = document.querySelector(".doc-search");
-  if (search) {
+  if (search && window.fetch) {
     var searchInput = search.querySelector("input");
     var searchResults = search.querySelector(".search-results");
     var searchStatus = search.querySelector(".search-status");
+    var entries = null;
+    var loading = null;
     function normalize(text) {
       return text.toLowerCase().replace(/[^a-z0-9]+/g, " ").trim();
     }
-    var entries = Array.prototype.map.call(searchResults.children, function (item) {
-      return {
-        item: item,
-        title: normalize(item.querySelector(".search-title").textContent),
-        text: normalize(item.querySelector(".search-title").textContent + " " +
-          item.querySelector(".search-page").textContent)
-      };
-    });
+    function loadIndex() {
+      if (!loading) {
+        loading = fetch(search.getAttribute("data-index"))
+          .then(function (response) {
+            if (!response.ok) throw new Error(response.statusText);
+            return response.json();
+          })
+          .then(function (data) {
+            entries = data.map(function (d) {
+              // "Page › Section" tells apart headings that repeat on a page.
+              var context = d.section ? d.page + " \u203a " + d.section : d.page;
+              return {
+                uri: d.uri, label: d.title, context: context,
+                title: normalize(d.title),
+                text: normalize(d.title + " " + context)
+              };
+            });
+          })
+          .catch(function () {
+            loading = null;  // try again on the next keystroke
+            searchStatus.textContent = "Search could not be loaded. Use the menu below.";
+          });
+      }
+      return loading;
+    }
+    function resultItem(entry) {
+      var item = document.createElement("li");
+      var link = document.createElement("a");
+      var title = document.createElement("span");
+      var context = document.createElement("span");
+      link.href = entry.uri;
+      title.className = "search-title";
+      title.textContent = entry.label;
+      context.className = "search-page";
+      context.textContent = entry.context;
+      link.appendChild(title);
+      link.appendChild(context);
+      item.appendChild(link);
+      return item;
+    }
     function updateSearch() {
       var query = normalize(searchInput.value);
-      var terms = query.split(/\s+/);
-      entries.forEach(function (entry) { entry.item.hidden = true; });
-      searchResults.hidden = !query;
+      var terms = query.split(" ");
+      searchResults.textContent = "";
+      searchResults.hidden = true;
       if (!query) { searchStatus.textContent = ""; return; }
+      if (!entries) return;
       var matches = entries.filter(function (entry) {
         return terms.every(function (term) { return entry.text.includes(term); });
       });
@@ -59,19 +94,22 @@
       }
       matches.sort(function (a, b) { return rank(a) - rank(b); });
       matches.slice(0, 8).forEach(function (entry) {
-        entry.item.hidden = false;
-        searchResults.appendChild(entry.item);
+        searchResults.appendChild(resultItem(entry));
       });
+      searchResults.hidden = !matches.length;
       searchStatus.textContent = matches.length
         ? (matches.length > 8 ? "Showing 8 of " + matches.length : String(matches.length)) +
           (matches.length === 1 ? " result." : " results.")
         : "No results. Try a function or page name.";
       searchResults.scrollTop = 0;
     }
-    searchInput.addEventListener("input", updateSearch);
+    searchInput.addEventListener("focus", loadIndex);
+    searchInput.addEventListener("input", function () {
+      loadIndex().then(updateSearch);
+    });
     searchInput.addEventListener("keydown", function (e) {
       if (e.key === "ArrowDown") {
-        var first = searchResults.querySelector("li:not([hidden]) a");
+        var first = searchResults.querySelector("a");
         if (first) { e.preventDefault(); first.focus(); }
       }
     });
@@ -96,6 +134,15 @@
           }
         }
       }
+    });
+    // "/" jumps to the search box, opening the menu first on small screens.
+    document.addEventListener("keydown", function (e) {
+      if (e.key !== "/" || e.ctrlKey || e.metaKey || e.altKey || e.defaultPrevented) return;
+      var target = e.target;
+      if (target.isContentEditable || /^(INPUT|TEXTAREA|SELECT)$/.test(target.tagName)) return;
+      e.preventDefault();
+      if (toggle && toggle.offsetParent) setMenu(true);
+      searchInput.focus();
     });
     search.hidden = false;
   }
