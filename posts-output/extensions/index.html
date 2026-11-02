@@ -46,223 +46,11 @@
                 <span class="version" title="Latest release">v2.1.3</span>
             </a>
 
-            <div class="doc-search" role="search" aria-label="Documentation" hidden>
-                <label for="doc-search-input">Search the docs</label>
-                <input id="doc-search-input" type="search" placeholder="Try compute or joins" autocomplete="off" spellcheck="false" aria-controls="doc-search-results" aria-describedby="doc-search-status">
+            <div class="doc-search" role="search" aria-label="Documentation" data-index="/clojask-website/search.json" hidden>
+                <label for="doc-search-input">Search the docs <kbd class="search-key" aria-hidden="true">/</kbd></label>
+                <input id="doc-search-input" type="search" placeholder="Try compute or joins" autocomplete="off" spellcheck="false" aria-keyshortcuts="/" aria-controls="doc-search-results" aria-describedby="doc-search-status">
                 <p id="doc-search-status" class="search-status" role="status"></p>
-                <ul id="doc-search-results" class="search-results" hidden>
-                    
-                    <li hidden><a href="/clojask-website/posts-output/get-started/"><span class="search-title">Get Started</span><span class="search-page">Get Started</span></a></li>
-                    
-                    <li hidden><a href="/clojask-website/posts-output/get-started/#install"><span class="search-title">Install</span><span class="search-page">Get Started</span></a></li>
-                    
-                    <li hidden><a href="/clojask-website/posts-output/get-started/#run-your-first-pipeline"><span class="search-title">Run your first pipeline</span><span class="search-page">Get Started</span></a></li>
-                    
-                    <li hidden><a href="/clojask-website/posts-output/get-started/#a-ten-minute-tour"><span class="search-title">A ten-minute tour</span><span class="search-page">Get Started</span></a></li>
-                    
-                    <li hidden><a href="/clojask-website/posts-output/get-started/#1-create-a-dataframe"><span class="search-title">1. Create a dataframe</span><span class="search-page">Get Started</span></a></li>
-                    
-                    <li hidden><a href="/clojask-website/posts-output/get-started/#2-set-column-types"><span class="search-title">2. Set column types</span><span class="search-page">Get Started</span></a></li>
-                    
-                    <li hidden><a href="/clojask-website/posts-output/get-started/#3-filter-rows-and-add-a-column"><span class="search-title">3. Filter rows and add a column</span><span class="search-page">Get Started</span></a></li>
-                    
-                    <li hidden><a href="/clojask-website/posts-output/get-started/#4-compute"><span class="search-title">4. Compute</span><span class="search-page">Get Started</span></a></li>
-                    
-                    <li hidden><a href="/clojask-website/posts-output/get-started/#5-group-and-aggregate"><span class="search-title">5. Group and aggregate</span><span class="search-page">Get Started</span></a></li>
-                    
-                    <li hidden><a href="/clojask-website/posts-output/get-started/#6-join-two-files"><span class="search-title">6. Join two files</span><span class="search-page">Get Started</span></a></li>
-                    
-                    <li hidden><a href="/clojask-website/posts-output/get-started/#7-put-it-together-with--"><span class="search-title">7. Put it together with -&gt;</span><span class="search-page">Get Started</span></a></li>
-                    
-                    <li hidden><a href="/clojask-website/posts-output/get-started/#8-keep-a-small-result-in-memory"><span class="search-title">8. Keep a small result in memory</span><span class="search-page">Get Started</span></a></li>
-                    
-                    <li hidden><a href="/clojask-website/posts-output/get-started/#column-types"><span class="search-title">Column types</span><span class="search-page">Get Started</span></a></li>
-                    
-                    <li hidden><a href="/clojask-website/posts-output/get-started/#empty-fields-and-values-that-fail-to-parse"><span class="search-title">Empty fields and values that fail to parse</span><span class="search-page">Get Started</span></a></li>
-                    
-                    <li hidden><a href="/clojask-website/posts-output/get-started/#next-steps"><span class="search-title">Next steps</span><span class="search-page">Get Started</span></a></li>
-                    
-                    <li hidden><a href="/clojask-website/posts-output/concepts/"><span class="search-title">Core Concepts</span><span class="search-page">Core Concepts</span></a></li>
-                    
-                    <li hidden><a href="/clojask-website/posts-output/concepts/#a-dataframe-is-a-recipe"><span class="search-title">A dataframe is a recipe</span><span class="search-page">Core Concepts</span></a></li>
-                    
-                    <li hidden><a href="/clojask-website/posts-output/concepts/#what-happens-during-compute"><span class="search-title">What happens during compute</span><span class="search-page">Core Concepts</span></a></li>
-                    
-                    <li hidden><a href="/clojask-website/posts-output/concepts/#how-many-workers"><span class="search-title">How many workers?</span><span class="search-page">Core Concepts</span></a></li>
-                    
-                    <li hidden><a href="/clojask-website/posts-output/concepts/#from-text-to-text-the-life-of-a-value"><span class="search-title">From text to text: the life of a value</span><span class="search-page">Core Concepts</span></a></li>
-                    
-                    <li hidden><a href="/clojask-website/posts-output/concepts/#rules-that-follow-from-the-recipe"><span class="search-title">Rules that follow from the recipe</span><span class="search-page">Core Concepts</span></a></li>
-                    
-                    <li hidden><a href="/clojask-website/posts-output/concepts/#some-steps-replace-others-add-up"><span class="search-title">Some steps replace, others add up</span><span class="search-page">Core Concepts</span></a></li>
-                    
-                    <li hidden><a href="/clojask-website/posts-output/concepts/#filters-look-at-the-original-values"><span class="search-title">Filters look at the original values</span><span class="search-page">Core Concepts</span></a></li>
-                    
-                    <li hidden><a href="/clojask-website/posts-output/concepts/#joined-dataframes-are-final"><span class="search-title">Joined dataframes are final</span><span class="search-page">Core Concepts</span></a></li>
-                    
-                    <li hidden><a href="/clojask-website/posts-output/concepts/#group-by-aggregation-and-joins"><span class="search-title">Group-by, aggregation and joins</span><span class="search-page">Core Concepts</span></a></li>
-                    
-                    <li hidden><a href="/clojask-website/posts-output/concepts/#output-order"><span class="search-title">Output order</span><span class="search-page">Core Concepts</span></a></li>
-                    
-                    <li hidden><a href="/clojask-website/posts-output/concepts/#inputs-and-outputs"><span class="search-title">Inputs and outputs</span><span class="search-page">Core Concepts</span></a></li>
-                    
-                    <li hidden><a href="/clojask-website/posts-output/concepts/#when-to-use-something-else"><span class="search-title">When to use something else</span><span class="search-page">Core Concepts</span></a></li>
-                    
-                    <li hidden><a href="/clojask-website/posts-output/cheat-sheet/"><span class="search-title">Cheat Sheet</span><span class="search-page">Cheat Sheet</span></a></li>
-                    
-                    <li hidden><a href="/clojask-website/posts-output/cheat-sheet/#load-and-inspect"><span class="search-title">Load and inspect</span><span class="search-page">Cheat Sheet</span></a></li>
-                    
-                    <li hidden><a href="/clojask-website/posts-output/cheat-sheet/#types"><span class="search-title">Types</span><span class="search-page">Cheat Sheet</span></a></li>
-                    
-                    <li hidden><a href="/clojask-website/posts-output/cheat-sheet/#rows-and-columns"><span class="search-title">Rows and columns</span><span class="search-page">Cheat Sheet</span></a></li>
-                    
-                    <li hidden><a href="/clojask-website/posts-output/cheat-sheet/#group-and-aggregate"><span class="search-title">Group and aggregate</span><span class="search-page">Cheat Sheet</span></a></li>
-                    
-                    <li hidden><a href="/clojask-website/posts-output/cheat-sheet/#combine-dataframes"><span class="search-title">Combine dataframes</span><span class="search-page">Cheat Sheet</span></a></li>
-                    
-                    <li hidden><a href="/clojask-website/posts-output/cheat-sheet/#run-and-write"><span class="search-title">Run and write</span><span class="search-page">Cheat Sheet</span></a></li>
-                    
-                    <li hidden><a href="/clojask-website/posts-output/cheat-sheet/#common-patterns"><span class="search-title">Common patterns</span><span class="search-page">Cheat Sheet</span></a></li>
-                    
-                    <li hidden><a href="/clojask-website/posts-output/API/"><span class="search-title">API Docs</span><span class="search-page">API Docs</span></a></li>
-                    
-                    <li hidden><a href="/clojask-website/posts-output/API/#basic-information"><span class="search-title">Basic Information</span><span class="search-page">API Docs</span></a></li>
-                    
-                    <li hidden><a href="/clojask-website/posts-output/API/#read-and-inspect"><span class="search-title">Read and inspect</span><span class="search-page">API Docs</span></a></li>
-                    
-                    <li hidden><a href="/clojask-website/posts-output/API/#dataframe"><span class="search-title">dataframe</span><span class="search-page">API Docs</span></a></li>
-                    
-                    <li hidden><a href="/clojask-website/posts-output/API/#print-df"><span class="search-title">print-df</span><span class="search-page">API Docs</span></a></li>
-                    
-                    <li hidden><a href="/clojask-website/posts-output/API/#preview"><span class="search-title">preview</span><span class="search-page">API Docs</span></a></li>
-                    
-                    <li hidden><a href="/clojask-website/posts-output/API/#get-col-names"><span class="search-title">get-col-names</span><span class="search-page">API Docs</span></a></li>
-                    
-                    <li hidden><a href="/clojask-website/posts-output/API/#transform"><span class="search-title">Transform</span><span class="search-page">API Docs</span></a></li>
-                    
-                    <li hidden><a href="/clojask-website/posts-output/API/#rename-col"><span class="search-title">rename-col</span><span class="search-page">API Docs</span></a></li>
-                    
-                    <li hidden><a href="/clojask-website/posts-output/API/#select-col--delete-col"><span class="search-title">select-col / delete-col</span><span class="search-page">API Docs</span></a></li>
-                    
-                    <li hidden><a href="/clojask-website/posts-output/API/#reorder-col"><span class="search-title">reorder-col</span><span class="search-page">API Docs</span></a></li>
-                    
-                    <li hidden><a href="/clojask-website/posts-output/API/#filter"><span class="search-title">filter</span><span class="search-page">API Docs</span></a></li>
-                    
-                    <li hidden><a href="/clojask-website/posts-output/API/#set-type"><span class="search-title">set-type</span><span class="search-page">API Docs</span></a></li>
-                    
-                    <li hidden><a href="/clojask-website/posts-output/API/#set-parser"><span class="search-title">set-parser</span><span class="search-page">API Docs</span></a></li>
-                    
-                    <li hidden><a href="/clojask-website/posts-output/API/#set-formatter"><span class="search-title">set-formatter</span><span class="search-page">API Docs</span></a></li>
-                    
-                    <li hidden><a href="/clojask-website/posts-output/API/#operate-in-place-modification"><span class="search-title">operate (In-place modification)</span><span class="search-page">API Docs</span></a></li>
-                    
-                    <li hidden><a href="/clojask-website/posts-output/API/#operate-column-generating"><span class="search-title">operate (Column generating)</span><span class="search-page">API Docs</span></a></li>
-                    
-                    <li hidden><a href="/clojask-website/posts-output/API/#group-and-aggregate"><span class="search-title">Group and aggregate</span><span class="search-page">API Docs</span></a></li>
-                    
-                    <li hidden><a href="/clojask-website/posts-output/API/#group-by"><span class="search-title">group-by</span><span class="search-page">API Docs</span></a></li>
-                    
-                    <li hidden><a href="/clojask-website/posts-output/API/#aggregate"><span class="search-title">aggregate</span><span class="search-page">API Docs</span></a></li>
-                    
-                    <li hidden><a href="/clojask-website/posts-output/API/#join"><span class="search-title">Join</span><span class="search-page">API Docs</span></a></li>
-                    
-                    <li hidden><a href="/clojask-website/posts-output/API/#inner-join--left-join--right-join--outer-join"><span class="search-title">inner-join / left-join / right-join / outer-join</span><span class="search-page">API Docs</span></a></li>
-                    
-                    <li hidden><a href="/clojask-website/posts-output/API/#rolling-join-forward--rolling-join-backward"><span class="search-title">rolling-join-forward / rolling-join-backward</span><span class="search-page">API Docs</span></a></li>
-                    
-                    <li hidden><a href="/clojask-website/posts-output/API/#compute-and-debug"><span class="search-title">Compute and debug</span><span class="search-page">API Docs</span></a></li>
-                    
-                    <li hidden><a href="/clojask-website/posts-output/API/#enable-debug--disable-debug"><span class="search-title">enable-debug / disable-debug</span><span class="search-page">API Docs</span></a></li>
-                    
-                    <li hidden><a href="/clojask-website/posts-output/API/#compute"><span class="search-title">compute</span><span class="search-page">API Docs</span></a></li>
-                    
-                    <li hidden><a href="/clojask-website/posts-output/API/#deprecated-functions"><span class="search-title">Deprecated functions</span><span class="search-page">API Docs</span></a></li>
-                    
-                    <li hidden><a href="/clojask-website/posts-output/API/#sort-deprecated"><span class="search-title">sort (Deprecated)</span><span class="search-page">API Docs</span></a></li>
-                    
-                    <li hidden><a href="/clojask-website/posts-output/aggregate-function/"><span class="search-title">Aggregation Functions</span><span class="search-page">Aggregation Functions</span></a></li>
-                    
-                    <li hidden><a href="/clojask-website/posts-output/aggregate-function/#choose-an-aggregation-style"><span class="search-title">Choose an aggregation style</span><span class="search-page">Aggregation Functions</span></a></li>
-                    
-                    <li hidden><a href="/clojask-website/posts-output/aggregate-function/#try-it-with-a-small-file"><span class="search-title">Try it with a small file</span><span class="search-page">Aggregation Functions</span></a></li>
-                    
-                    <li hidden><a href="/clojask-website/posts-output/aggregate-function/#whole-file-example"><span class="search-title">Whole-file example</span><span class="search-page">Aggregation Functions</span></a></li>
-                    
-                    <li hidden><a href="/clojask-website/posts-output/aggregate-function/#per-group-example"><span class="search-title">Per-group example</span><span class="search-page">Aggregation Functions</span></a></li>
-                    
-                    <li hidden><a href="/clojask-website/posts-output/aggregate-function/#built-in-functions"><span class="search-title">Built-in functions</span><span class="search-page">Aggregation Functions</span></a></li>
-                    
-                    <li hidden><a href="/clojask-website/posts-output/aggregate-function/#available-in-both-namespaces"><span class="search-title">Available in both namespaces</span><span class="search-page">Aggregation Functions</span></a></li>
-                    
-                    <li hidden><a href="/clojask-website/posts-output/aggregate-function/#available-for-groups-only"><span class="search-title">Available for groups only</span><span class="search-page">Aggregation Functions</span></a></li>
-                    
-                    <li hidden><a href="/clojask-website/posts-output/aggregate-function/#choose-how-many-values-to-keep"><span class="search-title">Choose how many values to keep</span><span class="search-page">Aggregation Functions</span></a></li>
-                    
-                    <li hidden><a href="/clojask-website/posts-output/aggregate-function/#missing-values-and-memory"><span class="search-title">Missing values and memory</span><span class="search-page">Aggregation Functions</span></a></li>
-                    
-                    <li hidden><a href="/clojask-website/posts-output/aggregate-function/#write-a-custom-function"><span class="search-title">Write a custom function</span><span class="search-page">Aggregation Functions</span></a></li>
-                    
-                    <li hidden><a href="/clojask-website/posts-output/aggregate-function/#whole-file-update-a-running-result"><span class="search-title">Whole file: update a running result</span><span class="search-page">Aggregation Functions</span></a></li>
-                    
-                    <li hidden><a href="/clojask-website/posts-output/aggregate-function/#per-group-summarize-a-collection"><span class="search-title">Per group: summarize a collection</span><span class="search-page">Aggregation Functions</span></a></li>
-                    
-                    <li hidden><a href="/clojask-website/posts-output/aggregate-function/#next-steps"><span class="search-title">Next steps</span><span class="search-page">Aggregation Functions</span></a></li>
-                    
-                    <li hidden><a href="/clojask-website/posts-output/extensions/"><span class="search-title">Extensions</span><span class="search-page">Extensions</span></a></li>
-                    
-                    <li hidden><a href="/clojask-website/posts-output/extensions/#clojaskextensions"><span class="search-title">clojask.extensions</span><span class="search-page">Extensions</span></a></li>
-                    
-                    <li hidden><a href="/clojask-website/posts-output/extensions/#ns-clojaskextensionsbind"><span class="search-title">ns: clojask.extensions.bind</span><span class="search-page">Extensions</span></a></li>
-                    
-                    <li hidden><a href="/clojask-website/posts-output/extensions/#api-foundation"><span class="search-title">API Foundation</span><span class="search-page">Extensions</span></a></li>
-                    
-                    <li hidden><a href="/clojask-website/posts-output/extensions/#cbind-csv"><span class="search-title">cbind-csv</span><span class="search-page">Extensions</span></a></li>
-                    
-                    <li hidden><a href="/clojask-website/posts-output/extensions/#rbind-csv"><span class="search-title">rbind-csv</span><span class="search-page">Extensions</span></a></li>
-                    
-                    <li hidden><a href="/clojask-website/posts-output/extensions/#it-is-also-possible-and-encouraged-to-create-more-binding-functions-for-other-file-types"><span class="search-title">It is also possible and encouraged to create more binding functions for other file types.</span><span class="search-page">Extensions</span></a></li>
-                    
-                    <li hidden><a href="/clojask-website/posts-output/extensions/#ns-clojaskextensionsreshape"><span class="search-title">ns: clojask.extensions.reshape</span><span class="search-page">Extensions</span></a></li>
-                    
-                    <li hidden><a href="/clojask-website/posts-output/extensions/#api-foundation-1"><span class="search-title">API Foundation</span><span class="search-page">Extensions</span></a></li>
-                    
-                    <li hidden><a href="/clojask-website/posts-output/extensions/#melt"><span class="search-title">melt</span><span class="search-page">Extensions</span></a></li>
-                    
-                    <li hidden><a href="/clojask-website/posts-output/extensions/#dcast"><span class="search-title">dcast</span><span class="search-page">Extensions</span></a></li>
-                    
-                    <li hidden><a href="/clojask-website/posts-output/examples/"><span class="search-title">Examples</span><span class="search-page">Examples</span></a></li>
-                    
-                    <li hidden><a href="/clojask-website/posts-output/examples/#basic-tutorial"><span class="search-title">Basic tutorial</span><span class="search-page">Examples</span></a></li>
-                    
-                    <li hidden><a href="/clojask-website/posts-output/examples/#group-by-and-aggregate"><span class="search-title">Group-by and aggregate</span><span class="search-page">Examples</span></a></li>
-                    
-                    <li hidden><a href="/clojask-website/posts-output/examples/#inner-left-and-right-join"><span class="search-title">Inner, left and right join</span><span class="search-page">Examples</span></a></li>
-                    
-                    <li hidden><a href="/clojask-website/posts-output/examples/#outer-join"><span class="search-title">Outer join</span><span class="search-page">Examples</span></a></li>
-                    
-                    <li hidden><a href="/clojask-website/posts-output/examples/#rolling-join"><span class="search-title">Rolling join</span><span class="search-page">Examples</span></a></li>
-                    
-                    <li hidden><a href="/clojask-website/posts-output/examples/#results-in-memory-excel-in-and-out"><span class="search-title">Results in memory, Excel in and out</span><span class="search-page">Examples</span></a></li>
-                    
-                    <li hidden><a href="/clojask-website/posts-output/examples/#converting-to-and-from-techmldataset"><span class="search-title">Converting to and from tech.ml.dataset</span><span class="search-page">Examples</span></a></li>
-                    
-                    <li hidden><a href="/clojask-website/posts-output/examples/#reshaping-melt-dcast-rbind"><span class="search-title">Reshaping: melt, dcast, rbind</span><span class="search-page">Examples</span></a></li>
-                    
-                    <li hidden><a href="/clojask-website/posts-output/examples/#time-zones"><span class="search-title">Time zones</span><span class="search-page">Examples</span></a></li>
-                    
-                    <li hidden><a href="/clojask-website/pages-output/about/"><span class="search-title">About &amp; Benchmarks</span><span class="search-page">About &amp; Benchmarks</span></a></li>
-                    
-                    <li hidden><a href="/clojask-website/pages-output/about/#the-project"><span class="search-title">The project</span><span class="search-page">About &amp; Benchmarks</span></a></li>
-                    
-                    <li hidden><a href="/clojask-website/pages-output/about/#talk-at-the-clojure-data-recur-meeting"><span class="search-title">Talk at the Clojure data-recur meeting</span><span class="search-page">About &amp; Benchmarks</span></a></li>
-                    
-                    <li hidden><a href="/clojask-website/pages-output/about/#historical-benchmarks"><span class="search-title">Historical benchmarks</span><span class="search-page">About &amp; Benchmarks</span></a></li>
-                    
-                    <li hidden><a href="/clojask-website/pages-output/about/#compared-with-hadoop-and-spark"><span class="search-title">Compared with Hadoop and Spark</span><span class="search-page">About &amp; Benchmarks</span></a></li>
-                    
-                    <li hidden><a href="/clojask-website/pages-output/about/#design-history"><span class="search-title">Design history</span><span class="search-page">About &amp; Benchmarks</span></a></li>
-                    
-                </ul>
+                <ul id="doc-search-results" class="search-results" hidden></ul>
             </div>
 
             <nav class="nav" aria-label="Documentation">
@@ -339,7 +127,7 @@
         
         <details class="toc-inline">
             <summary>On this page</summary>
-            <ul class="toc"><li><a href="#clojaskextensions">clojask.extensions</a></li><ul><li><a href="#ns-clojaskextensionsbind">ns: clojask.extensions.bind</a></li><ul><li><a href="#api-foundation">API Foundation</a></li><li><a href="#cbind-csv"><code>cbind-csv</code></a></li><li><a href="#rbind-csv"><code>rbind-csv</code></a></li><li><a href="#it-is-also-possible-and-encouraged-to-create-more-binding-functions-for-other-file-types"><strong>It is also possible and encouraged to create more binding functions for other file types.</strong></a></li></ul><li><a href="#ns-clojaskextensionsreshape">ns: clojask.extensions.reshape</a></li><ul><li><a href="#api-foundation-1">API Foundation</a></li><li><a href="#melt"><code>melt</code></a></li><li><a href="#dcast"><code>dcast</code></a></li></ul></ul></ul>
+            <ul class="toc"><li><a href="#clojaskextensions">clojask.extensions</a></li><ul><li><a href="#ns-clojaskextensionsbind">ns: clojask.extensions.bind</a></li><ul><li><a href="#api-foundation">API Foundation</a></li><li><a href="#cbind-csv"><code>cbind-csv</code></a></li><li><a href="#rbind-csv"><code>rbind-csv</code></a></li></ul><li><a href="#ns-clojaskextensionsreshape">ns: clojask.extensions.reshape</a></li><ul><li><a href="#api-foundation-1">API Foundation</a></li><li><a href="#melt"><code>melt</code></a></li><li><a href="#dcast"><code>dcast</code></a></li></ul></ul></ul>
         </details>
         
 
@@ -399,7 +187,7 @@
 |       2010-01-24 |              102 |                2 |
 |       2010-01-25 |              101 |                2 |
 |       2010-01-26 |              101 |                1 |
-</code></pre><p><code>cbind</code> and <code>rbind</code> take the same arguments and infer each file's format from its extension instead of assuming csv. The separator for each format is listed under <code>read-file</code> in the <a href="https://github.com/clojure-finance/clojask-io#read-file">clojask-io README</a>.</p><h4 id="it-is-also-possible-and-encouraged-to-create-more-binding-functions-for-other-file-types"><strong>It is also possible and encouraged to create more binding functions for other file types.</strong></h4><h3 id="ns-clojaskextensionsreshape">ns: clojask.extensions.reshape</h3><p>Contains functions that can reshape a clojask dataframe from wide to long or from long to wide.</p><h4 id="api-foundation-1">API Foundation</h4><p><code>compute</code> accepts the option <code>:melt</code>, which should be a function that will be applied to each resultant row vector in the end. The default is vector, which will not affect the results. However, if <code>:melt</code> is set to</p><pre><code class="clojure">(fn [x]
+</code></pre><p><code>cbind</code> and <code>rbind</code> take the same arguments and infer each file's format from its extension instead of assuming csv. The separator for each format is listed under <code>read-file</code> in the <a href="https://github.com/clojure-finance/clojask-io#read-file">clojask-io README</a>.</p><p>It is also possible, and encouraged, to create more binding functions for other file types.</p><h3 id="ns-clojaskextensionsreshape">ns: clojask.extensions.reshape</h3><p>Contains functions that can reshape a clojask dataframe from wide to long or from long to wide.</p><h4 id="api-foundation-1">API Foundation</h4><p><code>compute</code> accepts the option <code>:melt</code>, which should be a function that will be applied to each resultant row vector in the end. The default is vector, which will not affect the results. However, if <code>:melt</code> is set to</p><pre><code class="clojure">(fn [x]
   (repeat 2 x))
 </code></pre><p>, then each row will be output twice.</p><h4 id="melt"><code>melt</code></h4><p>Reshape the dataframe from wide to long.</p><table><thead><tr><th>Argument</th><th>Type</th><th>Function</th><th>Remarks</th></tr></thead><tbody><tr><td>dataframe</td><td>clojask.classes.DataFrame.DataFrame</td><td>Specify the dataframe</td><td> </td></tr><tr><td>output-path</td><td>String</td><td>The path of the output</td><td>Can be absolute or relative path with respect to the working directory.</td></tr><tr><td>id</td><td>vector of strings</td><td>The fixed portion of the columns</td><td>These columns must have a perfect correlation.</td></tr><tr><td>measure</td><td>vector of strings</td><td>The measurement columns</td><td>In the result, the measurement names will become one column and the values will become another.</td></tr><tr><td>[:measure-name]</td><td>String</td><td>The name of the measurement in the result</td><td>By default "measure"</td></tr><tr><td>[:value-name]</td><td>String</td><td>The name of the value in the result</td><td>By default "value"</td></tr></tbody></table><p><strong>Example</strong></p><pre><code class="clojure">;; x
 ;; family_id,age_mother,dob_child1,dob_child2,dob_child3
@@ -451,7 +239,7 @@
     
     <aside class="toc-side" aria-label="On this page">
         <div class="toc-title">On this page</div>
-        <ul class="toc"><li><a href="#clojaskextensions">clojask.extensions</a></li><ul><li><a href="#ns-clojaskextensionsbind">ns: clojask.extensions.bind</a></li><ul><li><a href="#api-foundation">API Foundation</a></li><li><a href="#cbind-csv"><code>cbind-csv</code></a></li><li><a href="#rbind-csv"><code>rbind-csv</code></a></li><li><a href="#it-is-also-possible-and-encouraged-to-create-more-binding-functions-for-other-file-types"><strong>It is also possible and encouraged to create more binding functions for other file types.</strong></a></li></ul><li><a href="#ns-clojaskextensionsreshape">ns: clojask.extensions.reshape</a></li><ul><li><a href="#api-foundation-1">API Foundation</a></li><li><a href="#melt"><code>melt</code></a></li><li><a href="#dcast"><code>dcast</code></a></li></ul></ul></ul>
+        <ul class="toc"><li><a href="#clojaskextensions">clojask.extensions</a></li><ul><li><a href="#ns-clojaskextensionsbind">ns: clojask.extensions.bind</a></li><ul><li><a href="#api-foundation">API Foundation</a></li><li><a href="#cbind-csv"><code>cbind-csv</code></a></li><li><a href="#rbind-csv"><code>rbind-csv</code></a></li></ul><li><a href="#ns-clojaskextensionsreshape">ns: clojask.extensions.reshape</a></li><ul><li><a href="#api-foundation-1">API Foundation</a></li><li><a href="#melt"><code>melt</code></a></li><li><a href="#dcast"><code>dcast</code></a></li></ul></ul></ul>
     </aside>
     
 </div>
