@@ -612,6 +612,34 @@ red, .badge {
   .toc-side { display: none; }
 }
 
+/* ---------- Aggregation guide ---------- */
+.aggregation-modes {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 16px;
+  margin: 0 0 24px;
+}
+.aggregation-mode {
+  display: flex; flex-direction: column; align-items: flex-start;
+  min-width: 0; padding: 20px;
+  border: 1px solid var(--border); border-top: 3px solid var(--brand);
+  border-radius: var(--radius); background: var(--bg-soft);
+}
+.aggregation-mode .aggregation-label {
+  margin: 0 0 8px; color: var(--brand);
+  font-size: .73rem; font-weight: 700; letter-spacing: .05em; text-transform: uppercase;
+}
+.aggregation-mode h3 { margin: 0 0 12px; font-size: 1.12rem; }
+.aggregation-mode p { font-size: .92rem; }
+.aggregation-mode .aggregation-signature {
+  display: block; margin-top: auto; margin-bottom: 14px;
+  padding: 8px 10px; max-width: 100%; font-size: .78rem;
+}
+.aggregation-mode > a { font-size: .87rem; font-weight: 600; }
+@media (max-width: 640px) {
+  .aggregation-modes { grid-template-columns: minmax(0, 1fr); }
+}
+
 /* ---------- Pager ---------- */
 
 .pager {

@@ -77,11 +77,14 @@ in headings so readers can find them and link to their sections.
 
 ## Where the content comes from
 
-- **API Docs, Aggregation Functions, Extensions** mirror the files in
+- **API Docs and Extensions** mirror the files in
   [`clojask/docs/`](https://github.com/clojure-finance/clojask/tree/2.x.x/docs).
   When those change upstream, copy the changes here (the website keeps its
   own front matter and links to `/posts-output/...` pages instead of `.md`
   files).
+- **Aggregation Functions** is a guide based on the aggregation APIs in
+  `clojask/docs/`. Preserve its worked examples and structure when syncing API
+  changes. Its sample CSV lives in `content/downloads/aggregation/`.
 - **Examples** is generated from a local clone of
   [clojask-examples](https://github.com/clojure-finance/clojask-examples).
   Run `lein test` there first (it refreshes `outputs/`), then:
