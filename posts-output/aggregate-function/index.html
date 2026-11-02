@@ -5,8 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Aggregation Functions · Clojask</title>
     
-<meta name="description" content="In Clojask, you can aggregate on the whole dataframe, or on the group-by dataframe. We call the first case &quot;simple aggregation&quot; and the second &quot;group-by aggregation&quot;. Some given functions for simple aggregation are defined in namespace clojask.api.aggregate, and the given functions for group-by aggregation are defined in namespace clojask.api.gb-aggregate.Below is the full list of given functions for the two types.">
-<meta property="og:description" content="In Clojask, you can aggregate on the whole dataframe, or on the group-by dataframe. We call the first case &quot;simple aggregation&quot; and the second &quot;group-by aggregation&quot;. Some given functions for simple aggregation are defined in namespace clojask.api.aggregate, and the given functions for group-by aggregation are defined in namespace clojask.api.gb-aggregate.Below is the full list of given functions for the two types.">
+<meta name="description" content="Aggregation turns many values into a summary: a total, a count, an average, or a selection such as the three largest values. Use ck/aggregate to describe the calculation, then ck/compute to run it.Choose an aggregation style">
+<meta property="og:description" content="Aggregation turns many values into a summary: a total, a count, an average, or a selection such as the three largest values. Use ck/aggregate to describe the calculation, then ck/compute to run it.Choose an aggregation style">
 <meta property="og:url" content="https://clojure-finance.github.io/clojask-website/clojask-website/posts-output/aggregate-function/">
 <meta property="og:title" content="Aggregation Functions · Clojask">
 <meta property="og:type" content="article">
@@ -182,13 +182,31 @@
                     
                     <li hidden><a href="/clojask-website/posts-output/aggregate-function/"><span class="search-title">Aggregation Functions</span><span class="search-page">Aggregation Functions</span></a></li>
                     
-                    <li hidden><a href="/clojask-website/posts-output/aggregate-function/#clojaskapiaggregate"><span class="search-title">clojask.api.aggregate:</span><span class="search-page">Aggregation Functions</span></a></li>
+                    <li hidden><a href="/clojask-website/posts-output/aggregate-function/#choose-an-aggregation-style"><span class="search-title">Choose an aggregation style</span><span class="search-page">Aggregation Functions</span></a></li>
                     
-                    <li hidden><a href="/clojask-website/posts-output/aggregate-function/#clojaskapigb-aggregate"><span class="search-title">clojask.api.gb-aggregate:</span><span class="search-page">Aggregation Functions</span></a></li>
+                    <li hidden><a href="/clojask-website/posts-output/aggregate-function/#try-it-with-a-small-file"><span class="search-title">Try it with a small file</span><span class="search-page">Aggregation Functions</span></a></li>
                     
-                    <li hidden><a href="/clojask-website/posts-output/aggregate-function/#how-to-define-group-by-aggregation-functions"><span class="search-title">How to define group-by aggregation functions?</span><span class="search-page">Aggregation Functions</span></a></li>
+                    <li hidden><a href="/clojask-website/posts-output/aggregate-function/#whole-file-example"><span class="search-title">Whole-file example</span><span class="search-page">Aggregation Functions</span></a></li>
                     
-                    <li hidden><a href="/clojask-website/posts-output/aggregate-function/#how-to-define-simple-aggregation-functions"><span class="search-title">How to define simple aggregation functions?</span><span class="search-page">Aggregation Functions</span></a></li>
+                    <li hidden><a href="/clojask-website/posts-output/aggregate-function/#per-group-example"><span class="search-title">Per-group example</span><span class="search-page">Aggregation Functions</span></a></li>
+                    
+                    <li hidden><a href="/clojask-website/posts-output/aggregate-function/#built-in-functions"><span class="search-title">Built-in functions</span><span class="search-page">Aggregation Functions</span></a></li>
+                    
+                    <li hidden><a href="/clojask-website/posts-output/aggregate-function/#available-in-both-namespaces"><span class="search-title">Available in both namespaces</span><span class="search-page">Aggregation Functions</span></a></li>
+                    
+                    <li hidden><a href="/clojask-website/posts-output/aggregate-function/#available-for-groups-only"><span class="search-title">Available for groups only</span><span class="search-page">Aggregation Functions</span></a></li>
+                    
+                    <li hidden><a href="/clojask-website/posts-output/aggregate-function/#choose-how-many-values-to-keep"><span class="search-title">Choose how many values to keep</span><span class="search-page">Aggregation Functions</span></a></li>
+                    
+                    <li hidden><a href="/clojask-website/posts-output/aggregate-function/#missing-values-and-memory"><span class="search-title">Missing values and memory</span><span class="search-page">Aggregation Functions</span></a></li>
+                    
+                    <li hidden><a href="/clojask-website/posts-output/aggregate-function/#write-a-custom-function"><span class="search-title">Write a custom function</span><span class="search-page">Aggregation Functions</span></a></li>
+                    
+                    <li hidden><a href="/clojask-website/posts-output/aggregate-function/#whole-file-update-a-running-result"><span class="search-title">Whole file: update a running result</span><span class="search-page">Aggregation Functions</span></a></li>
+                    
+                    <li hidden><a href="/clojask-website/posts-output/aggregate-function/#per-group-summarize-a-collection"><span class="search-title">Per group: summarize a collection</span><span class="search-page">Aggregation Functions</span></a></li>
+                    
+                    <li hidden><a href="/clojask-website/posts-output/aggregate-function/#next-steps"><span class="search-title">Next steps</span><span class="search-page">Aggregation Functions</span></a></li>
                     
                     <li hidden><a href="/clojask-website/posts-output/extensions/"><span class="search-title">Extensions</span><span class="search-page">Extensions</span></a></li>
                     
@@ -315,31 +333,66 @@
     <article class="doc">
         <header class="doc-header">
             <h1>Aggregation Functions</h1>
-            <p class="lede">The built-in aggregation functions, and how to write your own.</p>
+            <p class="lede">Summarize a whole file or each group. Choose a function, see the result, and write your own.</p>
         </header>
 
         
         <details class="toc-inline">
             <summary>On this page</summary>
-            <ul class="toc"><li><a href="#clojaskapiaggregate"><code>clojask.api.aggregate</code>:</a></li><li><a href="#clojaskapigb-aggregate"><code>clojask.api.gb-aggregate</code>:</a></li><li><a href="#how-to-define-group-by-aggregation-functions">How to define group-by aggregation functions?</a></li><li><a href="#how-to-define-simple-aggregation-functions">How to define simple aggregation functions?</a></li></ul>
+            <ul class="toc"><li><a href="#choose-an-aggregation-style">Choose an aggregation style</a></li><li><a href="#try-it-with-a-small-file">Try it with a small file</a></li><ul><li><a href="#whole-file-example">Whole-file example</a></li><li><a href="#per-group-example">Per-group example</a></li></ul><li><a href="#built-in-functions">Built-in functions</a></li><ul><li><a href="#available-in-both-namespaces">Available in both namespaces</a></li><li><a href="#available-for-groups-only">Available for groups only</a></li><li><a href="#choose-how-many-values-to-keep">Choose how many values to keep</a></li></ul><li><a href="#missing-values-and-memory">Missing values and memory</a></li><li><a href="#write-a-custom-function">Write a custom function</a></li><ul><li><a href="#whole-file-update-a-running-result">Whole file: update a running result</a></li><li><a href="#per-group-summarize-a-collection">Per group: summarize a collection</a></li></ul><li><a href="#next-steps">Next steps</a></li></ul>
         </details>
         
 
         <div class="doc-body">
-            <p>In Clojask, you can aggregate on the whole dataframe, or on the group-by dataframe. We call the first case "simple aggregation" and the second "group-by aggregation". Some given functions for simple aggregation are defined in namespace <code>clojask.api.aggregate</code>, and the given functions for group-by aggregation are defined in namespace <code>clojask.api.gb-aggregate</code>.</p><p>Below is the full list of given functions for the two types.</p><h4 id="clojaskapiaggregate"><code>clojask.api.aggregate</code>:</h4><p><code>max</code> / <code>min</code>: Find the max / min value (use <code>clojure.core/compare</code> as the comparator)</p><p><em><code>compare</code> sorts <code>nil</code> (an empty cell) below every other value, so <code>min</code> returns <code>nil</code> if the column has an empty cell.</em></p><p><code>sum</code> / <code>count</code>: Sum / count the values</p><p><code>smallest3</code> / <code>largest3</code>: The three smallest / largest values</p><p><code>smallestk</code> / <code>largestk</code>: The k smallest / largest values; they take k as a third argument, so wrap them, e.g. <code>#(agg/largestk %1 %2 5)</code></p><h4 id="clojaskapigb-aggregate"><code>clojask.api.gb-aggregate</code>:</h4><p><code>max</code> / <code>min</code>: Find the max / min value (use <code>clojure.core/compare</code> as the comparator)</p><p><em><code>compare</code> sorts <code>nil</code> (an empty cell) below every other value, so <code>min</code> returns <code>nil</code> if the column has an empty cell.</em></p><p><code>sum</code> / <code>count</code>: Sum / count the values</p><p><code>mean</code> / <code>median</code>: Arithmetic mean / median, as doubles</p><p><code>mode</code>: The most frequent values</p><p><code>sd</code>: Sample standard deviation, as a double</p><p><code>skew</code>: Pearson's second skewness coefficient; NaN when all values are equal</p><p><code>smallest3</code> / <code>largest3</code>: The three smallest / largest values</p><p><code>smallestk</code> / <code>largestk</code>: The k smallest / largest values; they take k as a second argument, so wrap them, e.g. <code>#(gb-agg/largestk % 5)</code></p><p>Besides these given functions, you are also welcomed to define your own.</p><h4 id="how-to-define-group-by-aggregation-functions">How to define group-by aggregation functions?</h4><p>This is the template:</p><pre><code class="clojure">(defn gb-aggre-template
-  [col]  ;; take only one argument which is the aggregation column in the format of vector
-  ;; ... your implementation
-  result    ;; return one variable (could be int / double / string / collection of above)
-  )
-</code></pre><p>Basically, the function should take one argument only, which is the full aggregation column. <em><strong>Here we simply assume this column should be smaller than memory!</strong></em></p><p>You may find many built-in functions in Clojure also fulfilling this requirement, for example <code>count</code>, and the many functions constructed from <a href="https://clojuredocs.org/clojure.core/reduce"><code>reduce</code></a>.</p><h4 id="how-to-define-simple-aggregation-functions">How to define simple aggregation functions?</h4><p>This is the template:</p><pre><code class="clojure">(defn aggre-template
-  [old-result new-value]
-  ;; old-result: the value of the result for the previous aggre-template
-  ;; new-value: the value for the column on the current row
-  ;; ... your implementation
-  new-result   ;; return the new result, and this will be passed as old-result for the next aggre-template
-  )
-</code></pre><p><strong>Notes:</strong></p><ol><li>The old-result for the first <code>aggre-template</code> is <code>clojask.api.aggregate/start</code>. So your function must be able to deal with cases when the first argument is <code>clojask.api.aggregate/start</code>.</li><li>Your function should be self-sustainable, meaning that the result of <code>aggre-template</code> should be safe as the input for <code>aggre-template</code>.
-<ol><li>To better understand this template, you may refer to the documentation of <a href="https://clojuredocs.org/clojure.core/reduce"><code>reduce</code></a>, the <code>aggre-template</code> should be able to use in <code>reduce</code>.</li></ol></li><li>If the dataframe has no rows, the result is an empty cell.</li></ol>
+            <p>Aggregation turns many values into a summary: a total, a count, an average, or a selection such as the three largest values. Use <code>ck/aggregate</code> to describe the calculation, then <code>ck/compute</code> to run it.</p><h2 id="choose-an-aggregation-style">Choose an aggregation style</h2><p>The function you pass to <code>ck/aggregate</code> depends on whether you have called <code>ck/group-by</code>.</p><div class="aggregation-modes"><div class="aggregation-mode"><p class="aggregation-label">Without group-by</p><h3>One summary for the file</h3><p>Use <code>clojask.api.aggregate</code>, aliased as <code>agg</code>. The function receives the running result and the next value.</p><code class="aggregation-signature">[previous-result next-value]</code><a href="#whole-file-example">See the whole-file example →</a></div><div class="aggregation-mode"><p class="aggregation-label">After group-by</p><h3>A summary for each group</h3><p>Use <code>clojask.api.gb-aggregate</code>, aliased as <code>gb-agg</code>. The function receives all values from one column in one group.</p><code class="aggregation-signature">[values]</code><a href="#per-group-example">See the per-group example →</a></div></div><p>Use these aliases for all examples on this page:</p><pre><code class="clojure">(require '[clojask.dataframe :as ck]
+         '[clojask.api.aggregate :as agg]
+         '[clojask.api.gb-aggregate :as gb-agg])
+</code></pre><blockquote><p><strong>Tip</strong> The namespaces are not interchangeable. Use <code>agg/sum</code> without grouping and <code>gb-agg/sum</code> after <code>ck/group-by</code>.</p></blockquote><h2 id="try-it-with-a-small-file">Try it with a small file</h2><p><a href="/clojask-website/downloads/aggregation/sales.csv" download="sales.csv">Download sales.csv</a> and save it in your project's working directory, or create it with these contents:</p><pre><code class="text">Team,Amount
+East,10
+East,20
+West,30
+West,40
+</code></pre><p>Need to install Clojask first? Follow <a href="/clojask-website/posts-output/get-started/">Get Started</a>. These examples use Clojask 2.1.3 and start from a fresh dataframe each time.</p><h3 id="whole-file-example">Whole-file example</h3><p>Add up all four amounts and count the rows. Set the column type before using a numeric aggregation; CSV values start as strings.</p><pre><code class="clojure">(-&gt; (ck/dataframe "sales.csv")
+    (ck/set-type "Amount" "int")
+    (ck/aggregate agg/sum "Amount" "total")
+    (ck/aggregate agg/count "Amount" "rows")
+    (ck/compute 4 "totals.csv" :exception true))
+</code></pre><p><strong>totals.csv</strong> — one summary row:</p><pre><code class="text">total,rows
+100,4
+</code></pre><h3 id="per-group-example">Per-group example</h3><p>Call <code>group-by</code> first, then use the group aggregation functions. Here, each team gets a total and an average.</p><pre><code class="clojure">(-&gt; (ck/dataframe "sales.csv")
+    (ck/set-type "Amount" "int")
+    (ck/group-by "Team")
+    (ck/aggregate gb-agg/sum "Amount" "total")
+    (ck/aggregate gb-agg/mean "Amount" "average")
+    (ck/compute 4 "by-team.csv" :exception true))
+</code></pre><p><strong>by-team.csv</strong> — one summary row per team; group order may vary:</p><pre><code class="text">Team,total,average
+East,30,15.0
+West,70,35.0
+</code></pre><p>The last argument to <code>aggregate</code> names the output column. See the <a href="/clojask-website/posts-output/API/#aggregate">aggregate API</a> for all arguments and options.</p><h2 id="built-in-functions">Built-in functions</h2><p><span id="clojaskapiaggregate"></span></p><h3 id="available-in-both-namespaces">Available in both namespaces</h3><p>Use the <code>agg/</code> prefix for a whole file and <code>gb-agg/</code> for a group. For example, choose <code>agg/max</code> or <code>gb-agg/max</code> according to your pipeline.</p><table><thead><tr><th>Function</th><th>What it returns</th></tr></thead><tbody><tr><td><code>sum</code></td><td>The sum of numeric values.</td></tr><tr><td><code>count</code></td><td>The number of values, including <code>nil</code>.</td></tr><tr><td><code>min</code> / <code>max</code></td><td>The smallest / largest value, using Clojure's <code>compare</code>.</td></tr><tr><td><code>smallest3</code> / <code>largest3</code></td><td>Up to three values, sorted ascending / descending.</td></tr><tr><td><code>smallestk</code> / <code>largestk</code></td><td>Up to <em>k</em> values, sorted ascending / descending. Wrap the function to supply <em>k</em>; see below.</td></tr></tbody></table><p><span id="clojaskapigb-aggregate"></span></p><h3 id="available-for-groups-only">Available for groups only</h3><p>These functions use the <code>gb-agg/</code> prefix and receive a collection of values.</p><table><thead><tr><th>Function</th><th>What it returns</th></tr></thead><tbody><tr><td><code>mean</code></td><td>The arithmetic mean, as a double.</td></tr><tr><td><code>median</code></td><td>The middle value, or the mean of the two middle values, as a double.</td></tr><tr><td><code>mode</code></td><td>A sorted collection of the most frequent values. Ties return multiple values.</td></tr><tr><td><code>sd</code></td><td>Sample standard deviation, as a double. A group of one value returns <code>0.0</code>.</td></tr><tr><td><code>skew</code></td><td>Pearson's second skewness coefficient: <code>3 × (mean − median) / sd</code>. Returns <code>NaN</code> when all values are equal.</td></tr></tbody></table><h3 id="choose-how-many-values-to-keep">Choose how many values to keep</h3><p>The whole-file functions take <em>k</em> as a <strong>third</strong> argument. The group functions take it as a <strong>second</strong> argument. Wrap them so that Clojask receives a function with the right number of arguments:</p><pre><code class="clojure">;; Whole file: pass top2-step to ck/aggregate without group-by.
+(def top2-step #(agg/largestk %1 %2 2))
+(reduce top2-step agg/start [10 20 30 40])
+;; =&gt; (40 30)
+
+;; Per group: pass top2 to ck/aggregate after group-by.
+(def top2 #(gb-agg/largestk % 2))
+(top2 [10 20 30 40])
+;; =&gt; (40 30)
+</code></pre><p>Use a positive integer for <em>k</em>. <code>smallestk</code> works the same way, keeping the smallest values instead.</p><blockquote><p><strong>Note</strong> A collection result produces multiple output rows, not a collection inside one CSV cell. If you combine several aggregations, their results must have the same length for the whole file, or within each group. For example, a two-value <code>largestk</code> result cannot be combined with a one-value <code>sum</code> result.</p></blockquote><h2 id="missing-values-and-memory">Missing values and memory</h2><ul><li><strong>Missing numbers:</strong> empty or unparseable values in typed columns become <code>nil</code>. Numeric functions such as <code>sum</code>, <code>mean</code>, and <code>sd</code> do not automatically skip them. Filter them out before aggregating, or handle them in a custom function.</li><li><strong>Minimum and maximum:</strong> <code>compare</code> places <code>nil</code> below other values. A <code>nil</code> makes <code>min</code> return <code>nil</code>; <code>max</code> returns the greatest non-nil value if there is one.</li><li><strong>Counting:</strong> <code>count</code> includes missing values. Filter first if you want to count only valid amounts.</li><li><strong>Memory:</strong> a group function receives the full column for that group, so that collection must fit in memory. A whole-file function receives one value at a time; keep its running result small to retain that memory advantage.</li><li><strong>No rows:</strong> a whole-file aggregation with no input rows writes an empty cell for each result, including <code>count</code>.</li></ul><p>To exclude missing amounts, add this step after <code>set-type</code> and before grouping or aggregating:</p><pre><code class="clojure">;; df is your dataframe, with Amount already parsed as a number.
+(ck/filter df "Amount" some?)
+</code></pre><p>Use <code>:exception true</code> with <code>compute</code> while developing, as in the examples above, to surface calculation errors.</p><h2 id="write-a-custom-function">Write a custom function</h2><p><span id="how-to-define-simple-aggregation-functions"></span></p><h3 id="whole-file-update-a-running-result">Whole file: update a running result</h3><p>Your function takes <strong>two arguments</strong> and returns the next running result. On its first call, the previous result is <code>agg/start</code>, not <code>nil</code> or zero. Every result you return must be valid as the first argument on the next call.</p><p>This reducer sums the values and treats <code>nil</code> as zero:</p><pre><code class="clojure">(defn sum-present [previous value]
+  (let [total (if (= previous agg/start) 0 previous)]
+    (+ total (or value 0))))
+
+(reduce sum-present agg/start [10 nil 20])
+;; =&gt; 30
+</code></pre><p>Pass <code>sum-present</code> in place of <code>agg/sum</code> in the whole-file example. If no rows reach the reducer, Clojask does not call it and writes an empty result cell.</p><p><span id="how-to-define-group-by-aggregation-functions"></span></p><h3 id="per-group-summarize-a-collection">Per group: summarize a collection</h3><p>Your function takes <strong>one argument</strong>: the values from one column in one group. Return a single value for one output row, or a collection for several rows.</p><p>This function returns the difference between the largest and smallest non-nil values. If there are no valid values, it returns <code>nil</code>:</p><pre><code class="clojure">(defn value-range [values]
+  (let [numbers (remove nil? values)]
+    (when (seq numbers)
+      (- (apply max numbers) (apply min numbers)))))
+
+(value-range [10 nil 20])
+;; =&gt; 10
+</code></pre><p>Pass <code>value-range</code> in place of <code>gb-agg/mean</code> in the per-group example to get the range for each team. Clojure's own <code>count</code> also works as a group aggregation function.</p><h2 id="next-steps">Next steps</h2><ul><li><a href="/clojask-website/posts-output/examples/#group-by-and-aggregate">Group and aggregate examples</a> — complete programs with inputs and outputs.</li><li><a href="/clojask-website/posts-output/API/#aggregate">Aggregation API</a> — argument reference for <code>ck/aggregate</code>.</li><li><a href="/clojask-website/posts-output/concepts/">Core Concepts</a> — how Clojask runs a pipeline.</li></ul>
         </div>
 
         
@@ -363,7 +416,7 @@
     
     <aside class="toc-side" aria-label="On this page">
         <div class="toc-title">On this page</div>
-        <ul class="toc"><li><a href="#clojaskapiaggregate"><code>clojask.api.aggregate</code>:</a></li><li><a href="#clojaskapigb-aggregate"><code>clojask.api.gb-aggregate</code>:</a></li><li><a href="#how-to-define-group-by-aggregation-functions">How to define group-by aggregation functions?</a></li><li><a href="#how-to-define-simple-aggregation-functions">How to define simple aggregation functions?</a></li></ul>
+        <ul class="toc"><li><a href="#choose-an-aggregation-style">Choose an aggregation style</a></li><li><a href="#try-it-with-a-small-file">Try it with a small file</a></li><ul><li><a href="#whole-file-example">Whole-file example</a></li><li><a href="#per-group-example">Per-group example</a></li></ul><li><a href="#built-in-functions">Built-in functions</a></li><ul><li><a href="#available-in-both-namespaces">Available in both namespaces</a></li><li><a href="#available-for-groups-only">Available for groups only</a></li><li><a href="#choose-how-many-values-to-keep">Choose how many values to keep</a></li></ul><li><a href="#missing-values-and-memory">Missing values and memory</a></li><li><a href="#write-a-custom-function">Write a custom function</a></li><ul><li><a href="#whole-file-update-a-running-result">Whole file: update a running result</a></li><li><a href="#per-group-summarize-a-collection">Per group: summarize a collection</a></li></ul><li><a href="#next-steps">Next steps</a></li></ul>
     </aside>
     
 </div>
