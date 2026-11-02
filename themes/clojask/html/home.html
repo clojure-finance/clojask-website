@@ -32,7 +32,7 @@
             <div class="window-bar"><span></span><span></span><span></span><em>salaries.clj</em></div>
 <pre><code class="clojure">(require '[clojask.dataframe :as ck])
 
-;; 1. point at a file (nothing is read yet)
+;; 1. point at a file (only the header is read)
 (def df (ck/dataframe "employees.csv"))
 
 ;; 2. describe the work

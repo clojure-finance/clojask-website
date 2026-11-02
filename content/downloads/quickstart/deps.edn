@@ -1,0 +1,1 @@
+{:deps {com.github.clojure-finance/clojask {:mvn/version "2.1.3"}}}

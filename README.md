@@ -39,6 +39,7 @@ branch, so **a push to `main` goes live**: preview first.
 | `content/md/pages/` | The home page (`index.md`) and About |
 | `content/md/posts/` | The documentation pages |
 | `content/img/` | Images used by the pages |
+| `content/downloads/quickstart/` | The runnable quickstart: dependency file, script and sample CSV |
 | `themes/clojask/` | The theme: templates in `html/`, styles in `css/site.css` (plain CSS, no build step), scripts in `js/site.js` |
 | `src/cryogen/` | Build entry point (`core.clj`), preview server (`server.clj`), build hooks (`site.clj`) and the Examples generator (`update.clj`) |
 
@@ -58,6 +59,10 @@ branch, so **a push to `main` goes live**: preview first.
    but not shown.
 2. Add it to `:docs-nav` in `content/config.edn`. The sidebar and the
    previous/next links at the bottom of each page follow that order.
+
+Documentation search is generated from those pages' titles and level 2–4
+headings. It runs in the browser without a search service. Keep function names
+in headings so readers can find them and link to their sections.
 
 ### Writing conventions
 
@@ -92,4 +97,10 @@ branch, so **a push to `main` goes live**: preview first.
   the website.
 
 On a new Clojask release, update `:clojask-version` in `content/config.edn`,
-the install snippets in `get-started.md`, and any outputs that changed.
+the install snippets in `get-started.md`, `content/downloads/quickstart/deps.edn`,
+and any outputs that changed. Keep the downloadable script and CSV in sync
+with the quickstart shown on the page. Verify the download in a temporary
+folder with `clojure -M quickstart.clj`; it creates `with-bonus.csv` there.
+
+Run `lein test` to check the search index generation, and `lein run` to build
+the site before publishing.

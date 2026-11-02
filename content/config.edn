@@ -17,7 +17,7 @@
  :sass-src                     []
  :sass-path                    "sass"
  :theme                        "clojask"
- :resources                    ["img"]
+ :resources                    ["img" "downloads"]
  :keep-files                   [".git"]
  :disqus?                      false
  :disqus-shortname             ""

@@ -9,7 +9,7 @@
 
 See also [extensions](/posts-output/extensions/) for more native Clojask functions.
 
-#### Basic Information
+## Basic Information
 
 - The APIs below are defined in namespace `clojask.dataframe`.
 
@@ -35,7 +35,9 @@ See also [extensions](/posts-output/extensions/) for more native Clojask functio
 
 ---
 
-#### dataframe 
+## Read and inspect
+
+### dataframe
 
 Defines the dataframe and returns a `clojask.classes.DataFrame.DataFrame` 
 
@@ -59,7 +61,7 @@ Defines the dataframe and returns a `clojask.classes.DataFrame.DataFrame`
 
 ---
 
-#### print-df
+### print-df
 
 Provides a preview of the resulting data (column headings, datatype, and data) by performing a sample based compute on the current dataframe manipulation operations to be performed by `compute`. **Print the result to the nice-formatted table.**
 
@@ -76,7 +78,7 @@ Provides a preview of the resulting data (column headings, datatype, and data) b
 
 ---
 
-#### preview
+### preview
 
 Provides a preview of the resulting data (column headings, datatype, and data) by performing a sample based compute on the current dataframe manipulation operations to be performed by `compute`. **Return the result as a vector of maps.**
 
@@ -94,7 +96,7 @@ Provides a preview of the resulting data (column headings, datatype, and data) b
 
 ---
 
-#### get-col-names
+### get-col-names
 
 Get the column names of the dataframe
 
@@ -114,7 +116,9 @@ Get the column names of the dataframe
 ---
 
 
-#### rename-col
+## Transform
+
+### rename-col
 
 Rename the column names in the dataframe
 
@@ -131,7 +135,7 @@ Rename the column names in the dataframe
 
 ---
 
-#### select-col / delete-col
+### select-col / delete-col
 
 Choose which columns `compute` writes: `select-col` keeps the given columns, `delete-col` drops them. Either way, the remaining columns keep their current order. (Since 2.1.1; in earlier versions both had no effect.)
 
@@ -159,7 +163,7 @@ Choose which columns `compute` writes: `select-col` keeps the given columns, `de
 
 ---
 
-#### reorder-col
+### reorder-col
 
 Change the order of the columns that `compute` writes. (Since 2.1.1; in earlier versions it could drop earlier operations and apply filters and types to the wrong columns.)
 
@@ -178,7 +182,7 @@ Operations, filters and types stay with their columns. Like `select-col` and `de
 
 ---
 
-#### filter
+### filter
 
 Filter the dataframe by rows.
 
@@ -199,7 +203,7 @@ Filter the dataframe by rows.
 
 ---
 
-#### set-type
+### set-type
 
 Set the data type of a column. As a result, the value will be parsed as the assigned data type when it is used in any subsequent operations.
 
@@ -218,7 +222,7 @@ Set the data type of a column. As a result, the value will be parsed as the assi
 
 ---
 
-#### set-parser
+### set-parser
 
 A more flexible way to set type by specifying the customized parser.
 
@@ -237,7 +241,7 @@ A more flexible way to set type by specifying the customized parser.
 
 ---
 
-#### set-formatter
+### set-formatter
 
 A more flexible way to set type by specifying the customized formatter.
 
@@ -256,7 +260,7 @@ A more flexible way to set type by specifying the customized formatter.
 
 ---
 
-#### operate (In-place modification)
+### operate (In-place modification)
 
 **In-place modification** on a single column
 
@@ -277,7 +281,7 @@ A more flexible way to set type by specifying the customized formatter.
 
 ---
 
-#### operate (Column generating)
+### operate (Column generating)
 
 Calculate the result and store in a new column
 
@@ -297,7 +301,9 @@ Calculate the result and store in a new column
 
 ---
 
-#### group-by
+## Group and aggregate
+
+### group-by
 
 Group the dataframe by some specific columns (always used together with `aggregate`), or group the dataframe by function output(s)
 
@@ -356,7 +362,7 @@ You can also group by the combination of keys. (Use the above two rules together
 
 ---
 
-#### aggregate
+### aggregate
 
 Aggregate the dataframe(s) by applying some functions. The aggregation function will be applied to every column registered in sequence.
 
@@ -384,26 +390,9 @@ Custom functions can be made for aggregation. Please refer to [Aggregation Funct
 
 ---
 
-#### sort (<red>Deprecated</red>)
+## Join
 
-**Immediately** sort the dataframe
-
-| Argument           | Type                    | Function                 | Remarks                                                      |
-| ------------------ | ----------------------- | ------------------------ | ------------------------------------------------------------ |
-| `dataframe`        | clojask.classes.DataFrame.DataFrame       | The operated object      |                                                              |
-| `trending list`    | Collection (seq vector) | Indicates the sort order | Example: ["+" "Salary" "-" "Employee"] means that sort the Salary in ascending order, if equal sort then by Employee in descending order. Sorts the input file itself, so earlier lazy operations are ignored and the dataframe must have been read from a file. |
-| `output-directory` | String                  | The output path          |                                                              |
-
-**Example**
-
-```clojure
-;; sort by "Salary" in ascending order
-(sort x ["+" "Salary"] "path/output.csv")
-```
-
----
-
-#### inner-join / left-join / right-join / outer-join
+### inner-join / left-join / right-join / outer-join
 
 Inner / left / right / outer join two dataframes on specific columns
 
@@ -459,7 +448,7 @@ This means you cannot further apply complicated operations to a joined dataframe
 
 ---
 
-#### rolling-join-forward / rolling-join-backward
+### rolling-join-forward / rolling-join-backward
 
 Rolling join two dataframes on columns. For each row of a, forward finds the largest b roll value not greater than a's; backward finds the smallest b roll value not smaller than a's.
 
@@ -502,7 +491,9 @@ This means you cannot further apply complicated operations to a joined dataframe
 ---
 
 
-#### enable-debug / disable-debug
+## Compute and debug
+
+### enable-debug / disable-debug
 
 Turn debug mode on or off. With debug mode on, operations are no longer checked against a preview when they are added. Both take no arguments and print the new mode.
 
@@ -513,7 +504,7 @@ Turn debug mode on or off. With debug mode on, operations are no longer checked 
 
 ---
 
-#### compute
+### compute
 
 Compute the result. The pre-defined lazy operations will be executed in pipeline, ie the result of the previous operation becomes the argument of the next operation.
 
@@ -561,3 +552,23 @@ A `clojask.classes.DataFrame.DataFrame` read from the output file (read without 
 ;; [a b c d] => [[a b c] [a b d]]
 ```
 
+---
+
+## Deprecated functions
+
+### sort (<red>Deprecated</red>)
+
+**Immediately** sort the dataframe
+
+| Argument           | Type                    | Function                 | Remarks                                                      |
+| ------------------ | ----------------------- | ------------------------ | ------------------------------------------------------------ |
+| `dataframe`        | clojask.classes.DataFrame.DataFrame       | The operated object      |                                                              |
+| `trending list`    | Collection (seq vector) | Indicates the sort order | Example: ["+" "Salary" "-" "Employee"] means that sort the Salary in ascending order, if equal sort then by Employee in descending order. Sorts the input file itself, so earlier lazy operations are ignored and the dataframe must have been read from a file. |
+| `output-directory` | String                  | The output path          |                                                              |
+
+**Example**
+
+```clojure
+;; sort by "Salary" in ascending order
+(sort x ["+" "Salary"] "path/output.csv")
+```

@@ -1,5 +1,5 @@
 {:title "Get Started"
- :subtitle "Install Clojask and build your first pipeline in ten minutes."
+ :subtitle "Run your first pipeline, then explore the API with a guided tour."
  :date "2021-09-30"
  :layout :post
  :toc :ul
@@ -9,10 +9,10 @@
 
 Clojask is on [Clojars](https://clojars.org/com.github.clojure-finance/clojask). It needs **JDK 17 or newer** and runs on **macOS and Linux**.
 
-deps.edn:
+For a new project, this is the complete `deps.edn`:
 
 ```clojure
-com.github.clojure-finance/clojask {:mvn/version "2.1.3"}
+{:deps {com.github.clojure-finance/clojask {:mvn/version "2.1.3"}}}
 ```
 
 Leiningen (`project.clj`):
@@ -28,6 +28,50 @@ This also brings in [clojask-io](https://github.com/clojure-finance/clojask-io),
 ```
 
 > **Tip** Every example on this site uses the alias `ck`. The function names (`filter`, `group-by`, `sort`) clash with `clojure.core`, so don't `:refer :all` them.
+
+## Run your first pipeline
+
+With JDK 17+ and the [Clojure CLI](https://clojure.org/guides/install_clojure) installed, create an empty folder and save these three files into it:
+
+- <a href="/downloads/quickstart/deps.edn" download="deps.edn">Download deps.edn</a> — the complete dependency file shown above.
+- <a href="/downloads/quickstart/employees.csv" download="employees.csv">Download employees.csv</a> — seven sample employees.
+- <a href="/downloads/quickstart/quickstart.clj" download="quickstart.clj">Download quickstart.clj</a> — the complete script below.
+
+The script reads salaries as integers, keeps salaries below 10000, adds a bonus, and writes a new CSV:
+
+```clojure
+(require '[clojask.dataframe :as ck])
+
+(-> (ck/dataframe "employees.csv")
+    (ck/set-type "Salary" "int")
+    (ck/filter "Salary" #(< % 10000))
+    (ck/operate #(quot % 10) "Salary" "Bonus")
+    (ck/compute 4 "with-bonus.csv" :exception true))
+
+(println "Created with-bonus.csv")
+```
+
+Open a terminal in that folder and run:
+
+```bash
+clojure -M quickstart.clj
+```
+
+The first run downloads the dependencies. When it finishes, open `with-bonus.csv` in the same folder. It should contain:
+
+```text
+Employee,EmployeeName,Department,Salary,UpdateDate,Bonus
+1,Alice,11,300,2020/12/12,30
+2,Bob,11,600,2020/12/01,60
+3,Carla,12,900,2020/12/03,90
+4,Daniel,12,1000,2020/12/05,100
+5,Evelyn,13,800,2020/12/03,80
+6,Ferdinand,21,700,2020/12/05,70
+```
+
+Running it again replaces `with-bonus.csv`. If Clojure cannot find `employees.csv`, check that your terminal is in the folder containing all three files.
+
+Continue with the tour below to try previews, grouping, and joins in your REPL.
 
 ## A ten-minute tour
 

@@ -1,5 +1,5 @@
 {:title "About & Benchmarks"
- :subtitle "Where Clojask comes from, how fast it is, and how it compares with other big-data tools."
+ :subtitle "Where Clojask comes from, historical benchmarks, and how its design compares with other big-data tools."
  :layout :page
  :toc :ul
  :page-index 1
@@ -21,7 +21,11 @@ The general state of the project as of October 2022, presented at a Clojure data
 
 <iframe src="https://www.youtube-nocookie.com/embed/nTyPMxDlw0w?start=549" title="Clojask talk at data-recur" allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen loading="lazy"></iframe>
 
-## Benchmarks
+<span id="benchmarks"></span>
+
+## Historical benchmarks
+
+> **Warning** These results are from **2021, using Clojask 1.x** and its Onyx-based engine. They do not measure the current release. Clojask switched to its own thread pool in 2.1.0; these benchmarks have not been rerun.
 
 Clojask against [Dask](https://www.dask.org/), the Python library for larger-than-memory dataframes, with 4 workers each. Times are in seconds; N is the number of rows in the CSV file.
 
@@ -47,8 +51,6 @@ How to read these numbers:
 - Clojask was faster at element-wise operations, filtering and whole-file aggregation, and it still finished at 80M rows, where Dask did not.
 - Dask was faster at group-by and joins on the smaller files.
 - Every time includes loading the libraries, reading the CSV file, and writing the result to a single CSV file.
-
-> **Warning** These numbers were measured in 2021 with Clojask 1.x, which ran on [Onyx](http://www.onyxplatform.org/). Since 2.1.0, Clojask uses its own thread pool, which has been faster in every operation tested so far; the benchmarks have not been rerun yet.
 
 The benchmarks ran on macOS (Darwin 20.4.0) on an x86_64 machine with 8 GB of RAM. The code is in the clojask repository:
 

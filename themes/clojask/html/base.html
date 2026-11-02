@@ -42,6 +42,17 @@
                 <span class="version" title="Latest release">v{{clojask-version}}</span>
             </a>
 
+            <div class="doc-search" role="search" aria-label="Documentation" hidden>
+                <label for="doc-search-input">Search the docs</label>
+                <input id="doc-search-input" type="search" placeholder="Try compute or joins" autocomplete="off" spellcheck="false" aria-controls="doc-search-results" aria-describedby="doc-search-status">
+                <p id="doc-search-status" class="search-status" role="status"></p>
+                <ul id="doc-search-results" class="search-results" hidden>
+                    {% for result in search-index %}
+                    <li hidden><a href="{{result.uri}}"><span class="search-title">{{result.title}}</span><span class="search-page">{{result.page}}</span></a></li>
+                    {% endfor %}
+                </ul>
+            </div>
+
             <nav class="nav" aria-label="Documentation">
                 {% for section in nav-sections %}
                 <div class="nav-section">

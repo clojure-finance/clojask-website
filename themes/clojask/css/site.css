@@ -207,6 +207,28 @@ button { font: inherit; color: inherit; }
 
 .nav { flex: 1; }
 
+.doc-search { margin: 0 10px 22px; }
+.doc-search[hidden], .search-results[hidden], .search-results li[hidden] { display: none; }
+.doc-search label { display: block; margin-bottom: 6px; font-size: .82rem; font-weight: 600; }
+.doc-search input {
+  width: 100%; min-width: 0; padding: 9px 10px;
+  border: 1px solid var(--border-strong); border-radius: 7px;
+  background: var(--bg); color: var(--text); font: inherit; font-size: .88rem;
+}
+.doc-search input::placeholder { color: var(--muted); }
+.search-status { margin: 6px 0 0; color: var(--muted); font-size: .78rem; }
+.search-status:empty { display: none; }
+.search-results {
+  list-style: none; padding: 0; margin: 8px 0 0;
+  max-height: 40vh; overflow-y: auto;
+  border: 1px solid var(--border); border-radius: 7px;
+  background: var(--bg);
+}
+.search-results a { display: block; padding: 9px 10px; overflow-wrap: anywhere; }
+.search-results a:hover, .search-results a:focus-visible { background: var(--brand-soft); text-decoration: none; }
+.search-title { display: block; font-size: .85rem; font-weight: 600; line-height: 1.4; }
+.search-page { display: block; margin-top: 3px; color: var(--muted); font-size: .72rem; }
+
 .nav-section + .nav-section { margin-top: 22px; }
 
 .nav-heading {
@@ -359,7 +381,7 @@ button { font: inherit; color: inherit; }
 }
 
 /* The API page uses hr between functions; keep those quieter. */
-.doc hr + h4 { margin-top: 0; }
+.doc hr + h3, .doc hr + h4 { margin-top: 0; }
 
 /* Inline code */
 code, kbd, samp {
@@ -409,7 +431,7 @@ a > code { color: var(--brand); }
   cursor: pointer;
   opacity: 0; transition: opacity .15s;
 }
-.code-block:hover .copy-btn, .copy-btn:focus { opacity: 1; }
+.code-block:hover .copy-btn, .code-block:focus-within .copy-btn { opacity: 1; }
 .copy-btn:hover { color: var(--text-strong); border-color: var(--border-strong); }
 @media (hover: none) { .copy-btn { opacity: 1; } }
 
@@ -674,10 +696,11 @@ red, .badge {
   background: var(--bg-soft);
   font-size: .82rem;
 }
-.install-row { display: flex; align-items: baseline; gap: 12px; padding: 9px 14px; overflow-x: auto; }
+.install-row { display: grid; grid-template-columns: 72px minmax(0, 1fr) auto; align-items: center; gap: 12px; padding: 9px 14px; }
 .install-row + .install-row { border-top: 1px solid var(--border); }
 .install-label { flex: 0 0 72px; color: var(--muted); font-weight: 600; font-size: .78rem; }
-.install code { padding: 0; background: none; white-space: nowrap; overflow-wrap: normal; }
+.install code { padding: 0; background: none; white-space: nowrap; overflow-wrap: normal; overflow-x: auto; }
+.install-row .copy-btn { position: static; opacity: 1; }
 
 .window {
   overflow: hidden;
@@ -697,6 +720,9 @@ red, .badge {
 .window-bar span:nth-child(3) { background: #28c941; }
 .window-bar em { margin-left: 8px; color: var(--muted); font-size: .8rem; font-style: normal; font-family: var(--mono); }
 .hero-code pre { margin: 0; border: 0; border-radius: 0; font-size: .84rem; }
+.hero-code .code-block { margin: 0; }
+.hero-code .copy-btn { opacity: 1; }
+.hero-code .code-block pre { padding-top: 42px; }
 
 .home-body { max-width: 1160px; margin: 0 auto; }
 .home-body > h2 { text-align: left; }
